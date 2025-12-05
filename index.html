@@ -3,14 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>智能图书馆管理系统</title>
-    <!-- 引入CSS和图标 -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
-    <!-- 添加SheetJS库用于Excel处理 -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <title>学生信息Excel导入</title>
+    <!-- 引入SheetJS库 -->
+    <script src="https://cdn.sheetjs.com/xlsx-0.19.3/package/dist/xlsx.full.min.js"></script>
     <style>
-        /* 全局样式 */
         * {
             margin: 0;
             padding: 0;
@@ -18,290 +14,196 @@
         }
         
         body {
-            font-family: 'Noto Sans SC', sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            min-height: 100vh;
-            color: #333;
-        }
-        
-        /* 登录页面样式 */
-        .login-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            background-color: #f5f7fa;
             padding: 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            line-height: 1.6;
         }
         
-        .login-box {
-            background: white;
-            border-radius: 20px;
-            padding: 40px;
-            width: 100%;
-            max-width: 400px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-        }
-        
-        .login-header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        
-        .login-header i {
-            font-size: 48px;
-            color: #667eea;
-            margin-bottom: 15px;
-        }
-        
-        .login-header h1 {
-            color: #333;
-            margin-bottom: 10px;
-            font-size: 24px;
-        }
-        
-        .login-header p {
-            color: #666;
-            font-size: 14px;
-        }
-        
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: #555;
-            font-weight: 500;
-        }
-        
-        .form-group input, .form-group select {
-            width: 100%;
-            padding: 12px 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 16px;
-            transition: border-color 0.3s;
-        }
-        
-        .form-group input:focus, .form-group select:focus {
-            border-color: #667eea;
-            outline: none;
-        }
-        
-        .login-btn {
-            width: 100%;
-            padding: 14px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: transform 0.3s;
-            margin-top: 10px;
-        }
-        
-        .login-btn:hover {
-            transform: translateY(-2px);
-        }
-        
-        .switch-form {
-            text-align: center;
-            margin-top: 20px;
-            color: #666;
-        }
-        
-        .switch-form a {
-            color: #667eea;
-            text-decoration: none;
-            font-weight: 500;
-        }
-        
-        /* 主页面样式 */
-        .main-container {
-            display: none;
-        }
-        
-        /* 导航栏 */
-        .navbar {
-            background: white;
-            padding: 15px 30px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .logo i {
-            font-size: 24px;
-            color: #667eea;
-        }
-        
-        .logo h2 {
-            color: #333;
-            font-size: 20px;
-        }
-        
-        .user-menu {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-        }
-        
-        /* 主要内容区 */
-        .content {
-            padding: 30px;
+        .container {
             max-width: 1200px;
             margin: 0 auto;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            padding: 30px;
         }
         
-        /* 卡片样式 */
-        .card {
-            background: white;
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        header {
+            text-align: center;
             margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #eaeaea;
         }
         
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #f0f0f0;
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
         }
         
-        .card-title {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 20px;
-            color: #333;
+        .description {
+            color: #7f8c8d;
+            font-size: 16px;
         }
         
-        /* 按钮样式 */
-        .btn {
-            padding: 10px 20px;
-            border: none;
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 30px;
+        }
+        
+        .upload-section {
+            background-color: #f8f9fa;
+            padding: 25px;
             border-radius: 8px;
-            font-size: 14px;
-            font-weight: 500;
+            border: 2px dashed #dee2e6;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 6px;
             cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s;
-        }
-        
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-        
-        .btn-success {
-            background: #48bb78;
-            color: white;
-        }
-        
-        .btn-warning {
-            background: #ed8936;
-            color: white;
-        }
-        
-        .btn-danger {
-            background: #f56565;
-            color: white;
-        }
-        
-        .btn-info {
-            background: #4299e1;
-            color: white;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-align: center;
         }
         
         .btn:hover {
+            background-color: #2980b9;
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
         }
         
-        /* 表格样式 */
-        .table-container {
-            overflow-x: auto;
+        .btn-primary {
+            background-color: #2ecc71;
         }
         
-        table {
+        .btn-primary:hover {
+            background-color: #27ae60;
+            box-shadow: 0 4px 12px rgba(46, 204, 113, 0.3);
+        }
+        
+        .btn-secondary {
+            background-color: #95a5a6;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #7f8c8d;
+            box-shadow: 0 4px 12px rgba(149, 165, 166, 0.3);
+        }
+        
+        .btn-danger {
+            background-color: #e74c3c;
+        }
+        
+        .btn-danger:hover {
+            background-color: #c0392b;
+            box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
+        }
+        
+        .file-input {
+            display: none;
+        }
+        
+        .file-label {
+            display: block;
+            padding: 40px 20px;
+            text-align: center;
+            border: 3px dashed #3498db;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 20px 0;
+            transition: all 0.3s ease;
+        }
+        
+        .file-label:hover {
+            background-color: rgba(52, 152, 219, 0.1);
+            border-color: #2980b9;
+        }
+        
+        .file-icon {
+            font-size: 48px;
+            color: #3498db;
+            margin-bottom: 10px;
+        }
+        
+        .file-text {
+            font-size: 18px;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        
+        .file-hint {
+            font-size: 14px;
+            color: #7f8c8d;
+        }
+        
+        .preview-section {
+            padding: 20px;
+        }
+        
+        .preview-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .preview-title {
+            font-size: 20px;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+        
+        .preview-table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
         
-        th, td {
+        .preview-table th {
+            background-color: #3498db;
+            color: white;
             padding: 12px 15px;
             text-align: left;
-            border-bottom: 1px solid #e0e0e0;
-        }
-        
-        th {
-            background: #f8f9fa;
             font-weight: 600;
-            color: #555;
+            border-right: 1px solid rgba(255,255,255,0.2);
         }
         
-        tr:hover {
-            background: #f9f9f9;
+        .preview-table th:last-child {
+            border-right: none;
         }
         
-        .status {
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 500;
+        .preview-table td {
+            padding: 10px 15px;
+            border-bottom: 1px solid #e0e0e0;
+            border-right: 1px solid #e0e0e0;
         }
         
-        .status-available {
-            background: #c6f6d5;
-            color: #22543d;
+        .preview-table tr:last-child td {
+            border-bottom: none;
         }
         
-        .status-borrowed {
-            background: #fed7d7;
-            color: #742a2a;
+        .preview-table tr:hover {
+            background-color: #f8f9fa;
         }
         
-        .status-overdue {
-            background: #fed7d7;
-            color: #c53030;
-            animation: pulse 2s infinite;
+        .preview-table tr:nth-child(even) {
+            background-color: #fafafa;
         }
         
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.7; }
-            100% { opacity: 1; }
+        .preview-table tr:nth-child(even):hover {
+            background-color: #f1f3f4;
         }
         
-        /* 模态框样式 */
         .modal {
             display: none;
             position: fixed;
@@ -309,1142 +211,345 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.5);
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
             justify-content: center;
             align-items: center;
-            z-index: 1000;
         }
         
         .modal-content {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
+            background-color: white;
+            border-radius: 10px;
             width: 90%;
             max-width: 800px;
-            max-height: 80vh;
+            max-height: 90vh;
             overflow-y: auto;
+            box-shadow: 0 5px 30px rgba(0,0,0,0.2);
         }
         
         .modal-header {
+            padding: 20px 25px;
+            background-color: #3498db;
+            color: white;
+            border-radius: 10px 10px 0 0;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
         }
         
-        .close-btn {
+        .modal-title {
+            font-size: 22px;
+            font-weight: 600;
+        }
+        
+        .modal-close {
             background: none;
             border: none;
-            font-size: 24px;
+            color: white;
+            font-size: 28px;
             cursor: pointer;
-            color: #999;
+            line-height: 1;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
-        /* 标签样式 */
-        .tag {
-            display: inline-block;
-            padding: 4px 8px;
-            background: #e2e8f0;
-            color: #4a5568;
-            border-radius: 4px;
-            font-size: 12px;
-            margin: 2px;
+        .modal-body {
+            padding: 25px;
         }
         
-        /* 响应式设计 */
-        @media (max-width: 768px) {
-            .content {
+        .modal-footer {
+            padding: 20px 25px;
+            border-top: 1px solid #eaeaea;
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .stat-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            border: 1px solid #eaeaea;
+        }
+        
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            color: #7f8c8d;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .stat-total .stat-value {
+            color: #3498db;
+        }
+        
+        .stat-success .stat-value {
+            color: #2ecc71;
+        }
+        
+        .stat-skip .stat-value {
+            color: #f39c12;
+        }
+        
+        .stat-error .stat-value {
+            color: #e74c3c;
+        }
+        
+        .success-message {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 20px;
+            border: 1px solid #c3e6cb;
+            display: none;
+        }
+        
+        .error-message {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 20px;
+            border: 1px solid #f5c6cb;
+            display: none;
+        }
+        
+        .actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .student-count {
+            font-size: 18px;
+            color: #2c3e50;
+            margin: 20px 0;
+            padding: 10px 15px;
+            background-color: #f8f9fa;
+            border-radius: 6px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 50px 20px;
+            color: #95a5a6;
+        }
+        
+        .empty-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+        
+        .empty-text {
+            font-size: 18px;
+        }
+        
+        @media (max-width: 992px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .container {
                 padding: 15px;
             }
             
-            .navbar {
-                padding: 15px;
+            .stats {
+                grid-template-columns: 1fr;
             }
             
-            .card {
-                padding: 20px;
+            .actions {
+                flex-direction: column;
             }
             
             .btn {
-                padding: 8px 15px;
-                font-size: 13px;
+                width: 100%;
             }
-            
-            th, td {
-                padding: 8px;
-                font-size: 12px;
-            }
-            
-            .modal-content {
-                width: 95%;
-                padding: 20px;
-            }
+        }
+        
+        .help-text {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 6px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .help-text h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .help-text ul {
+            margin-left: 20px;
+            color: #555;
+        }
+        
+        .help-text li {
+            margin-bottom: 8px;
         }
     </style>
 </head>
 <body>
-    <!-- 登录页面 -->
-    <div id="loginPage" class="login-container">
-        <div class="login-box">
-            <div class="login-header">
-                <i class="fas fa-book-reader"></i>
-                <h1>智能图书馆系统</h1>
-                <p>登录以管理您的图书收藏</p>
-            </div>
-            
-            <form id="loginForm">
-                <div class="form-group">
-                    <label for="username"><i class="fas fa-user"></i> 用户名</label>
-                    <input type="text" id="username" placeholder="请输入用户名" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="password"><i class="fas fa-lock"></i> 密码</label>
-                    <input type="password" id="password" placeholder="请输入密码" required>
-                </div>
-                
-                <button type="submit" class="login-btn">
-                    <i class="fas fa-sign-in-alt"></i> 登录
-                </button>
-                
-                <div class="switch-form">
-                    还没有账号？ <a href="#" onclick="showRegister()">立即注册</a>
-                </div>
-            </form>
-        </div>
-    </div>
-    
-    <!-- 注册页面 -->
-    <div id="registerPage" class="login-container" style="display: none;">
-        <div class="login-box">
-            <div class="login-header">
-                <i class="fas fa-user-plus"></i>
-                <h1>注册新账号</h1>
-                <p>创建您的图书馆账户</p>
-            </div>
-            
-            <form id="registerForm">
-                <div class="form-group">
-                    <label for="regUsername"><i class="fas fa-user"></i> 用户名</label>
-                    <input type="text" id="regUsername" placeholder="请输入用户名" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="regPassword"><i class="fas fa-lock"></i> 密码</label>
-                    <input type="password" id="regPassword" placeholder="请输入密码" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="regConfirmPassword"><i class="fas fa-lock"></i> 确认密码</label>
-                    <input type="password" id="regConfirmPassword" placeholder="请再次输入密码" required>
-                </div>
-                
-                <button type="submit" class="login-btn">
-                    <i class="fas fa-user-plus"></i> 注册
-                </button>
-                
-                <div class="switch-form">
-                    已有账号？ <a href="#" onclick="showLogin()">立即登录</a>
-                </div>
-            </form>
-        </div>
-    </div>
-    
-    <!-- 主页面 -->
-    <div id="mainPage" class="main-container">
-        <!-- 导航栏 -->
-        <nav class="navbar">
-            <div class="logo">
-                <i class="fas fa-book"></i>
-                <h2>智能图书馆</h2>
-            </div>
-            
-            <div class="user-menu">
-                <span id="currentUser">管理员</span>
-                <div class="user-avatar">
-                    <i class="fas fa-user"></i>
-                </div>
-                <button class="btn" onclick="logout()">
-                    <i class="fas fa-sign-out-alt"></i> 退出
-                </button>
-            </div>
-        </nav>
+    <div class="container">
+        <header>
+            <h1>学生信息管理系统</h1>
+            <p class="description">通过Excel文件批量导入学生信息，支持.xlsx、.xls、.csv格式</p>
+        </header>
         
-        <!-- 主要内容 -->
-        <div class="content">
-            <!-- 快速操作 -->
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">
-                        <i class="fas fa-bolt"></i> 快速操作
-                    </h3>
-                </div>
+        <div class="main-content">
+            <div class="upload-section">
+                <h2 style="color: #2c3e50; margin-bottom: 20px;">导入学生信息</h2>
+                <p style="color: #7f8c8d; margin-bottom: 25px;">选择包含学生信息的Excel文件，系统将自动解析并显示预览。</p>
                 
-                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                    <button class="btn btn-primary" onclick="showAddBook()">
-                        <i class="fas fa-plus"></i> 添加图书
-                    </button>
-                    <button class="btn btn-success" onclick="showScanner()">
-                        <i class="fas fa-camera"></i> 扫码添加
-                    </button>
-                    <button class="btn btn-warning" onclick="showExcelImport()">
-                        <i class="fas fa-file-import"></i> 导入图书
-                    </button>
-                    <button class="btn btn-info" onclick="showStudentExcelImport()">
-                        <i class="fas fa-users"></i> 导入学生
-                    </button>
-                    <button class="btn btn-success" onclick="exportToExcel()">
-                        <i class="fas fa-file-excel"></i> 导出Excel
-                    </button>
-                    <button class="btn btn-primary" onclick="showSearch()">
-                        <i class="fas fa-search"></i> 搜索
-                    </button>
-                    <button class="btn btn-success" onclick="showBorrow()">
-                        <i class="fas fa-book-open"></i> 借阅管理
-                    </button>
-                    <button class="btn btn-primary" onclick="showStudentManager()">
-                        <i class="fas fa-user-graduate"></i> 学生管理
-                    </button>
-                    <button class="btn btn-warning" onclick="showStatistics()">
-                        <i class="fas fa-chart-pie"></i> 统计报表
-                    </button>
+                <input type="file" id="excelFile" class="file-input" accept=".xlsx,.xls,.csv" onchange="handleExcelUpload(event)">
+                <label for="excelFile" class="file-label">
+                    <div class="file-icon">📁</div>
+                    <div class="file-text">点击选择Excel文件</div>
+                    <div class="file-hint">支持 .xlsx, .xls, .csv 格式</div>
+                </label>
+                
+                <button class="btn btn-secondary" onclick="clearAllData()" style="width: 100%; margin-bottom: 15px;">
+                    🗑️ 清空所有数据
+                </button>
+                
+                <button class="btn" onclick="showAllStudents()" style="width: 100%;">
+                    👥 查看所有学生
+                </button>
+                
+                <div class="help-text">
+                    <h3>Excel文件格式说明</h3>
+                    <ul>
+                        <li>第一行应为表头，包含字段名</li>
+                        <li>支持的字段：学号、姓名、性别、班级、专业、学院、邮箱、入学日期、出生日期、籍贯、民族、政治面貌</li>
+                        <li>必填字段：学号、姓名</li>
+                        <li>日期格式：YYYY-MM-DD 或 YYYY/MM/DD</li>
+                    </ul>
                 </div>
             </div>
             
-            <!-- 统计信息 -->
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">
-                        <i class="fas fa-chart-bar"></i> 实时统计
-                    </h3>
-                    <button class="btn" onclick="updateStats()">
-                        <i class="fas fa-sync-alt"></i> 刷新
-                    </button>
-                </div>
-                
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px;">
-                    <div style="text-align: center; background: #ebf8ff; padding: 15px; border-radius: 8px;">
-                        <div style="font-size: 24px; color: #3182ce; font-weight: bold;" id="totalBooks">0</div>
-                        <div style="color: #4a5568; font-size: 12px;">总藏书量</div>
-                    </div>
-                    <div style="text-align: center; background: #f0fff4; padding: 15px; border-radius: 8px;">
-                        <div style="font-size: 24px; color: #38a169; font-weight: bold;" id="availableBooks">0</div>
-                        <div style="color: #4a5568; font-size: 12px;">可借图书</div>
-                    </div>
-                    <div style="text-align: center; background: #fff5f5; padding: 15px; border-radius: 8px;">
-                        <div style="font-size: 24px; color: #e53e3e; font-weight: bold;" id="borrowedBooks">0</div>
-                        <div style="color: #4a5568; font-size: 12px;">已借出</div>
-                    </div>
-                    <div style="text-align: center; background: #faf5ff; padding: 15px; border-radius: 8px;">
-                        <div style="font-size: 24px; color: #805ad5; font-weight: bold;" id="studentCount">0</div>
-                        <div style="color: #4a5568; font-size: 12px;">学生数量</div>
-                    </div>
-                    <div style="text-align: center; background: #fffaf0; padding: 15px; border-radius: 8px;">
-                        <div style="font-size: 24px; color: #dd6b20; font-weight: bold;" id="overdueBooks">0</div>
-                        <div style="color: #4a5568; font-size: 12px;">逾期图书</div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- 图书列表 -->
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">
-                        <i class="fas fa-book"></i> 图书列表
-                    </h3>
+            <div class="preview-section">
+                <div class="preview-header">
+                    <div class="preview-title">数据预览</div>
                     <div style="display: flex; gap: 10px;">
-                        <input type="text" id="searchInput" placeholder="搜索书名、作者、ISBN..." 
-                               style="padding: 8px 15px; border: 2px solid #e0e0e0; border-radius: 8px; width: 250px;"
-                               onkeyup="filterBooks()">
-                        <button class="btn" onclick="filterBooks()">
-                            <i class="fas fa-search"></i>
+                        <button id="importConfirmBtn" class="btn btn-primary" onclick="confirmImport()" style="display: none;">
+                            ✅ 确认导入
                         </button>
-                        <button class="btn" onclick="clearSearch()">
-                            <i class="fas fa-times"></i> 清空
+                        <button class="btn btn-secondary" onclick="clearPreview()">
+                            🗑️ 清空预览
                         </button>
                     </div>
                 </div>
                 
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>书名</th>
-                                <th>作者</th>
-                                <th>ISBN</th>
-                                <th>分类</th>
-                                <th>状态</th>
-                                <th>书房</th>
-                                <th>操作</th>
-                            </tr>
-                        </thead>
-                        <tbody id="bookTable">
-                            <!-- 图书数据将通过JavaScript动态生成 -->
-                        </tbody>
-                    </table>
+                <div id="studentCount" class="student-count" style="display: none;">
+                    当前共有 <span id="totalStudents">0</span> 名学生
                 </div>
                 
-                <div style="text-align: center; margin-top: 20px; color: #666; font-size: 14px;">
-                    共 <span id="bookCount">0</span> 本图书
-                </div>
-            </div>
-            
-            <!-- 学生列表 -->
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">
-                        <i class="fas fa-user-graduate"></i> 学生列表
-                    </h3>
-                    <div style="display: flex; gap: 10px;">
-                        <input type="text" id="studentSearchInput" placeholder="搜索学生姓名、学号..." 
-                               style="padding: 8px 15px; border: 2px solid #e0e0e0; border-radius: 8px; width: 250px;"
-                               onkeyup="filterStudents()">
-                        <button class="btn" onclick="filterStudents()">
-                            <i class="fas fa-search"></i>
-                        </button>
+                <div id="importPreview">
+                    <div class="empty-state">
+                        <div class="empty-icon">📊</div>
+                        <div class="empty-text">请上传Excel文件查看数据预览</div>
                     </div>
                 </div>
                 
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>学号</th>
-                                <th>姓名</th>
-                                <th>年级</th>
-                                <th>班级</th>
-                                <th>电话</th>
-                                <th>当前借阅</th>
-                                <th>操作</th>
-                            </tr>
-                        </thead>
-                        <tbody id="studentTable">
-                            <!-- 学生数据将通过JavaScript动态生成 -->
-                        </tbody>
-                    </table>
-                </div>
+                <div id="importSuccess" class="success-message"></div>
+                <div id="importError" class="error-message"></div>
                 
-                <div style="text-align: center; margin-top: 20px; color: #666; font-size: 14px;">
-                    共 <span id="studentCount2">0</span> 名学生
+                <div class="stats" style="display: none;" id="statsSection">
+                    <div class="stat-card stat-total">
+                        <div class="stat-value" id="statTotal">0</div>
+                        <div class="stat-label">总数据</div>
+                    </div>
+                    <div class="stat-card stat-success">
+                        <div class="stat-value" id="statSuccess">0</div>
+                        <div class="stat-label">成功</div>
+                    </div>
+                    <div class="stat-card stat-skip">
+                        <div class="stat-value" id="statSkip">0</div>
+                        <div class="stat-label">跳过</div>
+                    </div>
+                    <div class="stat-card stat-error">
+                        <div class="stat-value" id="statError">0</div>
+                        <div class="stat-label">失败</div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
     
-    <!-- ==================== 模态框部分 ==================== -->
-    
-    <!-- 添加图书模态框 -->
-    <div id="addBookModal" class="modal">
+    <!-- 查看所有学生模态框 -->
+    <div id="allStudentsModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3><i class="fas fa-book-medical"></i> 添加新图书</h3>
-                <button class="close-btn" onclick="closeModal('addBookModal')">&times;</button>
+                <div class="modal-title">所有学生信息</div>
+                <button class="modal-close" onclick="closeAllStudentsModal()">×</button>
             </div>
-            
-            <form id="addBookForm">
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
-                    <div class="form-group">
-                        <label for="bookISBN">ISBN号码 *</label>
-                        <input type="text" id="bookISBN" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="bookTitle">书名 *</label>
-                        <input type="text" id="bookTitle" required>
-                    </div>
-                </div>
-                
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
-                    <div class="form-group">
-                        <label for="bookAuthor">作者 *</label>
-                        <input type="text" id="bookAuthor" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="bookPublisher">出版社</label>
-                        <input type="text" id="bookPublisher">
-                    </div>
-                </div>
-                
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
-                    <div class="form-group">
-                        <label for="bookCategory">分类</label>
-                        <select id="bookCategory">
-                            <option value="">选择分类</option>
-                            <option value="文学">文学</option>
-                            <option value="科技">科技</option>
-                            <option value="历史">历史</option>
-                            <option value="艺术">艺术</option>
-                            <option value="教育">教育</option>
-                            <option value="少儿">少儿</option>
-                            <option value="其他">其他</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="bookLibrary">选择书房</label>
-                        <select id="bookLibrary">
-                            <option value="主书房">主书房</option>
-                            <option value="工作书房">工作书房</option>
-                            <option value="个人书房">个人书房</option>
-                            <option value="儿童书房">儿童书房</option>
-                        </select>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="bookTags">标签（用逗号分隔）</label>
-                    <input type="text" id="bookTags" placeholder="例如：编程,JavaScript,前端">
-                </div>
-                
-                <div style="text-align: right; margin-top: 20px;">
-                    <button type="button" class="btn" onclick="closeModal('addBookModal')">取消</button>
-                    <button type="submit" class="btn btn-primary">保存图书</button>
-                </div>
-            </form>
-        </div>
-    </div>
-    
-    <!-- 手动添加学生模态框 -->
-    <div id="addStudentModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3><i class="fas fa-user-plus"></i> 添加新学生</h3>
-                <button class="close-btn" onclick="closeModal('addStudentModal')">&times;</button>
-            </div>
-            
-            <form id="addStudentForm">
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
-                    <div class="form-group">
-                        <label for="studentId">学号 *</label>
-                        <input type="text" id="studentId" required placeholder="如：20240001">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="studentName">姓名 *</label>
-                        <input type="text" id="studentName" required>
-                    </div>
-                </div>
-                
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
-                    <div class="form-group">
-                        <label for="studentGrade">年级 *</label>
-                        <select id="studentGrade" required>
-                            <option value="">选择年级</option>
-                            <option value="一年级">一年级</option>
-                            <option value="二年级">二年级</option>
-                            <option value="三年级">三年级</option>
-                            <option value="四年级">四年级</option>
-                            <option value="五年级">五年级</option>
-                            <option value="六年级">六年级</option>
-                            <option value="初一">初一</option>
-                            <option value="初二">初二</option>
-                            <option value="初三">初三</option>
-                            <option value="高一">高一</option>
-                            <option value="高二">高二</option>
-                            <option value="高三">高三</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="studentClass">班级 *</label>
-                        <input type="text" id="studentClass" required placeholder="如：一班">
-                    </div>
-                </div>
-                
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
-                    <div class="form-group">
-                        <label for="studentPhone">联系电话</label>
-                        <input type="text" id="studentPhone" placeholder="家长联系电话">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="studentEmail">邮箱</label>
-                        <input type="email" id="studentEmail" placeholder="学生邮箱（可选）">
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="studentAddress">家庭住址</label>
-                    <input type="text" id="studentAddress" placeholder="家庭住址（可选）">
-                </div>
-                
-                <div class="form-group">
-                    <label for="studentNotes">备注</label>
-                    <textarea id="studentNotes" rows="3" placeholder="其他备注信息" style="width: 100%; padding: 10px; border: 2px solid #e0e0e0; border-radius: 8px;"></textarea>
-                </div>
-                
-                <div style="text-align: right; margin-top: 20px;">
-                    <button type="button" class="btn" onclick="closeModal('addStudentModal')">取消</button>
-                    <button type="submit" class="btn btn-primary">保存学生信息</button>
-                </div>
-            </form>
-        </div>
-    </div>
-    
-    <!-- Excel导入学生模态框 -->
-    <div id="studentExcelImportModal" class="modal">
-        <div class="modal-content" style="max-width: 900px;">
-            <div class="modal-header">
-                <h3><i class="fas fa-file-import"></i> Excel批量导入学生</h3>
-                <button class="close-btn" onclick="closeModal('studentExcelImportModal')">&times;</button>
-            </div>
-            
-            <div style="margin: 20px 0;">
-                <!-- 步骤指示 -->
-                <div style="display: flex; justify-content: space-between; margin-bottom: 30px; position: relative;">
-                    <div style="width: 100%; height: 2px; background: #e0e0e0; position: absolute; top: 20px; z-index: 1;"></div>
-                    <div style="text-align: center; position: relative; z-index: 2;">
-                        <div style="width: 40px; height: 40px; background: #667eea; color: white; border-radius: 50%; 
-                                    display: flex; align-items: center; justify-content: center; margin: 0 auto 10px;">
-                            1
-                        </div>
-                        <div style="font-size: 12px; font-weight: 500;">上传文件</div>
-                    </div>
-                    <div style="text-align: center; position: relative; z-index: 2;">
-                        <div style="width: 40px; height: 40px; background: #e0e0e0; color: #666; border-radius: 50%; 
-                                    display: flex; align-items: center; justify-content: center; margin: 0 auto 10px;">
-                            2
-                        </div>
-                        <div style="font-size: 12px;">预览数据</div>
-                    </div>
-                    <div style="text-align: center; position: relative; z-index: 2;">
-                        <div style="width: 40px; height: 40px; background: #e0e0e0; color: #666; border-radius: 50%; 
-                                    display: flex; align-items: center; justify-content: center; margin: 0 auto 10px;">
-                            3
-                        </div>
-                        <div style="font-size: 12px;">确认导入</div>
-                    </div>
-                </div>
-                
-                <!-- 文件上传区域 -->
-                <div style="border: 2px dashed #4299e1; border-radius: 10px; padding: 40px; text-align: center; 
-                            background: #f8f9fa; margin-bottom: 20px;">
-                    <i class="fas fa-users" style="font-size: 48px; color: #4299e1; margin-bottom: 15px;"></i>
-                    <h4>上传学生Excel文件</h4>
-                    <p style="color: #666; margin-bottom: 20px;">支持 .xlsx, .xls, .csv 格式</p>
-                    
-                    <input type="file" id="studentExcelFileInput" accept=".xlsx,.xls,.csv" 
-                           style="display: none;" onchange="handleStudentExcelUpload(event)">
-                    
-                    <button class="btn btn-info" onclick="document.getElementById('studentExcelFileInput').click()">
-                        <i class="fas fa-upload"></i> 选择文件
-                    </button>
-                    
-                    <div style="margin-top: 15px;">
-                        <button class="btn" onclick="downloadStudentImportTemplate()">
-                            <i class="fas fa-download"></i> 下载学生导入模板
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- 数据预览区域 -->
-                <div style="margin-top: 30px; display: none;" id="studentPreviewSection">
-                    <h4><i class="fas fa-eye"></i> 学生数据预览（前10条）</h4>
-                    <div id="studentImportPreview" style="max-height: 300px; overflow-y: auto; margin: 15px 0;">
-                        <!-- 预览表格将在这里显示 -->
-                    </div>
-                </div>
-                
-                <!-- 导入结果 -->
-                <div id="studentImportSuccess" style="display: none;">
-                    <!-- 成功信息将在这里显示 -->
-                </div>
-                
-                <!-- 操作按钮 -->
-                <div style="text-align: center; margin-top: 30px;">
-                    <button id="studentImportConfirmBtn" class="btn btn-primary" onclick="confirmStudentImport()" 
-                            style="display: none; padding: 12px 40px;">
-                        <i class="fas fa-check"></i> 确认导入学生
-                    </button>
+            <div class="modal-body">
+                <div id="allStudentsList" style="max-height: 400px; overflow-y: auto;">
+                    <!-- 学生列表将在这里显示 -->
                 </div>
             </div>
-        </div>
-    </div>
-    
-    <!-- Excel导入图书模态框 -->
-    <div id="excelImportModal" class="modal">
-        <div class="modal-content" style="max-width: 900px;">
-            <div class="modal-header">
-                <h3><i class="fas fa-file-import"></i> Excel批量导入图书</h3>
-                <button class="close-btn" onclick="closeModal('excelImportModal')">&times;</button>
-            </div>
-            
-            <div style="margin: 20px 0;">
-                <!-- 文件上传区域 -->
-                <div style="border: 2px dashed #667eea; border-radius: 10px; padding: 40px; text-align: center; 
-                            background: #f8f9fa; margin-bottom: 20px;">
-                    <i class="fas fa-file-excel" style="font-size: 48px; color: #217346; margin-bottom: 15px;"></i>
-                    <h4>上传图书Excel文件</h4>
-                    <p style="color: #666; margin-bottom: 20px;">支持 .xlsx, .xls, .csv 格式</p>
-                    
-                    <input type="file" id="excelFileInput" accept=".xlsx,.xls,.csv" 
-                           style="display: none;" onchange="handleExcelUpload(event)">
-                    
-                    <button class="btn btn-warning" onclick="document.getElementById('excelFileInput').click()">
-                        <i class="fas fa-upload"></i> 选择文件
-                    </button>
-                    
-                    <div style="margin-top: 15px;">
-                        <button class="btn" onclick="downloadBookImportTemplate()">
-                            <i class="fas fa-download"></i> 下载图书导入模板
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- 数据预览区域 -->
-                <div style="margin-top: 30px; display: none;" id="bookPreviewSection">
-                    <h4><i class="fas fa-eye"></i> 图书数据预览（前10条）</h4>
-                    <div id="importPreview" style="max-height: 300px; overflow-y: auto; margin: 15px 0;">
-                        <!-- 预览表格将在这里显示 -->
-                    </div>
-                </div>
-                
-                <!-- 导入结果 -->
-                <div id="importSuccess" style="display: none;">
-                    <!-- 成功信息将在这里显示 -->
-                </div>
-                
-                <!-- 操作按钮 -->
-                <div style="text-align: center; margin-top: 30px;">
-                    <button id="importConfirmBtn" class="btn btn-primary" onclick="confirmImport()" 
-                            style="display: none; padding: 12px 40px;">
-                        <i class="fas fa-check"></i> 确认导入图书
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- 学生管理模态框 -->
-    <div id="studentModal" class="modal">
-        <div class="modal-content" style="max-width: 1000px;">
-            <div class="modal-header">
-                <h3><i class="fas fa-user-graduate"></i> 学生管理中心</h3>
-                <button class="close-btn" onclick="closeModal('studentModal')">&times;</button>
-            </div>
-            
-            <div style="margin-bottom: 30px;">
-                <!-- 操作按钮 -->
-                <div style="display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap;">
-                    <button class="btn btn-primary" onclick="showAddStudentModal()">
-                        <i class="fas fa-user-plus"></i> 手动添加学生
-                    </button>
-                    <button class="btn btn-info" onclick="showStudentExcelImportModal()">
-                        <i class="fas fa-file-import"></i> Excel批量导入
-                    </button>
-                    <button class="btn btn-success" onclick="exportStudentsToExcel()">
-                        <i class="fas fa-file-excel"></i> 导出学生数据
-                    </button>
-                    <button class="btn btn-warning" onclick="showStudentStatistics()">
-                        <i class="fas fa-chart-bar"></i> 学生统计
-                    </button>
-                </div>
-                
-                <!-- 搜索和筛选 -->
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
-                    <div>
-                        <label style="display: block; margin-bottom: 5px; color: #555;">按年级筛选</label>
-                        <select id="filterGrade" style="width: 100%; padding: 8px; border: 2px solid #e0e0e0; border-radius: 8px;" 
-                                onchange="filterStudentsInModal()">
-                            <option value="">全部年级</option>
-                            <option value="一年级">一年级</option>
-                            <option value="二年级">二年级</option>
-                            <option value="三年级">三年级</option>
-                            <option value="四年级">四年级</option>
-                            <option value="五年级">五年级</option>
-                            <option value="六年级">六年级</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label style="display: block; margin-bottom: 5px; color: #555;">搜索学生</label>
-                        <input type="text" id="modalStudentSearch" placeholder="搜索姓名、学号..." 
-                               style="width: 100%; padding: 8px; border: 2px solid #e0e0e0; border-radius: 8px;"
-                               onkeyup="filterStudentsInModal()">
-                    </div>
-                </div>
-                
-                <!-- 学生列表 -->
-                <div style="max-height: 500px; overflow-y: auto;">
-                    <table style="width: 100%; border-collapse: collapse;">
-                        <thead>
-                            <tr style="background: #f8f9fa;">
-                                <th style="padding: 12px; text-align: left;">学号</th>
-                                <th style="padding: 12px; text-align: left;">姓名</th>
-                                <th style="padding: 12px; text-align: left;">年级班级</th>
-                                <th style="padding: 12px; text-align: left;">联系电话</th>
-                                <th style="padding: 12px; text-align: left;">借阅次数</th>
-                                <th style="padding: 12px; text-align: left;">当前借阅</th>
-                                <th style="padding: 12px; text-align: left;">操作</th>
-                            </tr>
-                        </thead>
-                        <tbody id="modalStudentList">
-                            <!-- 学生列表动态生成 -->
-                        </tbody>
-                    </table>
-                </div>
-                
-                <div style="text-align: center; margin-top: 15px; color: #666; font-size: 14px;">
-                    共 <span id="modalStudentCount">0</span> 名学生
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- 选择学生借阅模态框 -->
-    <div id="selectStudentModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3><i class="fas fa-user-check"></i> 选择借阅学生</h3>
-                <button class="close-btn" onclick="closeModal('selectStudentModal')">&times;</button>
-            </div>
-            
-            <div style="margin: 20px 0;">
-                <div style="margin-bottom: 20px;">
-                    <label style="display: block; margin-bottom: 8px; color: #555; font-weight: 500;">
-                        <i class="fas fa-user-graduate"></i> 选择学生
-                    </label>
-                    <select id="borrowStudentSelect" style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px;">
-                        <option value="">请选择学生</option>
-                    </select>
-                </div>
-                
-                <div id="selectedStudentInfo" style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 20px; display: none;">
-                    <h4>学生信息</h4>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px;">
-                        <div><strong>姓名：</strong><span id="studentName">-</span></div>
-                        <div><strong>学号：</strong><span id="studentId">-</span></div>
-                        <div><strong>班级：</strong><span id="studentClass">-</span></div>
-                        <div><strong>电话：</strong><span id="studentPhone">-</span></div>
-                    </div>
-                </div>
-                
-                <div style="text-align: center;">
-                    <button class="btn btn-primary" onclick="confirmBorrow()" style="padding: 12px 40px;">
-                        <i class="fas fa-check"></i> 确认借阅
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- 学生详情模态框 -->
-    <div id="studentDetailModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3><i class="fas fa-user"></i> 学生详细信息</h3>
-                <button class="close-btn" onclick="closeModal('studentDetailModal')">&times;</button>
-            </div>
-            
-            <div style="margin: 20px 0;">
-                <div id="studentDetailContent">
-                    <!-- 学生详情将在这里显示 -->
-                </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeAllStudentsModal()">关闭</button>
             </div>
         </div>
     </div>
 
-    <!-- ==================== JavaScript代码 ==================== -->
     <script>
-        // ==================== 全局变量 ====================
-        let currentUser = null;
-        let students = [];
-        let books = [];
-        
-        // ==================== 初始化 ====================
-        function initData() {
-            // 初始化用户数据
-            if (!localStorage.getItem('library_users')) {
-                const defaultUsers = [
-                    { username: 'admin', password: 'admin123', email: 'admin@library.com' }
-                ];
-                localStorage.setItem('library_users', JSON.stringify(defaultUsers));
-            }
-            
-            // 初始化学生数据
-            if (!localStorage.getItem('library_students')) {
-                students = [
-                    { 
-                        id: 1, 
-                        studentId: '20240001', 
-                        name: '张三', 
-                        grade: '三年级', 
-                        class: '一班', 
-                        phone: '13800138001', 
-                        email: 'zhangsan@example.com',
-                        address: '北京市朝阳区',
-                        notes: '优秀学生',
-                        borrowCount: 2,
-                        createdAt: '2024-01-01'
-                    },
-                    { 
-                        id: 2, 
-                        studentId: '20240002', 
-                        name: '李四', 
-                        grade: '三年级', 
-                        class: '二班', 
-                        phone: '13800138002', 
-                        email: 'lisi@example.com',
-                        address: '北京市海淀区',
-                        notes: '',
-                        borrowCount: 1,
-                        createdAt: '2024-01-01'
-                    },
-                    { 
-                        id: 3, 
-                        studentId: '20240003', 
-                        name: '王五', 
-                        grade: '四年级', 
-                        class: '一班', 
-                        phone: '13800138003', 
-                        email: 'wangwu@example.com',
-                        address: '北京市东城区',
-                        notes: '需要重点关注',
-                        borrowCount: 0,
-                        createdAt: '2024-01-01'
-                    }
-                ];
-                localStorage.setItem('library_students', JSON.stringify(students));
-            } else {
-                students = JSON.parse(localStorage.getItem('library_students') || '[]');
-            }
-            
-            // 初始化图书数据
-            if (!localStorage.getItem('library_books')) {
-                books = [
-                    {
-                        id: 1,
-                        isbn: '9787115275790',
-                        title: 'JavaScript高级程序设计',
-                        author: 'Nicholas C. Zakas',
-                        publisher: '人民邮电出版社',
-                        category: '科技',
-                        status: 'available',
-                        library: '主书房',
-                        tags: ['编程', 'JavaScript', '前端'],
-                        borrowHistory: []
-                    }
-                ];
-                localStorage.setItem('library_books', JSON.stringify(books));
-            } else {
-                books = JSON.parse(localStorage.getItem('library_books') || '[]');
-            }
+        // 初始化存储
+        if (!localStorage.getItem('students')) {
+            localStorage.setItem('students', JSON.stringify([]));
         }
         
-        // ==================== 用户认证 ====================
-        function showLogin() {
-            document.getElementById('loginPage').style.display = 'flex';
-            document.getElementById('registerPage').style.display = 'none';
+        // 显示模态框
+        function showModal(modalId) {
+            document.getElementById(modalId).style.display = 'flex';
         }
         
-        function showRegister() {
-            document.getElementById('loginPage').style.display = 'none';
-            document.getElementById('registerPage').style.display = 'flex';
+        // 隐藏模态框
+        function hideModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
         }
         
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const username = document.getElementById('username').value.trim();
-            const password = document.getElementById('password').value.trim();
-            
-            const users = JSON.parse(localStorage.getItem('library_users') || '[]');
-            const user = users.find(u => u.username === username && u.password === password);
-            
-            if (user) {
-                currentUser = user;
-                document.getElementById('currentUser').textContent = user.username;
-                
-                // 切换页面
-                document.getElementById('loginPage').style.display = 'none';
-                document.getElementById('mainPage').style.display = 'block';
-                
-                // 加载数据
-                initData();
-                loadBooks();
-                loadStudentsTable();
-                updateStats();
-                
-                alert('登录成功！欢迎使用智能图书馆系统。');
-            } else {
-                alert('用户名或密码错误！');
-            }
-        });
-        
-        document.getElementById('registerForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const username = document.getElementById('regUsername').value.trim();
-            const password = document.getElementById('regPassword').value.trim();
-            const confirmPassword = document.getElementById('regConfirmPassword').value.trim();
-            
-            if (password !== confirmPassword) {
-                alert('两次输入的密码不一致！');
-                return;
-            }
-            
-            if (password.length < 6) {
-                alert('密码长度至少6位！');
-                return;
-            }
-            
-            const users = JSON.parse(localStorage.getItem('library_users') || '[]');
-            
-            if (users.some(u => u.username === username)) {
-                alert('用户名已存在！');
-                return;
-            }
-            
-            users.push({
-                username: username,
-                password: password,
-                email: '',
-                createdAt: new Date().toISOString()
-            });
-            
-            localStorage.setItem('library_users', JSON.stringify(users));
-            alert('注册成功！请使用新账户登录。');
-            showLogin();
-        });
-        
-        function logout() {
-            currentUser = null;
-            document.getElementById('mainPage').style.display = 'none';
-            document.getElementById('loginPage').style.display = 'flex';
-            
-            // 清空表单
-            document.getElementById('username').value = '';
-            document.getElementById('password').value = '';
-        }
-        
-        // ==================== 图书管理 ====================
-        function loadBooks() {
-            books = JSON.parse(localStorage.getItem('library_books') || '[]');
-            renderBooks();
-        }
-        
-        function renderBooks(filteredBooks = books) {
-            const tableBody = document.getElementById('bookTable');
-            tableBody.innerHTML = '';
-            
-            filteredBooks.forEach(book => {
-                const isBorrowed = book.status === 'borrowed';
-                let statusText = isBorrowed ? '已借出' : '可借';
-                let statusClass = isBorrowed ? 'status-borrowed' : 'status-available';
-                
-                // 检查是否逾期
-                if (isBorrowed && book.borrowHistory && book.borrowHistory.length > 0) {
-                    const latestBorrow = book.borrowHistory[book.borrowHistory.length - 1];
-                    if (!latestBorrow.returnDate && latestBorrow.dueDate) {
-                        const dueDate = new Date(latestBorrow.dueDate);
-                        const today = new Date();
-                        if (dueDate < today) {
-                            statusText = '已逾期';
-                            statusClass = 'status-overdue';
-                        }
-                    }
-                }
-                
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td><strong>${book.title}</strong></td>
-                    <td>${book.author}</td>
-                    <td>${book.isbn}</td>
-                    <td>${book.category || '未分类'}</td>
-                    <td>
-                        <span class="status ${statusClass}">
-                            ${statusText}
-                        </span>
-                    </td>
-                    <td>${book.library}</td>
-                    <td>
-                        <div style="display: flex; gap: 5px;">
-                            <button class="btn ${isBorrowed ? 'btn-success' : 'btn-primary'}" 
-                                    onclick="${isBorrowed ? `showReturnBook(${book.id})` : `borrowBookWithStudent(${book.id})`}"
-                                    style="padding: 5px 10px; font-size: 12px;">
-                                <i class="fas fa-${isBorrowed ? 'undo' : 'book-open'}"></i>
-                            </button>
-                            <button class="btn" onclick="showBookDetail(${book.id})" style="padding: 5px 10px; font-size: 12px;">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                        </div>
-                    </td>
-                `;
-                
-                tableBody.appendChild(row);
-            });
-            
-            document.getElementById('bookCount').textContent = filteredBooks.length;
-        }
-        
-        function filterBooks() {
-            const keyword = document.getElementById('searchInput').value.toLowerCase();
-            
-            if (!keyword) {
-                renderBooks();
-                return;
-            }
-            
-            const filtered = books.filter(book => 
-                book.title.toLowerCase().includes(keyword) ||
-                book.author.toLowerCase().includes(keyword) ||
-                book.isbn.includes(keyword) ||
-                (book.category && book.category.toLowerCase().includes(keyword)) ||
-                (book.tags && book.tags.some(tag => tag.toLowerCase().includes(keyword)))
-            );
-            
-            renderBooks(filtered);
-        }
-        
-        function clearSearch() {
-            document.getElementById('searchInput').value = '';
-            renderBooks();
-        }
-        
-        // ==================== 学生管理 ====================
-        function loadStudentsTable(filteredStudents = students) {
-            const tableBody = document.getElementById('studentTable');
-            tableBody.innerHTML = '';
-            
-            filteredStudents.forEach(student => {
-                // 计算当前借阅数量
-                const currentBorrows = getStudentCurrentBorrows(student.id);
-                
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${student.studentId}</td>
-                    <td><strong>${student.name}</strong></td>
-                    <td>${student.grade}</td>
-                    <td>${student.class}</td>
-                    <td>${student.phone || '-'}</td>
-                    <td>
-                        <span class="${currentBorrows > 0 ? 'status status-borrowed' : ''}">
-                            ${currentBorrows} 本
-                        </span>
-                    </td>
-                    <td>
-                        <div style="display: flex; gap: 5px;">
-                            <button class="btn" onclick="showStudentDetail(${student.id})" style="padding: 5px 10px; font-size: 12px;">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                            <button class="btn" onclick="editStudent(${student.id})" style="padding: 5px 10px; font-size: 12px;">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button class="btn btn-danger" onclick="deleteStudent(${student.id})" style="padding: 5px 10px; font-size: 12px;">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </div>
-                    </td>
-                `;
-                
-                tableBody.appendChild(row);
-            });
-            
-            document.getElementById('studentCount2').textContent = filteredStudents.length;
-        }
-        
-        function filterStudents() {
-            const keyword = document.getElementById('studentSearchInput').value.toLowerCase();
-            
-            if (!keyword) {
-                loadStudentsTable(students);
-                return;
-            }
-            
-            const filtered = students.filter(student => 
-                student.name.toLowerCase().includes(keyword) ||
-                student.studentId.includes(keyword) ||
-                (student.phone && student.phone.includes(keyword))
-            );
-            
-            loadStudentsTable(filtered);
-        }
-        
-        function getStudentCurrentBorrows(studentId) {
-            const books = JSON.parse(localStorage.getItem('library_books') || '[]');
-            return books.filter(book => 
-                book.status === 'borrowed' && 
-                book.borrowHistory && 
-                book.borrowHistory.some(record => record.borrowerId === studentId && !record.returnDate)
-            ).length;
-        }
-        
-        // ==================== 手动添加学生 ====================
-        function showAddStudentModal() {
-            document.getElementById('addStudentForm').reset();
-            showModal('addStudentModal');
-        }
-        
-        document.getElementById('addStudentForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const studentId = document.getElementById('studentId').value.trim();
-            const name = document.getElementById('studentName').value.trim();
-            const grade = document.getElementById('studentGrade').value;
-            const studentClass = document.getElementById('studentClass').value.trim();
-            const phone = document.getElementById('studentPhone').value.trim();
-            const email = document.getElementById('studentEmail').value.trim();
-            const address = document.getElementById('studentAddress').value.trim();
-            const notes = document.getElementById('studentNotes').value.trim();
-            
-            if (!studentId || !name || !grade || !studentClass) {
-                alert('请填写所有必填字段（学号、姓名、年级、班级）！');
-                return;
-            }
-            
-            // 检查学号是否重复
-            if (students.some(s => s.studentId === studentId)) {
-                alert('该学号已存在！');
-                return;
-            }
-            
-            const newId = students.length > 0 ? Math.max(...students.map(s => s.id)) + 1 : 1;
-            
-            const newStudent = {
-                id: newId,
-                studentId: studentId,
-                name: name,
-                grade: grade,
-                class: studentClass,
-                phone: phone,
-                email: email,
-                address: address,
-                notes: notes,
-                borrowCount: 0,
-                createdAt: new Date().toISOString().split('T')[0]
-            };
-            
-            students.push(newStudent);
-            localStorage.setItem('library_students', JSON.stringify(students));
-            
-            closeModal('addStudentModal');
-            loadStudentsTable();
-            updateStats();
-            
-            alert(`学生 ${name} 添加成功！`);
-        });
-        
-        // ==================== Excel导入学生 ====================
-        function showStudentExcelImportModal() {
-            showModal('studentExcelImportModal');
-            // 重置界面
-            document.getElementById('studentPreviewSection').style.display = 'none';
-            document.getElementById('studentImportConfirmBtn').style.display = 'none';
-            document.getElementById('studentImportSuccess').style.display = 'none';
-            document.getElementById('studentImportPreview').innerHTML = '';
-        }
-        
-        function handleStudentExcelUpload(event) {
+        // 处理Excel文件上传
+        function handleExcelUpload(event) {
             const file = event.target.files[0];
             if (!file) return;
             
-            if (!file.name.match(/\.(xlsx|xls|csv)$/)) {
-                alert('请上传Excel文件（.xlsx, .xls, .csv）！');
+            // 检查文件类型
+            if (!file.name.match(/\.(xlsx|xls|csv)$/i)) {
+                alert('请上传Excel文件 (.xlsx, .xls, .csv)!');
                 return;
             }
             
             const reader = new FileReader();
-            
             reader.onload = function(e) {
                 try {
                     const data = e.target.result;
@@ -1457,38 +562,59 @@
                         return;
                     }
                     
-                    showStudentImportPreview(jsonData);
+                    // 显示预览
+                    showImportPreview(jsonData);
                 } catch (error) {
                     alert('读取Excel文件失败：' + error.message);
                 }
             };
-            
             reader.readAsBinaryString(file);
         }
         
-        function showStudentImportPreview(data) {
-            const previewTable = document.getElementById('studentImportPreview');
+        // 显示导入预览
+        function showImportPreview(data) {
+            const previewTable = document.getElementById('importPreview');
             previewTable.innerHTML = '';
             
-            if (data.length === 0) return;
+            if (data.length === 0) {
+                previewTable.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">📊</div>
+                        <div class="empty-text">Excel文件中没有数据</div>
+                    </div>
+                `;
+                return;
+            }
             
             // 创建表格
             const table = document.createElement('table');
-            table.style.width = '100%';
-            table.style.borderCollapse = 'collapse';
+            table.className = 'preview-table';
             
             // 创建表头
             const thead = document.createElement('thead');
             const headerRow = document.createElement('tr');
-            headerRow.style.background = '#f8f9fa';
             
-            const headers = Object.keys(data[0]);
-            headers.forEach(header => {
+            // 获取所有可能的字段名（合并所有行的字段）
+            const allFields = new Set();
+            data.forEach(row => {
+                Object.keys(row).forEach(key => allFields.add(key));
+            });
+            
+            // 常用字段排序
+            const fieldPriority = ['学号', '姓名', '性别', '班级', '专业', '学院', '邮箱', '入学日期', '出生日期', '籍贯', '民族', '政治面貌'];
+            const sortedFields = [...allFields].sort((a, b) => {
+                const indexA = fieldPriority.indexOf(a);
+                const indexB = fieldPriority.indexOf(b);
+                if (indexA !== -1 && indexB !== -1) return indexA - indexB;
+                if (indexA !== -1) return -1;
+                if (indexB !== -1) return 1;
+                return a.localeCompare(b);
+            });
+            
+            // 添加表头单元格
+            sortedFields.forEach(key => {
                 const th = document.createElement('th');
-                th.textContent = header;
-                th.style.padding = '10px';
-                th.style.border = '1px solid #ddd';
-                th.style.textAlign = 'left';
+                th.textContent = key;
                 headerRow.appendChild(th);
             });
             
@@ -1503,12 +629,25 @@
                 const row = document.createElement('tr');
                 const rowData = data[i];
                 
-                headers.forEach(header => {
+                sortedFields.forEach(key => {
                     const td = document.createElement('td');
-                    const value = rowData[header];
-                    td.textContent = value !== undefined && value !== null ? value.toString() : '';
-                    td.style.padding = '8px';
-                    td.style.border = '1px solid #ddd';
+                    let value = row[key];
+                    
+                    if (value === undefined || value === null) {
+                        value = '';
+                    } else if (typeof value === 'object') {
+                        value = JSON.stringify(value);
+                    } else {
+                        value = value.toString();
+                    }
+                    
+                    // 截断过长的文本
+                    if (value.length > 50) {
+                        value = value.substring(0, 47) + '...';
+                    }
+                    
+                    td.textContent = value;
+                    td.title = value; // 添加提示
                     row.appendChild(td);
                 });
                 
@@ -1518,46 +657,56 @@
             table.appendChild(tbody);
             previewTable.appendChild(table);
             
-            // 显示预览区域
-            document.getElementById('studentPreviewSection').style.display = 'block';
+            // 显示数据统计
+            document.getElementById('studentCount').style.display = 'block';
+            document.getElementById('totalStudents').textContent = data.length;
+            
+            // 显示统计卡片
+            document.getElementById('statsSection').style.display = 'grid';
+            document.getElementById('statTotal').textContent = data.length;
+            document.getElementById('statSuccess').textContent = '0';
+            document.getElementById('statSkip').textContent = '0';
+            document.getElementById('statError').textContent = '0';
             
             // 存储数据供导入使用
-            window.studentImportData = data;
+            window.importData = data;
             
             // 显示确认按钮
-            document.getElementById('studentImportConfirmBtn').style.display = 'block';
+            document.getElementById('importConfirmBtn').style.display = 'inline-block';
             
-            alert(`成功读取 ${data.length} 条学生数据，显示前 ${previewRows} 条预览。`);
+            // 隐藏成功/错误消息
+            document.getElementById('importSuccess').style.display = 'none';
+            document.getElementById('importError').style.display = 'none';
+            
+            // 显示预览信息
+            alert(`成功读取 ${data.length} 条数据，显示前 ${previewRows} 条预览。`);
         }
         
-        function confirmStudentImport() {
-            if (!window.studentImportData || window.studentImportData.length === 0) {
-                alert('没有可导入的学生数据！');
+        // 确认导入数据
+        function confirmImport() {
+            if (!window.importData || window.importData.length === 0) {
+                alert('没有可导入的数据！');
                 return;
             }
             
+            const students = JSON.parse(localStorage.getItem('students') || '[]');
             const existingStudentIds = new Set(students.map(student => student.studentId));
             
             let successCount = 0;
             let skipCount = 0;
             let errorCount = 0;
+            
+            // 获取现有最大ID
             let maxId = students.length > 0 ? Math.max(...students.map(s => s.id)) : 0;
             
-            window.studentImportData.forEach((item, index) => {
+            window.importData.forEach((item, index) => {
                 try {
-                    // 获取字段值（支持多种列名）
-                    const studentId = item.学号 || item.studentId || item.学生编号 || item.id || '';
-                    const name = item.姓名 || item.name || item.学生姓名 || '';
-                    const grade = item.年级 || item.grade || item.级 || '';
-                    const studentClass = item.班级 || item.class || item.班 || '';
-                    const phone = item.电话 || item.phone || item.联系电话 || item.手机 || '';
-                    const email = item.邮箱 || item.email || item.电子邮箱 || '';
-                    const address = item.地址 || item.address || item.家庭住址 || '';
-                    const notes = item.备注 || item.notes || item.说明 || '';
+                    // 检查必要字段
+                    const studentId = item.学号 || item.studentId || item.学号 || item['Student ID'] || '';
+                    const name = item.姓名 || item.name || item.姓名 || item.Name || '';
                     
-                    // 检查必填字段
-                    if (!studentId || !name || !grade || !studentClass) {
-                        console.warn(`第${index + 1}行：缺少必填字段（学号、姓名、年级、班级），跳过`);
+                    if (!studentId || !name) {
+                        console.warn(`第${index + 1}行：缺少学号或姓名，跳过`);
                         skipCount++;
                         return;
                     }
@@ -1574,14 +723,18 @@
                         id: ++maxId,
                         studentId: studentId,
                         name: name,
-                        grade: grade,
-                        class: studentClass,
-                        phone: phone,
-                        email: email,
-                        address: address,
-                        notes: notes,
-                        borrowCount: 0,
-                        createdAt: new Date().toISOString().split('T')[0]
+                        gender: item.性别 || item.gender || item.Gender || '未知',
+                        className: item.班级 || item.class || item.班级 || item.Class || '',
+                        major: item.专业 || item.major || item.专业 || item.Major || '',
+                        college: item.学院 || item.college || item.学院 || item.College || '',
+                        email: item.邮箱 || item.email || item.邮箱 || item.Email || '',
+                        enrollmentDate: item.入学日期 || item.enrollmentDate || item['Enrollment Date'] || '',
+                        birthDate: item.出生日期 || item.birthDate || item['Birth Date'] || '',
+                        hometown: item.籍贯 || item.hometown || item.籍贯 || '',
+                        ethnicity: item.民族 || item.ethnicity || item.民族 || '',
+                        politicalStatus: item.政治面貌 || item.politicalStatus || item['Political Status'] || '',
+                        status: '在读',
+                        createTime: new Date().toISOString()
                     };
                     
                     students.push(newStudent);
@@ -1589,908 +742,154 @@
                     successCount++;
                     
                 } catch (error) {
-                    console.error(`第${index + 1}行导入失败：`, error);
+                    console.error(`第${index + 1}行处理失败：`, error);
                     errorCount++;
                 }
             });
             
             // 保存到本地存储
-            localStorage.setItem('library_students', JSON.stringify(students));
+            localStorage.setItem('students', JSON.stringify(students));
             
-            // 显示导入结果
-            const resultDiv = document.getElementById('studentImportSuccess');
-            resultDiv.innerHTML = `
-                <div style="background: #c6f6d5; color: #22543d; padding: 15px; border-radius: 8px; margin: 15px 0;">
-                    <i class="fas fa-check-circle"></i> 学生导入完成！
-                    <div style="margin-top: 10px;">
-                        <strong>导入结果：</strong><br>
-                        成功导入：<span style="color: #38a169; font-weight: bold;">${successCount}</span> 名学生<br>
-                        跳过重复：<span style="color: #ed8936; font-weight: bold;">${skipCount}</span> 名<br>
-                        导入失败：<span style="color: #e53e3e; font-weight: bold;">${errorCount}</span> 名
-                    </div>
-                </div>
+            // 更新统计显示
+            document.getElementById('statSuccess').textContent = successCount;
+            document.getElementById('statSkip').textContent = skipCount;
+            document.getElementById('statError').textContent = errorCount;
+            
+            // 显示成功消息
+            const successElement = document.getElementById('importSuccess');
+            successElement.innerHTML = `
+                <strong>导入完成！</strong><br>
+                成功导入: ${successCount} 名学生<br>
+                跳过: ${skipCount} 条数据（学号重复或缺少必要信息）<br>
+                失败: ${errorCount} 条数据
             `;
-            resultDiv.style.display = 'block';
+            successElement.style.display = 'block';
             
             // 隐藏确认按钮
-            document.getElementById('studentImportConfirmBtn').style.display = 'none';
+            document.getElementById('importConfirmBtn').style.display = 'none';
             
-            // 刷新学生列表
-            setTimeout(() => {
-                loadStudentsTable();
-                updateStats();
-            }, 500);
+            // 更新学生总数显示
+            document.getElementById('totalStudents').textContent = students.length;
+            
+            // 清除上传的文件输入
+            const fileInput = document.getElementById('excelFile');
+            if (fileInput) {
+                fileInput.value = '';
+            }
+            
+            // 清除缓存的数据
+            window.importData = null;
         }
         
-        function downloadStudentImportTemplate() {
-            // 创建示例数据
-            const templateData = [
-                {
-                    '学号': '20240001',
-                    '姓名': '张三',
-                    '年级': '三年级',
-                    '班级': '一班',
-                    '电话': '13800138001',
-                    '邮箱': 'zhangsan@example.com',
-                    '地址': '北京市朝阳区',
-                    '备注': '优秀学生'
-                },
-                {
-                    '学号': '20240002',
-                    '姓名': '李四',
-                    '年级': '三年级',
-                    '班级': '二班',
-                    '电话': '13800138002',
-                    '邮箱': 'lisi@example.com',
-                    '地址': '北京市海淀区',
-                    '备注': ''
-                },
-                {
-                    '学号': '20240003',
-                    '姓名': '王五',
-                    '年级': '四年级',
-                    '班级': '一班',
-                    '电话': '13800138003',
-                    '邮箱': 'wangwu@example.com',
-                    '地址': '北京市东城区',
-                    '备注': '需要重点关注'
-                }
-            ];
-            
-            // 创建工作表
-            const ws = XLSX.utils.json_to_sheet(templateData);
-            
-            // 设置列宽
-            const wscols = [
-                {wch: 12}, // 学号
-                {wch: 10}, // 姓名
-                {wch: 8},  // 年级
-                {wch: 8},  // 班级
-                {wch: 15}, // 电话
-                {wch: 20}, // 邮箱
-                {wch: 25}, // 地址
-                {wch: 20}  // 备注
-            ];
-            ws['!cols'] = wscols;
-            
-            // 创建工作簿
-            const wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, ws, "学生导入模板");
-            
-            // 生成Excel文件并下载
-            XLSX.writeFile(wb, "学生导入模板.xlsx");
-            
-            alert('学生模板文件已下载！请按照模板格式填写数据。');
-        }
-        
-        // ==================== 学生详情和编辑 ====================
-        function showStudentDetail(studentId) {
-            const student = students.find(s => s.id === studentId);
-            if (!student) return;
-            
-            // 获取学生借阅历史
-            const books = JSON.parse(localStorage.getItem('library_books') || '[]');
-            const studentBooks = books.filter(book => 
-                book.borrowHistory && 
-                book.borrowHistory.some(record => record.borrowerId === studentId)
-            );
-            
-            const currentBorrows = studentBooks.filter(book => 
-                book.status === 'borrowed' && 
-                book.borrowHistory.some(record => record.borrowerId === studentId && !record.returnDate)
-            );
-            
-            const pastBorrows = studentBooks.filter(book => 
-                book.borrowHistory.some(record => record.borrowerId === studentId && record.returnDate)
-            );
-            
-            let detailHTML = `
-                <div style="margin-bottom: 20px;">
-                    <h4 style="color: #667eea;"><i class="fas fa-user-circle"></i> 学生基本信息</h4>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
-                        <div><strong>学号：</strong>${student.studentId}</div>
-                        <div><strong>姓名：</strong>${student.name}</div>
-                        <div><strong>年级班级：</strong>${student.grade}${student.class}</div>
-                        <div><strong>联系电话：</strong>${student.phone || '未填写'}</div>
-                        <div><strong>邮箱：</strong>${student.email || '未填写'}</div>
-                        <div><strong>家庭住址：</strong>${student.address || '未填写'}</div>
-                    </div>
-                    ${student.notes ? `<div style="margin-top: 15px;"><strong>备注：</strong>${student.notes}</div>` : ''}
-                    <div style="margin-top: 15px;"><strong>注册时间：</strong>${student.createdAt}</div>
-                </div>
-                
-                <div style="margin-bottom: 20px;">
-                    <h4 style="color: #667eea;"><i class="fas fa-book"></i> 借阅统计</h4>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-top: 15px;">
-                        <div style="text-align: center; background: #ebf8ff; padding: 15px; border-radius: 8px;">
-                            <div style="font-size: 24px; color: #3182ce; font-weight: bold;">${studentBooks.length}</div>
-                            <div style="color: #4a5568; font-size: 12px;">总借阅次数</div>
-                        </div>
-                        <div style="text-align: center; background: #f0fff4; padding: 15px; border-radius: 8px;">
-                            <div style="font-size: 24px; color: #38a169; font-weight: bold;">${currentBorrows.length}</div>
-                            <div style="color: #4a5568; font-size: 12px;">当前借阅</div>
-                        </div>
-                        <div style="text-align: center; background: #fff5f5; padding: 15px; border-radius: 8px;">
-                            <div style="font-size: 24px; color: #e53e3e; font-weight: bold;">${pastBorrows.length}</div>
-                            <div style="color: #4a5568; font-size: 12px;">历史借阅</div>
-                        </div>
-                    </div>
+        // 清空预览
+        function clearPreview() {
+            const previewTable = document.getElementById('importPreview');
+            previewTable.innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-icon">📊</div>
+                    <div class="empty-text">请上传Excel文件查看数据预览</div>
                 </div>
             `;
             
-            // 当前借阅列表
-            if (currentBorrows.length > 0) {
-                detailHTML += `
-                    <div style="margin-bottom: 20px;">
-                        <h4 style="color: #667eea;"><i class="fas fa-book-open"></i> 当前借阅的图书</h4>
-                        <div style="max-height: 200px; overflow-y: auto; margin-top: 10px;">
+            document.getElementById('importConfirmBtn').style.display = 'none';
+            document.getElementById('importSuccess').style.display = 'none';
+            document.getElementById('importError').style.display = 'none';
+            document.getElementById('studentCount').style.display = 'none';
+            document.getElementById('statsSection').style.display = 'none';
+            
+            const fileInput = document.getElementById('excelFile');
+            if (fileInput) {
+                fileInput.value = '';
+            }
+            
+            window.importData = null;
+        }
+        
+        // 查看所有学生
+        function showAllStudents() {
+            const students = JSON.parse(localStorage.getItem('students') || '[]');
+            const listContainer = document.getElementById('allStudentsList');
+            
+            if (students.length === 0) {
+                listContainer.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">👤</div>
+                        <div class="empty-text">暂无学生信息</div>
+                    </div>
+                `;
+            } else {
+                let html = `
+                    <div style="margin-bottom: 15px; color: #2c3e50; font-weight: 500;">
+                        共有 ${students.length} 名学生
+                    </div>
+                    <table class="preview-table" style="width: 100%;">
+                        <thead>
+                            <tr>
+                                <th>学号</th>
+                                <th>姓名</th>
+                                <th>性别</th>
+                                <th>班级</th>
+                                <th>专业</th>
+                                <th>状态</th>
+                            </tr>
+                        </thead>
+                        <tbody>
                 `;
                 
-                currentBorrows.forEach(book => {
-                    const borrowRecord = book.borrowHistory.find(record => 
-                        record.borrowerId === studentId && !record.returnDate
-                    );
-                    
-                    detailHTML += `
-                        <div style="display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid #e0e0e0;">
-                            <div>
-                                <strong>${book.title}</strong>
-                                <div style="font-size: 12px; color: #666;">
-                                    借阅日期：${borrowRecord.borrowDate} | 应还日期：${borrowRecord.dueDate}
-                                </div>
-                            </div>
-                            <button class="btn btn-success" onclick="returnBook(${book.id}, ${studentId})" style="padding: 5px 10px; font-size: 12px;">
-                                <i class="fas fa-undo"></i> 归还
-                            </button>
-                        </div>
+                students.slice(0, 50).forEach(student => {
+                    html += `
+                        <tr>
+                            <td>${student.studentId || ''}</td>
+                            <td>${student.name || ''}</td>
+                            <td>${student.gender || ''}</td>
+                            <td>${student.className || ''}</td>
+                            <td>${student.major || ''}</td>
+                            <td><span style="color: #2ecc71;">${student.status || '在读'}</span></td>
+                        </tr>
                     `;
                 });
                 
-                detailHTML += `</div></div>`;
-            }
-            
-            document.getElementById('studentDetailContent').innerHTML = detailHTML;
-            showModal('studentDetailModal');
-        }
-        
-        function editStudent(studentId) {
-            const student = students.find(s => s.id === studentId);
-            if (!student) return;
-            
-            // 填充表单
-            document.getElementById('studentId').value = student.studentId;
-            document.getElementById('studentName').value = student.name;
-            document.getElementById('studentGrade').value = student.grade;
-            document.getElementById('studentClass').value = student.class;
-            document.getElementById('studentPhone').value = student.phone || '';
-            document.getElementById('studentEmail').value = student.email || '';
-            document.getElementById('studentAddress').value = student.address || '';
-            document.getElementById('studentNotes').value = student.notes || '';
-            
-            // 修改表单提交行为
-            const form = document.getElementById('addStudentForm');
-            const oldSubmit = form.onsubmit;
-            
-            form.onsubmit = function(e) {
-                e.preventDefault();
-                
-                // 更新学生信息
-                const studentIndex = students.findIndex(s => s.id === studentId);
-                if (studentIndex !== -1) {
-                    students[studentIndex] = {
-                        ...students[studentIndex],
-                        studentId: document.getElementById('studentId').value.trim(),
-                        name: document.getElementById('studentName').value.trim(),
-                        grade: document.getElementById('studentGrade').value,
-                        class: document.getElementById('studentClass').value.trim(),
-                        phone: document.getElementById('studentPhone').value.trim(),
-                        email: document.getElementById('studentEmail').value.trim(),
-                        address: document.getElementById('studentAddress').value.trim(),
-                        notes: document.getElementById('studentNotes').value.trim()
-                    };
-                    
-                    localStorage.setItem('library_students', JSON.stringify(students));
-                    
-                    closeModal('addStudentModal');
-                    loadStudentsTable();
-                    
-                    // 恢复原来的提交行为
-                    form.onsubmit = oldSubmit;
-                    
-                    alert('学生信息更新成功！');
-                }
-            };
-            
-            showModal('addStudentModal');
-        }
-        
-        function deleteStudent(studentId) {
-            if (!confirm('确定要删除这个学生吗？此操作不可恢复！')) return;
-            
-            // 检查学生是否有未归还的图书
-            const books = JSON.parse(localStorage.getItem('library_books') || '[]');
-            const hasBorrowedBooks = books.some(book => 
-                book.status === 'borrowed' && 
-                book.borrowHistory && 
-                book.borrowHistory.some(record => record.borrowerId === studentId && !record.returnDate)
-            );
-            
-            if (hasBorrowedBooks) {
-                alert('该学生还有未归还的图书，不能删除！');
-                return;
-            }
-            
-            students = students.filter(s => s.id !== studentId);
-            localStorage.setItem('library_students', JSON.stringify(students));
-            
-            loadStudentsTable();
-            updateStats();
-            alert('学生删除成功！');
-        }
-        
-        // ==================== 学生管理模态框 ====================
-        function showStudentManager() {
-            showModal('studentModal');
-            loadModalStudents();
-        }
-        
-        function loadModalStudents(filteredStudents = students) {
-            const tableBody = document.getElementById('modalStudentList');
-            tableBody.innerHTML = '';
-            
-            filteredStudents.forEach(student => {
-                const currentBorrows = getStudentCurrentBorrows(student.id);
-                
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${student.studentId}</td>
-                    <td><strong>${student.name}</strong></td>
-                    <td>${student.grade}${student.class}</td>
-                    <td>${student.phone || '-'}</td>
-                    <td>${student.borrowCount || 0}</td>
-                    <td>
-                        <span class="${currentBorrows > 0 ? 'status status-borrowed' : ''}">
-                            ${currentBorrows} 本
-                        </span>
-                    </td>
-                    <td>
-                        <div style="display: flex; gap: 5px;">
-                            <button class="btn" onclick="showStudentDetail(${student.id})" style="padding: 5px 10px; font-size: 12px;">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                            <button class="btn" onclick="editStudent(${student.id})" style="padding: 5px 10px; font-size: 12px;">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button class="btn btn-danger" onclick="deleteStudent(${student.id})" style="padding: 5px 10px; font-size: 12px;">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </div>
-                    </td>
+                html += `
+                        </tbody>
+                    </table>
                 `;
                 
-                tableBody.appendChild(row);
-            });
-            
-            document.getElementById('modalStudentCount').textContent = filteredStudents.length;
-        }
-        
-        function filterStudentsInModal() {
-            const keyword = document.getElementById('modalStudentSearch').value.toLowerCase();
-            const grade = document.getElementById('filterGrade').value;
-            
-            let filtered = students;
-            
-            if (grade) {
-                filtered = filtered.filter(student => student.grade === grade);
-            }
-            
-            if (keyword) {
-                filtered = filtered.filter(student => 
-                    student.name.toLowerCase().includes(keyword) ||
-                    student.studentId.includes(keyword) ||
-                    (student.phone && student.phone.includes(keyword))
-                );
-            }
-            
-            loadModalStudents(filtered);
-        }
-        
-        // ==================== 导出学生数据 ====================
-        function exportStudentsToExcel() {
-            if (students.length === 0) {
-                alert('没有学生数据可以导出！');
-                return;
-            }
-            
-            // 准备数据
-            const exportData = students.map(student => {
-                const currentBorrows = getStudentCurrentBorrows(student.id);
-                
-                return {
-                    '学号': student.studentId,
-                    '姓名': student.name,
-                    '年级': student.grade,
-                    '班级': student.class,
-                    '联系电话': student.phone || '',
-                    '邮箱': student.email || '',
-                    '家庭住址': student.address || '',
-                    '备注': student.notes || '',
-                    '总借阅次数': student.borrowCount || 0,
-                    '当前借阅': currentBorrows,
-                    '注册时间': student.createdAt || ''
-                };
-            });
-            
-            // 创建工作簿
-            const wb = XLSX.utils.book_new();
-            
-            // 添加学生数据表
-            const ws = XLSX.utils.json_to_sheet(exportData);
-            XLSX.utils.book_append_sheet(wb, ws, "学生数据");
-            
-            // 生成Excel文件并下载
-            const fileName = `学生数据_${new Date().toISOString().split('T')[0]}.xlsx`;
-            XLSX.writeFile(wb, fileName);
-            
-            alert(`学生Excel文件已生成并下载！文件名：${fileName}`);
-        }
-        
-        // ==================== 借阅管理 ====================
-        function borrowBookWithStudent(bookId) {
-            if (students.length === 0) {
-                alert('请先添加学生信息！');
-                showStudentManager();
-                return;
-            }
-            
-            showModal('selectStudentModal');
-            window.currentBorrowBookId = bookId;
-            
-            const studentSelect = document.getElementById('borrowStudentSelect');
-            studentSelect.innerHTML = '<option value="">请选择学生</option>';
-            
-            students.forEach(student => {
-                const option = document.createElement('option');
-                option.value = student.id;
-                option.textContent = `${student.name} (${student.studentId}) - ${student.grade}${student.class}`;
-                studentSelect.appendChild(option);
-            });
-            
-            // 添加选择事件
-            studentSelect.onchange = function() {
-                const studentId = parseInt(this.value);
-                const student = students.find(s => s.id === studentId);
-                const infoDiv = document.getElementById('selectedStudentInfo');
-                
-                if (student) {
-                    document.getElementById('studentName').textContent = student.name;
-                    document.getElementById('studentId').textContent = student.studentId;
-                    document.getElementById('studentClass').textContent = `${student.grade}${student.class}`;
-                    document.getElementById('studentPhone').textContent = student.phone || '未填写';
-                    infoDiv.style.display = 'block';
-                } else {
-                    infoDiv.style.display = 'none';
-                }
-            };
-        }
-        
-        function confirmBorrow() {
-            const studentId = parseInt(document.getElementById('borrowStudentSelect').value);
-            const bookId = window.currentBorrowBookId;
-            
-            if (!studentId || !bookId) {
-                alert('请选择学生！');
-                return;
-            }
-            
-            const student = students.find(s => s.id === studentId);
-            const books = JSON.parse(localStorage.getItem('library_books') || '[]');
-            const bookIndex = books.findIndex(b => b.id === bookId);
-            
-            if (bookIndex !== -1 && student) {
-                // 检查学生是否已达到最大借阅限制（5本）
-                const studentBorrowedBooks = books.filter(b => 
-                    b.status === 'borrowed' && 
-                    b.borrowHistory && 
-                    b.borrowHistory.some(h => h.borrowerId === studentId && !h.returnDate)
-                );
-                
-                if (studentBorrowedBooks.length >= 5) {
-                    alert(`学生 ${student.name} 已达到最大借阅数量（5本）！`);
-                    return;
+                if (students.length > 50) {
+                    html += `
+                        <div style="text-align: center; margin-top: 15px; color: #7f8c8d;">
+                            只显示前50条记录，共有${students.length}条记录
+                        </div>
+                    `;
                 }
                 
-                const borrowDate = new Date().toISOString().split('T')[0];
-                const dueDate = new Date();
-                dueDate.setDate(dueDate.getDate() + 30);
-                
-                books[bookIndex].status = 'borrowed';
-                if (!books[bookIndex].borrowHistory) {
-                    books[bookIndex].borrowHistory = [];
-                }
-                
-                books[bookIndex].borrowHistory.push({
-                    borrowerId: studentId,
-                    borrowerName: student.name,
-                    borrowerInfo: `${student.grade}${student.class}`,
-                    borrowDate: borrowDate,
-                    dueDate: dueDate.toISOString().split('T')[0],
-                    returnDate: null
-                });
-                
-                // 更新学生借阅次数
-                student.borrowCount = (student.borrowCount || 0) + 1;
-                localStorage.setItem('library_students', JSON.stringify(students));
-                
-                localStorage.setItem('library_books', JSON.stringify(books));
-                
-                closeModal('selectStudentModal');
-                loadBooks();
-                loadStudentsTable();
-                updateStats();
-                
-                alert(`《${books[bookIndex].title}》已成功借给 ${student.name}！`);
+                listContainer.innerHTML = html;
+            }
+            
+            showModal('allStudentsModal');
+        }
+        
+        // 关闭查看所有学生模态框
+        function closeAllStudentsModal() {
+            hideModal('allStudentsModal');
+        }
+        
+        // 清空所有数据
+        function clearAllData() {
+            if (confirm('⚠️ 确定要清空所有学生数据吗？此操作不可撤销！')) {
+                localStorage.setItem('students', JSON.stringify([]));
+                clearPreview();
+                alert('所有学生数据已清空！');
             }
         }
         
-        function returnBook(bookId, studentId) {
-            if (!confirm('确认归还这本图书吗？')) return;
-            
-            const books = JSON.parse(localStorage.getItem('library_books') || '[]');
-            const bookIndex = books.findIndex(b => b.id === bookId);
-            
-            if (bookIndex !== -1 && books[bookIndex].borrowHistory && books[bookIndex].borrowHistory.length > 0) {
-                const borrowRecord = books[bookIndex].borrowHistory.find(record => 
-                    record.borrowerId === studentId && !record.returnDate
-                );
-                
-                if (borrowRecord) {
-                    borrowRecord.returnDate = new Date().toISOString().split('T')[0];
-                    books[bookIndex].status = 'available';
-                    
-                    localStorage.setItem('library_books', JSON.stringify(books));
-                    loadBooks();
-                    loadStudentsTable();
-                    updateStats();
-                    
-                    alert(`《${books[bookIndex].title}》归还成功！`);
-                    
-                    // 如果学生详情模态框是打开的，刷新它
-                    if (document.getElementById('studentDetailModal').style.display === 'flex') {
-                        showStudentDetail(studentId);
-                    }
-                }
-            }
-        }
-        
-        // ==================== Excel导入图书功能 ====================
-        function showExcelImport() {
-            showModal('excelImportModal');
-            // 重置界面
-            document.getElementById('bookPreviewSection').style.display = 'none';
-            document.getElementById('importConfirmBtn').style.display = 'none';
-            document.getElementById('importSuccess').style.display = 'none';
-            document.getElementById('importPreview').innerHTML = '';
-        }
-        
-        function handleExcelUpload(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-            
-            if (!file.name.match(/\.(xlsx|xls|csv)$/)) {
-                alert('请上传Excel文件（.xlsx, .xls, .csv）！');
-                return;
-            }
-            
-            const reader = new FileReader();
-            
-            reader.onload = function(e) {
-                try {
-                    const data = e.target.result;
-                    const workbook = XLSX.read(data, { type: 'binary' });
-                    const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
-                    const jsonData = XLSX.utils.sheet_to_json(firstSheet);
-                    
-                    if (jsonData.length === 0) {
-                        alert('Excel文件中没有数据！');
-                        return;
-                    }
-                    
-                    showBookImportPreview(jsonData);
-                } catch (error) {
-                    alert('读取Excel文件失败：' + error.message);
-                }
-            };
-            
-            reader.readAsBinaryString(file);
-        }
-        
-        function showBookImportPreview(data) {
-            const previewTable = document.getElementById('importPreview');
-            previewTable.innerHTML = '';
-            
-            if (data.length === 0) return;
-            
-            // 创建表格
-            const table = document.createElement('table');
-            table.style.width = '100%';
-            table.style.borderCollapse = 'collapse';
-            
-            // 创建表头
-            const thead = document.createElement('thead');
-            const headerRow = document.createElement('tr');
-            headerRow.style.background = '#f8f9fa';
-            
-            const headers = Object.keys(data[0]);
-            headers.forEach(header => {
-                const th = document.createElement('th');
-                th.textContent = header;
-                th.style.padding = '10px';
-                th.style.border = '1px solid #ddd';
-                th.style.textAlign = 'left';
-                headerRow.appendChild(th);
-            });
-            
-            thead.appendChild(headerRow);
-            table.appendChild(thead);
-            
-            // 创建数据行（最多显示10行预览）
-            const tbody = document.createElement('tbody');
-            const previewRows = Math.min(data.length, 10);
-            
-            for (let i = 0; i < previewRows; i++) {
-                const row = document.createElement('tr');
-                const rowData = data[i];
-                
-                headers.forEach(header => {
-                    const td = document.createElement('td');
-                    const value = rowData[header];
-                    td.textContent = value !== undefined && value !== null ? value.toString() : '';
-                    td.style.padding = '8px';
-                    td.style.border = '1px solid #ddd';
-                    row.appendChild(td);
-                });
-                
-                tbody.appendChild(row);
-            }
-            
-            table.appendChild(tbody);
-            previewTable.appendChild(table);
-            
-            // 显示预览区域
-            document.getElementById('bookPreviewSection').style.display = 'block';
-            
-            // 存储数据供导入使用
-            window.bookImportData = data;
-            
-            // 显示确认按钮
-            document.getElementById('importConfirmBtn').style.display = 'block';
-            
-            alert(`成功读取 ${data.length} 条图书数据，显示前 ${previewRows} 条预览。`);
-        }
-        
-        function confirmImport() {
-            if (!window.bookImportData || window.bookImportData.length === 0) {
-                alert('没有可导入的图书数据！');
-                return;
-            }
-            
-            const books = JSON.parse(localStorage.getItem('library_books') || '[]');
-            const existingIsbns = new Set(books.map(book => book.isbn));
-            
-            let successCount = 0;
-            let skipCount = 0;
-            let errorCount = 0;
-            let maxId = books.length > 0 ? Math.max(...books.map(b => b.id)) : 0;
-            
-            window.bookImportData.forEach((item, index) => {
-                try {
-                    // 获取字段值（支持多种列名）
-                    const isbn = item.ISBN || item.isbn || item.书号 || '';
-                    const title = item.书名 || item.title || item.名称 || item.name || '';
-                    const author = item.作者 || item.author || item.著者 || item.writer || '';
-                    
-                    // 检查必填字段
-                    if (!isbn || !title || !author) {
-                        console.warn(`第${index + 1}行：缺少必填字段（ISBN、书名或作者），跳过`);
-                        skipCount++;
-                        return;
-                    }
-                    
-                    // 检查ISBN是否已存在
-                    if (existingIsbns.has(isbn)) {
-                        console.warn(`第${index + 1}行：ISBN ${isbn} 已存在，跳过`);
-                        skipCount++;
-                        return;
-                    }
-                    
-                    // 创建新图书对象
-                    const newBook = {
-                        id: ++maxId,
-                        isbn: isbn,
-                        title: title,
-                        author: author,
-                        publisher: item.出版社 || item.publisher || item.出版 || '',
-                        category: item.分类 || item.category || item.类别 || item.type || '未分类',
-                        status: 'available',
-                        library: item.书房 || item.library || item.位置 || '主书房',
-                        tags: (item.标签 || item.tags || item.keywords || '').split(/[,，]/).map(tag => tag.trim()).filter(tag => tag),
-                        borrowHistory: []
-                    };
-                    
-                    books.push(newBook);
-                    existingIsbns.add(isbn);
-                    successCount++;
-                    
-                } catch (error) {
-                    console.error(`第${index + 1}行导入失败：`, error);
-                    errorCount++;
-                }
-            });
-            
-            // 保存到本地存储
-            localStorage.setItem('library_books', JSON.stringify(books));
-            
-            // 显示导入结果
-            const resultDiv = document.getElementById('importSuccess');
-            resultDiv.innerHTML = `
-                <div style="background: #c6f6d5; color: #22543d; padding: 15px; border-radius: 8px; margin: 15px 0;">
-                    <i class="fas fa-check-circle"></i> 图书导入完成！
-                    <div style="margin-top: 10px;">
-                        <strong>导入结果：</strong><br>
-                        成功导入：<span style="color: #38a169; font-weight: bold;">${successCount}</span> 本图书<br>
-                        跳过重复：<span style="color: #ed8936; font-weight: bold;">${skipCount}</span> 本<br>
-                        导入失败：<span style="color: #e53e3e; font-weight: bold;">${errorCount}</span> 本
-                    </div>
-                </div>
-            `;
-            resultDiv.style.display = 'block';
-            
-            // 隐藏确认按钮
-            document.getElementById('importConfirmBtn').style.display = 'none';
-            
-            // 刷新图书列表
-            setTimeout(() => {
-                loadBooks();
-                updateStats();
-            }, 500);
-        }
-        
-        function downloadBookImportTemplate() {
-            // 创建示例数据
-            const templateData = [
-                {
-                    'ISBN': '9787115275790',
-                    '书名': 'JavaScript高级程序设计',
-                    '作者': 'Nicholas C. Zakas',
-                    '出版社': '人民邮电出版社',
-                    '分类': '科技',
-                    '书房': '主书房',
-                    '标签': '编程,JavaScript,前端'
-                },
-                {
-                    'ISBN': '9787115428028',
-                    '书名': 'Python编程从入门到实践',
-                    '作者': 'Eric Matthes',
-                    '出版社': '人民邮电出版社',
-                    '分类': '科技',
-                    '书房': '工作书房',
-                    '标签': '编程,Python,入门'
-                }
-            ];
-            
-            // 创建工作表
-            const ws = XLSX.utils.json_to_sheet(templateData);
-            
-            // 设置列宽
-            const wscols = [
-                {wch: 15}, // ISBN
-                {wch: 30}, // 书名
-                {wch: 20}, // 作者
-                {wch: 25}, // 出版社
-                {wch: 10}, // 分类
-                {wch: 10}, // 书房
-                {wch: 20}  // 标签
-            ];
-            ws['!cols'] = wscols;
-            
-            // 创建工作簿
-            const wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, ws, "图书导入模板");
-            
-            // 生成Excel文件并下载
-            XLSX.writeFile(wb, "图书导入模板.xlsx");
-            
-            alert('图书模板文件已下载！请按照模板格式填写数据。');
-        }
-        
-        // ==================== 导出功能 ====================
-        function exportToExcel() {
-            const books = JSON.parse(localStorage.getItem('library_books') || '[]');
-            const students = JSON.parse(localStorage.getItem('library_students') || '[]');
-            
-            if (books.length === 0 && students.length === 0) {
-                alert('没有数据可以导出！');
-                return;
-            }
-            
-            // 创建工作簿
-            const wb = XLSX.utils.book_new();
-            
-            // 添加图书数据表
-            if (books.length > 0) {
-                const bookData = books.map(book => {
-                    let borrowerInfo = '';
-                    let borrowDate = '';
-                    let dueDate = '';
-                    
-                    if (book.status === 'borrowed' && book.borrowHistory && book.borrowHistory.length > 0) {
-                        const latestBorrow = book.borrowHistory[book.borrowHistory.length - 1];
-                        if (!latestBorrow.returnDate) {
-                            borrowerInfo = `${latestBorrow.borrowerName}（${latestBorrow.borrowerInfo}）`;
-                            borrowDate = latestBorrow.borrowDate;
-                            dueDate = latestBorrow.dueDate;
-                        }
-                    }
-                    
-                    return {
-                        'ISBN': book.isbn,
-                        '书名': book.title,
-                        '作者': book.author,
-                        '出版社': book.publisher || '',
-                        '分类': book.category || '未分类',
-                        '状态': book.status === 'available' ? '可借' : '已借出',
-                        '书房': book.library || '主书房',
-                        '标签': book.tags ? book.tags.join(', ') : '',
-                        '当前借阅人': borrowerInfo,
-                        '借阅日期': borrowDate,
-                        '应还日期': dueDate,
-                        '借阅次数': book.borrowHistory ? book.borrowHistory.length : 0
-                    };
-                });
-                
-                const ws1 = XLSX.utils.json_to_sheet(bookData);
-                XLSX.utils.book_append_sheet(wb, ws1, "图书数据");
-            }
-            
-            // 添加学生数据表
+        // 页面加载时显示学生总数
+        window.onload = function() {
+            const students = JSON.parse(localStorage.getItem('students') || '[]');
             if (students.length > 0) {
-                const studentData = students.map(student => {
-                    const currentBorrows = getStudentCurrentBorrows(student.id);
-                    
-                    return {
-                        '学号': student.studentId,
-                        '姓名': student.name,
-                        '年级': student.grade,
-                        '班级': student.class,
-                        '联系电话': student.phone || '',
-                        '邮箱': student.email || '',
-                        '家庭住址': student.address || '',
-                        '备注': student.notes || '',
-                        '总借阅次数': student.borrowCount || 0,
-                        '当前借阅': currentBorrows,
-                        '注册时间': student.createdAt || ''
-                    };
-                });
-                
-                const ws2 = XLSX.utils.json_to_sheet(studentData);
-                XLSX.utils.book_append_sheet(wb, ws2, "学生数据");
+                document.getElementById('studentCount').style.display = 'block';
+                document.getElementById('totalStudents').textContent = students.length;
             }
-            
-            // 生成Excel文件并下载
-            const fileName = `图书馆数据_${new Date().toISOString().split('T')[0]}.xlsx`;
-            XLSX.writeFile(wb, fileName);
-            
-            alert(`Excel文件已生成并下载！文件名：${fileName}`);
-        }
-        
-        // ==================== 工具函数 ====================
-        function updateStats() {
-            const books = JSON.parse(localStorage.getItem('library_books') || '[]');
-            const students = JSON.parse(localStorage.getItem('library_students') || '[]');
-            
-            const totalBooks = books.length;
-            const availableBooks = books.filter(b => b.status === 'available').length;
-            const borrowedBooks = totalBooks - availableBooks;
-            
-            // 计算逾期图书
-            const overdueBooks = books.filter(book => {
-                if (book.status === 'borrowed' && book.borrowHistory && book.borrowHistory.length > 0) {
-                    const latestBorrow = book.borrowHistory[book.borrowHistory.length - 1];
-                    if (!latestBorrow.returnDate && latestBorrow.dueDate) {
-                        const dueDate = new Date(latestBorrow.dueDate);
-                        const today = new Date();
-                        return dueDate < today;
-                    }
-                }
-                return false;
-            });
-            
-            document.getElementById('totalBooks').textContent = totalBooks;
-            document.getElementById('availableBooks').textContent = availableBooks;
-            document.getElementById('borrowedBooks').textContent = borrowedBooks;
-            document.getElementById('studentCount').textContent = students.length;
-            document.getElementById('overdueBooks').textContent = overdueBooks.length;
-        }
-        
-        function showModal(modalId) {
-            document.getElementById(modalId).style.display = 'flex';
-        }
-        
-        function closeModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-        }
-        
-        function showAddBook() {
-            document.getElementById('addBookForm').reset();
-            showModal('addBookModal');
-        }
-        
-        // 添加图书表单提交
-        document.getElementById('addBookForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const books = JSON.parse(localStorage.getItem('library_books') || '[]');
-            const newId = books.length > 0 ? Math.max(...books.map(b => b.id)) + 1 : 1;
-            
-            const newBook = {
-                id: newId,
-                isbn: document.getElementById('bookISBN').value,
-                title: document.getElementById('bookTitle').value,
-                author: document.getElementById('bookAuthor').value,
-                publisher: document.getElementById('bookPublisher').value,
-                category: document.getElementById('bookCategory').value,
-                status: 'available',
-                library: document.getElementById('bookLibrary').value,
-                tags: document.getElementById('bookTags').value.split(',').map(tag => tag.trim()).filter(tag => tag),
-                borrowHistory: []
-            };
-            
-            books.push(newBook);
-            localStorage.setItem('library_books', JSON.stringify(books));
-            
-            loadBooks();
-            updateStats();
-            closeModal('addBookModal');
-            
-            alert('图书添加成功！');
-        });
-        
-        // ==================== 页面加载 ====================
-        document.addEventListener('DOMContentLoaded', function() {
-            initData();
-            
-            // 检查是否已登录
-            if (localStorage.getItem('current_user')) {
-                currentUser = JSON.parse(localStorage.getItem('current_user'));
-                document.getElementById('currentUser').textContent = currentUser.username;
-                document.getElementById('loginPage').style.display = 'none';
-                document.getElementById('mainPage').style.display = 'block';
-                loadBooks();
-                loadStudentsTable();
-                updateStats();
-            }
-        });
+        };
     </script>
 </body>
 </html>
