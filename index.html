@@ -15,195 +15,583 @@
         
         body {
             font-family: 'Microsoft YaHei', Arial, sans-serif;
-            background-color: #f5f7fa;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             padding: 20px;
-            line-height: 1.6;
         }
         
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
-            padding: 30px;
+        /* 登录页面样式 */
+        .login-container {
+            width: 100%;
+            max-width: 400px;
         }
         
-        header {
+        .login-box {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
             text-align: center;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid #eaeaea;
         }
         
-        h1 {
+        .login-title {
             color: #2c3e50;
             margin-bottom: 10px;
+            font-size: 28px;
         }
         
-        .description {
+        .login-subtitle {
             color: #7f8c8d;
+            margin-bottom: 30px;
             font-size: 16px;
         }
         
-        .main-content {
-            display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: 30px;
+        .login-icon {
+            font-size: 60px;
+            color: #3498db;
+            margin-bottom: 20px;
         }
         
-        .upload-section {
-            background-color: #f8f9fa;
-            padding: 25px;
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #2c3e50;
+            font-weight: 500;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
             border-radius: 8px;
-            border: 2px dashed #dee2e6;
+            font-size: 14px;
+            transition: all 0.3s ease;
         }
         
-        .btn {
-            display: inline-block;
-            padding: 12px 24px;
-            background-color: #3498db;
+        .form-control:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+        
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
             color: white;
             border: none;
-            border-radius: 6px;
-            cursor: pointer;
+            border-radius: 8px;
             font-size: 16px;
             font-weight: 500;
+            cursor: pointer;
             transition: all 0.3s ease;
-            text-align: center;
+            margin-top: 10px;
         }
         
-        .btn:hover {
-            background-color: #2980b9;
+        .login-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+            box-shadow: 0 5px 20px rgba(46, 204, 113, 0.3);
         }
         
-        .btn-primary {
-            background-color: #2ecc71;
+        .register-link {
+            margin-top: 20px;
+            color: #7f8c8d;
         }
         
-        .btn-primary:hover {
-            background-color: #27ae60;
-            box-shadow: 0 4px 12px rgba(46, 204, 113, 0.3);
+        .register-link a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 500;
         }
         
-        .btn-secondary {
-            background-color: #95a5a6;
+        .register-link a:hover {
+            text-decoration: underline;
         }
         
-        .btn-secondary:hover {
-            background-color: #7f8c8d;
-            box-shadow: 0 4px 12px rgba(149, 165, 166, 0.3);
-        }
-        
-        .btn-danger {
-            background-color: #e74c3c;
-        }
-        
-        .btn-danger:hover {
-            background-color: #c0392b;
-            box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
-        }
-        
-        .file-input {
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
             display: none;
         }
         
-        .file-label {
-            display: block;
-            padding: 40px 20px;
-            text-align: center;
-            border: 3px dashed #3498db;
+        /* 主系统容器 */
+        .system-container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+            display: none;
+        }
+        
+        /* 顶部导航栏 */
+        .top-navbar {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 0 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+        
+        .navbar-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .system-title {
+            font-size: 22px;
+            font-weight: 600;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+        
+        .logout-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .logout-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        /* 主体布局 */
+        .main-content {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            min-height: 800px;
+        }
+        
+        /* 侧边栏 */
+        .sidebar {
+            background: linear-gradient(180deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 25px;
+        }
+        
+        .nav-section {
+            margin-bottom: 30px;
+        }
+        
+        .nav-section h3 {
+            color: #3498db;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(52, 152, 219, 0.3);
+            font-size: 16px;
+        }
+        
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 15px;
+            margin-bottom: 8px;
             border-radius: 8px;
             cursor: pointer;
-            margin: 20px 0;
             transition: all 0.3s ease;
+            color: #ecf0f1;
         }
         
-        .file-label:hover {
-            background-color: rgba(52, 152, 219, 0.1);
-            border-color: #2980b9;
+        .nav-item:hover {
+            background: rgba(52, 152, 219, 0.2);
+            transform: translateX(5px);
         }
         
-        .file-icon {
-            font-size: 48px;
-            color: #3498db;
-            margin-bottom: 10px;
+        .nav-item.active {
+            background: #3498db;
+            color: white;
+            font-weight: 500;
         }
         
-        .file-text {
+        .nav-icon {
             font-size: 18px;
-            color: #2c3e50;
-            margin-bottom: 5px;
+            width: 24px;
+            text-align: center;
         }
         
-        .file-hint {
+        /* 内容区域 */
+        .content-area {
+            padding: 30px;
+            background: #f8f9fa;
+            overflow-y: auto;
+            max-height: 800px;
+        }
+        
+        /* 统计数据栏 */
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+        
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2ecc71;
+        }
+        
+        .stat-label {
             font-size: 14px;
             color: #7f8c8d;
+            margin-top: 5px;
         }
         
-        .preview-section {
-            padding: 20px;
+        /* 功能卡片 */
+        .function-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
         }
         
-        .preview-header {
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            border-color: #3498db;
+        }
+        
+        .card-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+            color: #3498db;
+        }
+        
+        .card h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        
+        .card p {
+            color: #7f8c8d;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        /* 表格容器 */
+        .table-container {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            margin-top: 20px;
+        }
+        
+        .table-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
         }
         
-        .preview-title {
-            font-size: 20px;
+        .table-title {
             color: #2c3e50;
+            font-size: 20px;
             font-weight: 600;
         }
         
-        .preview-table {
+        .table-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(46, 204, 113, 0.3);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+        }
+        
+        .btn-danger {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+        }
+        
+        .btn-warning {
+            background: linear-gradient(135deg, #f39c12 0%, #d68910 100%);
+            color: white;
+        }
+        
+        .btn-warning:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(243, 156, 18, 0.3);
+        }
+        
+        /* 学生表格 */
+        .students-table {
             width: 100%;
             border-collapse: collapse;
-            border: 1px solid #e0e0e0;
-            border-radius: 6px;
-            overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            margin-top: 20px;
         }
         
-        .preview-table th {
-            background-color: #3498db;
+        .students-table th {
+            background: #3498db;
             color: white;
-            padding: 12px 15px;
+            padding: 15px;
             text-align: left;
             font-weight: 600;
-            border-right: 1px solid rgba(255,255,255,0.2);
+            position: sticky;
+            top: 0;
         }
         
-        .preview-table th:last-child {
-            border-right: none;
+        .students-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
         }
         
-        .preview-table td {
-            padding: 10px 15px;
-            border-bottom: 1px solid #e0e0e0;
-            border-right: 1px solid #e0e0e0;
+        .students-table tr:hover {
+            background-color: #f5f9ff;
         }
         
-        .preview-table tr:last-child td {
-            border-bottom: none;
+        .students-table tr.selected {
+            background-color: #e8f4fc;
         }
         
-        .preview-table tr:hover {
-            background-color: #f8f9fa;
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
         }
         
-        .preview-table tr:nth-child(even) {
-            background-color: #fafafa;
+        .status-active {
+            background: #d4edda;
+            color: #155724;
         }
         
-        .preview-table tr:nth-child(even):hover {
-            background-color: #f1f3f4;
+        .status-graduate {
+            background: #f8d7da;
+            color: #721c24;
         }
         
+        /* 搜索框 */
+        .search-box {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 12px 20px 12px 45px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #7f8c8d;
+            font-size: 18px;
+        }
+        
+        /* 选择控制 */
+        .select-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #eaeaea;
+        }
+        
+        .select-all-checkbox {
+            transform: scale(1.2);
+            margin-right: 8px;
+            cursor: pointer;
+        }
+        
+        /* 分页 */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .page-btn {
+            padding: 8px 15px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .page-btn:hover {
+            background: #f5f5f5;
+        }
+        
+        .page-btn.active {
+            background: #3498db;
+            color: white;
+            border-color: #3498db;
+        }
+        
+        .page-info {
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+        
+        /* 文件上传区域 */
+        .file-upload-area {
+            border: 3px dashed #3498db;
+            border-radius: 12px;
+            padding: 40px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+            background: #f8f9fa;
+        }
+        
+        .file-upload-area:hover {
+            background: #e8f4fc;
+            border-color: #2980b9;
+        }
+        
+        .upload-icon {
+            font-size: 48px;
+            color: #3498db;
+            margin-bottom: 15px;
+        }
+        
+        .upload-text {
+            font-size: 16px;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        
+        .upload-hint {
+            font-size: 14px;
+            color: #7f8c8d;
+        }
+        
+        /* 空状态 */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #95a5a6;
+        }
+        
+        .empty-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+        
+        .empty-text {
+            font-size: 18px;
+            color: #7f8c8d;
+        }
+        
+        /* 模态框 */
         .modal {
             display: none;
             position: fixed;
@@ -211,27 +599,40 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0,0,0,0.5);
-            z-index: 1000;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
             justify-content: center;
             align-items: center;
+            backdrop-filter: blur(5px);
         }
         
         .modal-content {
-            background-color: white;
-            border-radius: 10px;
+            background: white;
+            border-radius: 15px;
             width: 90%;
-            max-width: 800px;
+            max-width: 500px;
             max-height: 90vh;
             overflow-y: auto;
-            box-shadow: 0 5px 30px rgba(0,0,0,0.2);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: modalSlideIn 0.3s ease;
+        }
+        
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
         
         .modal-header {
-            padding: 20px 25px;
-            background-color: #3498db;
+            padding: 25px 30px;
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
             color: white;
-            border-radius: 10px 10px 0 0;
+            border-radius: 15px 15px 0 0;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -248,8 +649,6 @@
             color: white;
             font-size: 28px;
             cursor: pointer;
-            line-height: 1;
-            padding: 0;
             width: 30px;
             height: 30px;
             display: flex;
@@ -258,165 +657,56 @@
         }
         
         .modal-body {
-            padding: 25px;
+            padding: 30px;
         }
         
         .modal-footer {
-            padding: 20px 25px;
-            border-top: 1px solid #eaeaea;
+            padding: 20px 30px;
+            border-top: 1px solid #eee;
             display: flex;
             justify-content: flex-end;
             gap: 15px;
         }
         
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-        
-        .stat-card {
-            background-color: white;
-            border-radius: 8px;
-            padding: 20px;
-            text-align: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-            border: 1px solid #eaeaea;
-        }
-        
-        .stat-value {
-            font-size: 28px;
-            font-weight: 700;
-            margin-bottom: 5px;
-        }
-        
-        .stat-label {
-            font-size: 14px;
-            color: #7f8c8d;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        
-        .stat-total .stat-value {
-            color: #3498db;
-        }
-        
-        .stat-success .stat-value {
-            color: #2ecc71;
-        }
-        
-        .stat-skip .stat-value {
-            color: #f39c12;
-        }
-        
-        .stat-error .stat-value {
-            color: #e74c3c;
-        }
-        
-        .success-message {
-            background-color: #d4edda;
-            color: #155724;
-            padding: 15px;
-            border-radius: 6px;
-            margin-top: 20px;
-            border: 1px solid #c3e6cb;
-            display: none;
-        }
-        
-        .error-message {
-            background-color: #f8d7da;
-            color: #721c24;
-            padding: 15px;
-            border-radius: 6px;
-            margin-top: 20px;
-            border: 1px solid #f5c6cb;
-            display: none;
-        }
-        
-        .actions {
+        /* 操作按钮组 */
+        .action-buttons {
             display: flex;
-            gap: 15px;
-            margin-top: 20px;
-            flex-wrap: wrap;
+            gap: 5px;
         }
         
-        .student-count {
-            font-size: 18px;
-            color: #2c3e50;
-            margin: 20px 0;
-            padding: 10px 15px;
-            background-color: #f8f9fa;
-            border-radius: 6px;
-            border-left: 4px solid #3498db;
-        }
-        
-        .empty-state {
-            text-align: center;
-            padding: 50px 20px;
-            color: #95a5a6;
-        }
-        
-        .empty-icon {
-            font-size: 60px;
-            margin-bottom: 20px;
-            opacity: 0.5;
-        }
-        
-        .empty-text {
-            font-size: 18px;
-        }
-        
-        /* 全选控制样式 */
-        .select-controls {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 15px;
-            padding: 12px;
-            background-color: #f8f9fa;
-            border-radius: 6px;
-            border: 1px solid #eaeaea;
-        }
-        
-        .select-all-checkbox {
-            transform: scale(1.2);
-            margin-right: 8px;
+        .action-btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
             cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s ease;
         }
         
-        .select-label {
-            font-weight: 500;
-            color: #2c3e50;
+        .action-btn.edit {
+            background: #3498db;
+            color: white;
         }
         
-        .selected-count {
-            color: #3498db;
-            font-weight: 600;
+        .action-btn.delete {
+            background: #e74c3c;
+            color: white;
         }
         
-        .row-checkbox {
-            transform: scale(1.1);
-            cursor: pointer;
+        .action-btn.view {
+            background: #2ecc71;
+            color: white;
         }
         
-        /* 批量操作工具栏 */
-        .batch-toolbar {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 15px;
-            padding: 12px;
-            background-color: #fff3cd;
-            border-radius: 6px;
-            border: 1px solid #ffeaa7;
-            display: none;
-        }
-        
-        .batch-info {
-            flex-grow: 1;
-            color: #856404;
-            font-weight: 500;
+        /* 响应式设计 */
+        @media (max-width: 1200px) {
+            .main-content {
+                grid-template-columns: 250px 1fr;
+            }
+            
+            .stats-bar {
+                grid-template-columns: repeat(3, 1fr);
+            }
         }
         
         @media (max-width: 992px) {
@@ -424,242 +714,1031 @@
                 grid-template-columns: 1fr;
             }
             
-            .stats {
+            .sidebar {
+                display: none;
+            }
+            
+            .stats-bar {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .function-cards {
                 grid-template-columns: repeat(2, 1fr);
             }
         }
         
-        @media (max-width: 576px) {
-            .container {
-                padding: 15px;
-            }
-            
-            .stats {
+        @media (max-width: 768px) {
+            .stats-bar {
                 grid-template-columns: 1fr;
             }
             
-            .actions {
-                flex-direction: column;
+            .function-cards {
+                grid-template-columns: 1fr;
             }
             
-            .btn {
+            .table-actions {
                 width: 100%;
             }
             
-            .select-controls {
-                flex-direction: column;
-                align-items: flex-start;
+            .table-actions .btn {
+                flex: 1;
+                justify-content: center;
             }
             
-            .batch-toolbar {
-                flex-direction: column;
-                align-items: stretch;
+            .top-navbar {
+                padding: 0 15px;
             }
-        }
-        
-        .help-text {
-            margin-top: 20px;
-            padding: 15px;
-            background-color: #f8f9fa;
-            border-radius: 6px;
-            border-left: 4px solid #3498db;
-        }
-        
-        .help-text h3 {
-            color: #2c3e50;
-            margin-bottom: 10px;
-        }
-        
-        .help-text ul {
-            margin-left: 20px;
-            color: #555;
-        }
-        
-        .help-text li {
-            margin-bottom: 8px;
+            
+            .login-box {
+                padding: 30px 20px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>学生信息管理系统</h1>
-            <p class="description">通过Excel文件批量导入学生信息，支持.xlsx、.xls、.csv格式</p>
-        </header>
-        
-        <div class="main-content">
-            <div class="upload-section">
-                <h2 style="color: #2c3e50; margin-bottom: 20px;">导入学生信息</h2>
-                <p style="color: #7f8c8d; margin-bottom: 25px;">选择包含学生信息的Excel文件，系统将自动解析并显示预览。</p>
-                
-                <input type="file" id="excelFile" class="file-input" accept=".xlsx,.xls,.csv" onchange="handleExcelUpload(event)">
-                <label for="excelFile" class="file-label">
-                    <div class="file-icon">📁</div>
-                    <div class="file-text">点击选择Excel文件</div>
-                    <div class="file-hint">支持 .xlsx, .xls, .csv 格式</div>
-                </label>
-                
-                <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 20px;">
-                    <button class="btn btn-secondary" onclick="clearAllData()">
-                        🗑️ 清空所有数据
-                    </button>
-                    
-                    <button class="btn" onclick="showAllStudents()">
-                        👥 查看所有学生
-                    </button>
-                    
-                    <button class="btn btn-danger" onclick="showDeleteModal()">
-                        🗑️ 批量删除学生
-                    </button>
+    <!-- 登录页面 -->
+    <div id="loginPage" class="login-container">
+        <div class="login-box">
+            <div class="login-icon">🎓</div>
+            <h1 class="login-title">学生信息管理系统</h1>
+            <p class="login-subtitle">欢迎登录，请使用您的账号密码</p>
+            
+            <div id="loginError" class="error-message"></div>
+            
+            <form id="loginForm" onsubmit="login(event)">
+                <div class="form-group">
+                    <label for="username">用户名</label>
+                    <input type="text" id="username" class="form-control" placeholder="请输入用户名" required>
                 </div>
                 
-                <div class="help-text">
-                    <h3>Excel文件格式说明</h3>
-                    <ul>
-                        <li>第一行应为表头，包含字段名</li>
-                        <li>支持的字段：学号、姓名、性别、班级、专业、学院、邮箱、入学日期、出生日期、籍贯、民族、政治面貌</li>
-                        <li>必填字段：学号、姓名</li>
-                        <li>日期格式：YYYY-MM-DD 或 YYYY/MM/DD</li>
-                    </ul>
+                <div class="form-group">
+                    <label for="password">密码</label>
+                    <input type="password" id="password" class="form-control" placeholder="请输入密码" required>
+                </div>
+                
+                <button type="submit" class="login-btn">🔐 登录系统</button>
+            </form>
+            
+            <div class="register-link">
+                还没有账号？<a href="javascript:void(0)" onclick="showRegister()">立即注册</a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 注册页面 -->
+    <div id="registerPage" class="login-container" style="display: none;">
+        <div class="login-box">
+            <div class="login-icon">📝</div>
+            <h1 class="login-title">用户注册</h1>
+            <p class="login-subtitle">创建新的管理员账号</p>
+            
+            <div id="registerError" class="error-message"></div>
+            
+            <form id="registerForm" onsubmit="register(event)">
+                <div class="form-group">
+                    <label for="regUsername">用户名</label>
+                    <input type="text" id="regUsername" class="form-control" placeholder="请输入用户名（至少3位）" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="regPassword">密码</label>
+                    <input type="password" id="regPassword" class="form-control" placeholder="请输入密码（至少6位）" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="confirmPassword">确认密码</label>
+                    <input type="password" id="confirmPassword" class="form-control" placeholder="请再次输入密码" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="regRealName">真实姓名</label>
+                    <input type="text" id="regRealName" class="form-control" placeholder="请输入您的真实姓名" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="regEmail">电子邮箱</label>
+                    <input type="email" id="regEmail" class="form-control" placeholder="请输入电子邮箱" required>
+                </div>
+                
+                <button type="submit" class="login-btn">✅ 注册账号</button>
+            </form>
+            
+            <div class="register-link">
+                已有账号？<a href="javascript:void(0)" onclick="showLogin()">返回登录</a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 主系统页面 -->
+    <div id="systemPage" class="system-container">
+        <!-- 顶部导航栏 -->
+        <div class="top-navbar">
+            <div class="navbar-left">
+                <div class="user-avatar" id="userAvatar">👤</div>
+                <div>
+                    <div class="system-title">学生信息管理系统</div>
+                    <div style="font-size: 12px; color: rgba(255,255,255,0.8);">
+                        欢迎您，<span id="currentUserName">管理员</span>
+                    </div>
                 </div>
             </div>
             
-            <div class="preview-section">
-                <div class="preview-header">
-                    <div class="preview-title">数据预览</div>
-                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                        <button id="importConfirmBtn" class="btn btn-primary" onclick="confirmImport()" style="display: none;">
+            <div class="user-info">
+                <button class="logout-btn" onclick="logout()">
+                    <span>🚪</span>
+                    <span>退出登录</span>
+                </button>
+            </div>
+        </div>
+        
+        <!-- 主体内容 -->
+        <div class="main-content">
+            <!-- 侧边栏 -->
+            <div class="sidebar">
+                <div class="nav-section">
+                    <h3>📋 主要功能</h3>
+                    <div class="nav-item active" onclick="showDashboard()">
+                        <div class="nav-icon">📊</div>
+                        <span>数据看板</span>
+                    </div>
+                    <div class="nav-item" onclick="showAllStudents()">
+                        <div class="nav-icon">👥</div>
+                        <span>所有学生</span>
+                    </div>
+                    <div class="nav-item" onclick="showImportSection()">
+                        <div class="nav-icon">📥</div>
+                        <span>导入数据</span>
+                    </div>
+                    <div class="nav-item" onclick="showExportSection()">
+                        <div class="nav-icon">📤</div>
+                        <span>导出数据</span>
+                    </div>
+                </div>
+                
+                <div class="nav-section">
+                    <h3>🔧 数据管理</h3>
+                    <div class="nav-item" onclick="showAddStudent()">
+                        <div class="nav-icon">➕</div>
+                        <span>添加学生</span>
+                    </div>
+                    <div class="nav-item" onclick="showBatchDelete()">
+                        <div class="nav-icon">🗑️</div>
+                        <span>批量删除</span>
+                    </div>
+                    <div class="nav-item" onclick="showSearchSection()">
+                        <div class="nav-icon">🔍</div>
+                        <span>搜索学生</span>
+                    </div>
+                    <div class="nav-item" onclick="showStatistics()">
+                        <div class="nav-icon">📈</div>
+                        <span>数据统计</span>
+                    </div>
+                </div>
+                
+                <div class="nav-section">
+                    <h3>👤 用户管理</h3>
+                    <div class="nav-item" onclick="showUserProfile()">
+                        <div class="nav-icon">👤</div>
+                        <span>个人资料</span>
+                    </div>
+                    <div class="nav-item" onclick="showChangePassword()">
+                        <div class="nav-icon">🔒</div>
+                        <span>修改密码</span>
+                    </div>
+                    <div class="nav-item" onclick="manageUsers()">
+                        <div class="nav-icon">👥</div>
+                        <span>用户管理</span>
+                    </div>
+                </div>
+                
+                <div class="nav-section">
+                    <h3>⚙️ 系统设置</h3>
+                    <div class="nav-item" onclick="backupData()">
+                        <div class="nav-icon">💾</div>
+                        <span>数据备份</span>
+                    </div>
+                    <div class="nav-item" onclick="restoreData()">
+                        <div class="nav-icon">🔄</div>
+                        <span>数据恢复</span>
+                    </div>
+                    <div class="nav-item" onclick="clearAllData()">
+                        <div class="nav-icon">🗑️</div>
+                        <span>清空数据</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 内容区域 -->
+            <div class="content-area">
+                <!-- 数据看板 -->
+                <div id="dashboardContent">
+                    <h2 style="color: #2c3e50; margin-bottom: 25px;">📊 系统功能概览</h2>
+                    
+                    <!-- 统计数据 -->
+                    <div class="stats-bar">
+                        <div class="stat-card">
+                            <div class="stat-value" id="totalStudents">0</div>
+                            <div class="stat-label">学生总数</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="activeStudents">0</div>
+                            <div class="stat-label">在读学生</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="graduateStudents">0</div>
+                            <div class="stat-label">已毕业</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="maleStudents">0</div>
+                            <div class="stat-label">男生</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="femaleStudents">0</div>
+                            <div class="stat-label">女生</div>
+                        </div>
+                    </div>
+                    
+                    <!-- 功能卡片 -->
+                    <div class="function-cards">
+                        <div class="card" onclick="showAllStudents()">
+                            <div class="card-icon">👥</div>
+                            <h3>查看所有学生</h3>
+                            <p>浏览系统中的所有学生信息，支持搜索、筛选和排序功能。</p>
+                        </div>
+                        
+                        <div class="card" onclick="showImportSection()">
+                            <div class="card-icon">📥</div>
+                            <h3>Excel导入</h3>
+                            <p>通过Excel文件批量导入学生信息，支持.xlsx、.xls、.csv格式。</p>
+                        </div>
+                        
+                        <div class="card" onclick="showAddStudent()">
+                            <div class="card-icon">➕</div>
+                            <h3>添加学生</h3>
+                            <p>手动添加单个学生信息，填写详细的学生资料。</p>
+                        </div>
+                        
+                        <div class="card" onclick="showBatchDelete()">
+                            <div class="card-icon">🗑️</div>
+                            <h3>批量删除</h3>
+                            <p>批量选择并删除学生信息，支持全选和条件筛选。</p>
+                        </div>
+                        
+                        <div class="card" onclick="showExportSection()">
+                            <div class="card-icon">📤</div>
+                            <h3>导出数据</h3>
+                            <p>将学生数据导出为Excel文件，方便备份和分享。</p>
+                        </div>
+                        
+                        <div class="card" onclick="showUserProfile()">
+                            <div class="card-icon">👤</div>
+                            <h3>个人资料</h3>
+                            <p>查看和修改您的个人资料信息，管理账号设置。</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 学生列表 -->
+                <div id="studentsContent" class="table-container" style="display: none;">
+                    <div class="table-header">
+                        <div class="table-title">👥 学生信息列表</div>
+                        <div class="table-actions">
+                            <button class="btn btn-primary" onclick="showAddStudent()">➕ 添加学生</button>
+                            <button class="btn btn-secondary" onclick="showImportSection()">📥 导入Excel</button>
+                            <button class="btn btn-danger" onclick="showBatchDelete()">🗑️ 批量删除</button>
+                            <button class="btn btn-warning" onclick="exportToExcel()">📤 导出Excel</button>
+                        </div>
+                    </div>
+                    
+                    <div class="search-box">
+                        <input type="text" class="search-input" placeholder="🔍 搜索学生（学号、姓名、专业、班级...）" 
+                               onkeyup="searchStudents(this.value)" id="searchInput">
+                        <div class="search-icon">🔍</div>
+                    </div>
+                    
+                    <div class="select-controls">
+                        <input type="checkbox" id="selectAllStudents" class="select-all-checkbox" 
+                               onchange="toggleSelectAllStudents(this)">
+                        <label for="selectAllStudents" style="cursor: pointer; font-weight: 500;">
+                            全选本页学生
+                        </label>
+                        <span style="color: #3498db; font-weight: 600;">
+                            已选择：<span id="selectedCount">0</span> 名
+                        </span>
+                        <button class="btn btn-danger" onclick="deleteSelectedStudents()" style="margin-left: auto;">
+                            🗑️ 删除选中
+                        </button>
+                    </div>
+                    
+                    <div style="overflow-x: auto;">
+                        <table class="students-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 50px;">选择</th>
+                                    <th>学号</th>
+                                    <th>姓名</th>
+                                    <th>性别</th>
+                                    <th>班级</th>
+                                    <th>专业</th>
+                                    <th>学院</th>
+                                    <th>状态</th>
+                                    <th style="width: 150px;">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="studentsTableBody">
+                                <!-- 学生数据将通过JavaScript动态加载 -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="pagination">
+                        <button class="page-btn" onclick="changePage(-1)">◀ 上一页</button>
+                        <span class="page-info" id="pageInfo">第 1 页 / 共 1 页</span>
+                        <button class="page-btn" onclick="changePage(1)">下一页 ▶</button>
+                    </div>
+                </div>
+                
+                <!-- 导入数据区域 -->
+                <div id="importContent" class="table-container" style="display: none;">
+                    <div class="table-header">
+                        <div class="table-title">📥 Excel导入学生数据</div>
+                    </div>
+                    
+                    <div class="file-upload-area" onclick="document.getElementById('excelFile').click()">
+                        <div class="upload-icon">📁</div>
+                        <div class="upload-text">点击选择Excel文件或拖拽文件到这里</div>
+                        <div class="upload-hint">支持 .xlsx, .xls, .csv 格式，请确保第一行为表头</div>
+                    </div>
+                    
+                    <input type="file" id="excelFile" accept=".xlsx,.xls,.csv" style="display: none;" 
+                           onchange="handleExcelUpload(event)">
+                    
+                    <div id="importPreview" style="margin-top: 30px;">
+                        <div class="empty-state">
+                            <div class="empty-icon">📊</div>
+                            <div class="empty-text">请上传Excel文件查看数据预览</div>
+                        </div>
+                    </div>
+                    
+                    <div class="modal-footer" style="margin-top: 20px; padding: 0;">
+                        <button class="btn btn-primary" id="importConfirmBtn" onclick="confirmImport()" style="display: none;">
                             ✅ 确认导入
                         </button>
-                        <button class="btn btn-secondary" onclick="clearPreview()">
+                        <button class="btn btn-secondary" onclick="clearImportPreview()">
                             🗑️ 清空预览
                         </button>
                     </div>
                 </div>
                 
-                <div id="studentCount" class="student-count" style="display: none;">
-                    当前共有 <span id="totalStudents">0</span> 名学生
+                <!-- 添加学生区域 -->
+                <div id="addStudentContent" class="table-container" style="display: none;">
+                    <div class="table-header">
+                        <div class="table-title">➕ 添加新学生</div>
+                    </div>
+                    
+                    <form id="addStudentForm" onsubmit="addNewStudent(event)">
+                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+                            <div class="form-group">
+                                <label for="studentId">学号 *</label>
+                                <input type="text" id="studentId" class="form-control" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="name">姓名 *</label>
+                                <input type="text" id="name" class="form-control" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="gender">性别</label>
+                                <select id="gender" class="form-control">
+                                    <option value="男">男</option>
+                                    <option value="女">女</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="className">班级</label>
+                                <input type="text" id="className" class="form-control">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="major">专业</label>
+                                <input type="text" id="major" class="form-control">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="college">学院</label>
+                                <input type="text" id="college" class="form-control">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="email">邮箱</label>
+                                <input type="email" id="email" class="form-control">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="birthDate">出生日期</label>
+                                <input type="date" id="birthDate" class="form-control">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="enrollmentDate">入学日期</label>
+                                <input type="date" id="enrollmentDate" class="form-control">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="hometown">籍贯</label>
+                                <input type="text" id="hometown" class="form-control">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="ethnicity">民族</label>
+                                <input type="text" id="ethnicity" class="form-control">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="politicalStatus">政治面貌</label>
+                                <select id="politicalStatus" class="form-control">
+                                    <option value="">请选择</option>
+                                    <option value="群众">群众</option>
+                                    <option value="共青团员">共青团员</option>
+                                    <option value="中共党员">中共党员</option>
+                                    <option value="其他">其他</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="status">状态</label>
+                                <select id="status" class="form-control">
+                                    <option value="在读">在读</option>
+                                    <option value="休学">休学</option>
+                                    <option value="毕业">毕业</option>
+                                    <option value="退学">退学</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="modal-footer" style="margin-top: 30px; padding: 0;">
+                            <button type="button" class="btn btn-secondary" onclick="showDashboard()">
+                                取消
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                ✅ 添加学生
+                            </button>
+                        </div>
+                    </form>
                 </div>
                 
-                <!-- 批量操作工具栏 -->
-                <div id="batchToolbar" class="batch-toolbar">
-                    <div class="batch-info">
-                        已选择 <span id="selectedCount">0</span> 名学生
+                <!-- 个人资料区域 -->
+                <div id="profileContent" class="table-container" style="display: none;">
+                    <div class="table-header">
+                        <div class="table-title">👤 个人资料</div>
                     </div>
-                    <button class="btn btn-danger" onclick="deleteSelected()">
-                        🗑️ 删除选中
-                    </button>
-                    <button class="btn btn-secondary" onclick="clearSelection()">
-                        ✖️ 取消选择
-                    </button>
-                </div>
-                
-                <div id="importPreview">
-                    <div class="empty-state">
-                        <div class="file-icon">📊</div>
-                        <div class="empty-text">请上传Excel文件查看数据预览</div>
+                    
+                    <div id="profileInfo" style="padding: 20px;">
+                        <!-- 个人资料将通过JavaScript动态加载 -->
                     </div>
                 </div>
                 
-                <div id="importSuccess" class="success-message"></div>
-                <div id="importError" class="error-message"></div>
-                
-                <div class="stats" style="display: none;" id="statsSection">
-                    <div class="stat-card stat-total">
-                        <div class="stat-value" id="statTotal">0</div>
-                        <div class="stat-label">总数据</div>
+                <!-- 修改密码区域 -->
+                <div id="changePasswordContent" class="table-container" style="display: none;">
+                    <div class="table-header">
+                        <div class="table-title">🔒 修改密码</div>
                     </div>
-                    <div class="stat-card stat-success">
-                        <div class="stat-value" id="statSuccess">0</div>
-                        <div class="stat-label">成功</div>
-                    </div>
-                    <div class="stat-card stat-skip">
-                        <div class="stat-value" id="statSkip">0</div>
-                        <div class="stat-label">跳过</div>
-                    </div>
-                    <div class="stat-card stat-error">
-                        <div class="stat-value" id="statError">0</div>
-                        <div class="stat-label">失败</div>
-                    </div>
+                    
+                    <form id="changePasswordForm" onsubmit="changePassword(event)" style="padding: 20px;">
+                        <div class="form-group">
+                            <label for="currentPassword">当前密码</label>
+                            <input type="password" id="currentPassword" class="form-control" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="newPassword">新密码</label>
+                            <input type="password" id="newPassword" class="form-control" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="confirmNewPassword">确认新密码</label>
+                            <input type="password" id="confirmNewPassword" class="form-control" required>
+                        </div>
+                        
+                        <div class="modal-footer" style="margin-top: 30px; padding: 0;">
+                            <button type="button" class="btn btn-secondary" onclick="showDashboard()">
+                                取消
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                🔄 修改密码
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
     
-    <!-- 查看所有学生模态框 -->
-    <div id="allStudentsModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <div class="modal-title">所有学生信息</div>
-                <button class="modal-close" onclick="closeAllStudentsModal()">×</button>
-            </div>
-            <div class="modal-body">
-                <div id="allStudentsList" style="max-height: 400px; overflow-y: auto;">
-                    <!-- 学生列表将在这里显示 -->
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="closeAllStudentsModal()">关闭</button>
-            </div>
-        </div>
-    </div>
-    
-    <!-- 批量删除模态框 -->
-    <div id="deleteModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header" style="background-color: #e74c3c;">
-                <div class="modal-title">批量删除学生</div>
-                <button class="modal-close" onclick="hideModal('deleteModal')">×</button>
-            </div>
-            <div class="modal-body">
-                <div class="select-controls">
-                    <input type="checkbox" id="selectAll" class="select-all-checkbox" onchange="toggleSelectAll(this)">
-                    <label for="selectAll" class="select-label">全选所有学生</label>
-                    <div class="selected-count">已选择：<span id="modalSelectedCount">0</span> 名</div>
-                </div>
-                
-                <div id="deleteStudentsList" style="max-height: 400px; overflow-y: auto; border: 1px solid #eaeaea; border-radius: 6px; padding: 10px;">
-                    <!-- 删除列表将在这里显示 -->
-                </div>
-                
-                <div style="margin-top: 20px; padding: 15px; background-color: #f8d7da; border-radius: 6px; border: 1px solid #f5c6cb;">
-                    <strong>⚠️ 警告：</strong>删除操作不可恢复！请谨慎操作。
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="hideModal('deleteModal')">取消</button>
-                <button class="btn btn-danger" onclick="performBatchDelete()">
-                    🗑️ 确认删除选中学生
-                </button>
-            </div>
-        </div>
-    </div>
+    <!-- 模态框容器 -->
+    <div id="modalContainer"></div>
 
     <script>
-        // 存储选中的学生ID
+        // 全局变量
+        let students = [];
+        let users = [];
+        let currentUser = null;
         let selectedStudentIds = new Set();
+        let currentPage = 1;
+        const pageSize = 15;
+        let filteredStudents = [];
+        let currentView = 'dashboard';
         
-        // 初始化存储
-        if (!localStorage.getItem('students')) {
-            localStorage.setItem('students', JSON.stringify([]));
+        // 初始化系统
+        function initSystem() {
+            // 初始化数据存储
+            initLocalStorage();
+            
+            // 加载数据
+            loadUsers();
+            loadStudents();
+            
+            // 检查登录状态
+            checkLoginStatus();
         }
         
-        // 显示模态框
-        function showModal(modalId) {
-            document.getElementById(modalId).style.display = 'flex';
+        // 初始化本地存储
+        function initLocalStorage() {
+            if (!localStorage.getItem('users')) {
+                // 创建默认管理员账号
+                const defaultUsers = [
+                    {
+                        id: 1,
+                        username: 'admin',
+                        password: 'admin123', // 注意：实际应用中应该加密存储
+                        realName: '系统管理员',
+                        email: 'admin@example.com',
+                        role: 'admin',
+                        createTime: new Date().toISOString(),
+                        lastLogin: null
+                    }
+                ];
+                localStorage.setItem('users', JSON.stringify(defaultUsers));
+            }
+            
+            if (!localStorage.getItem('students')) {
+                localStorage.setItem('students', JSON.stringify([]));
+            }
         }
         
-        // 隐藏模态框
-        function hideModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
+        // 加载用户数据
+        function loadUsers() {
+            const data = localStorage.getItem('users');
+            users = data ? JSON.parse(data) : [];
         }
         
-        // 处理Excel文件上传
+        // 加载学生数据
+        function loadStudents() {
+            const data = localStorage.getItem('students');
+            students = data ? JSON.parse(data) : [];
+            filteredStudents = [...students];
+            updateStatistics();
+        }
+        
+        // 保存学生数据
+        function saveStudents() {
+            localStorage.setItem('students', JSON.stringify(students));
+            updateStatistics();
+        }
+        
+        // 保存用户数据
+        function saveUsers() {
+            localStorage.setItem('users', JSON.stringify(users));
+        }
+        
+        // 检查登录状态
+        function checkLoginStatus() {
+            const loggedInUser = localStorage.getItem('loggedInUser');
+            if (loggedInUser) {
+                currentUser = JSON.parse(loggedInUser);
+                showSystem();
+            } else {
+                showLogin();
+            }
+        }
+        
+        // 显示登录页面
+        function showLogin() {
+            document.getElementById('loginPage').style.display = 'block';
+            document.getElementById('registerPage').style.display = 'none';
+            document.getElementById('systemPage').style.display = 'none';
+        }
+        
+        // 显示注册页面
+        function showRegister() {
+            document.getElementById('loginPage').style.display = 'none';
+            document.getElementById('registerPage').style.display = 'block';
+            document.getElementById('systemPage').style.display = 'none';
+        }
+        
+        // 显示系统页面
+        function showSystem() {
+            document.getElementById('loginPage').style.display = 'none';
+            document.getElementById('registerPage').style.display = 'none';
+            document.getElementById('systemPage').style.display = 'block';
+            
+            // 更新用户信息
+            document.getElementById('currentUserName').textContent = currentUser.realName;
+            document.getElementById('userAvatar').textContent = getAvatarEmoji(currentUser.realName);
+            
+            // 显示看板
+            showDashboard();
+        }
+        
+        // 获取头像emoji
+        function getAvatarEmoji(name) {
+            if (!name) return '👤';
+            // 根据姓名的第一个字符生成emoji
+            const firstChar = name.charAt(0).toLowerCase();
+            const emojiMap = {
+                '李': '👨‍💼', '王': '👨‍🎓', '张': '👨‍🏫', '刘': '👨‍🔬', '陈': '👨‍💻',
+                '杨': '👩‍💼', '赵': '👩‍🎓', '黄': '👩‍🏫', '周': '👩‍🔬', '吴': '👩‍💻'
+            };
+            
+            for (const [key, emoji] of Object.entries(emojiMap)) {
+                if (name.includes(key)) {
+                    return emoji;
+                }
+            }
+            
+            return '👤';
+        }
+        
+        // 登录功能
+        function login(event) {
+            event.preventDefault();
+            
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+            
+            const user = users.find(u => u.username === username && u.password === password);
+            
+            if (user) {
+                // 更新最后登录时间
+                user.lastLogin = new Date().toISOString();
+                saveUsers();
+                
+                // 保存登录状态
+                currentUser = user;
+                localStorage.setItem('loggedInUser', JSON.stringify(user));
+                
+                // 显示系统
+                showSystem();
+                
+                // 清空表单
+                document.getElementById('loginForm').reset();
+                document.getElementById('loginError').style.display = 'none';
+            } else {
+                document.getElementById('loginError').textContent = '用户名或密码错误！';
+                document.getElementById('loginError').style.display = 'block';
+            }
+        }
+        
+        // 注册功能
+        function register(event) {
+            event.preventDefault();
+            
+            const username = document.getElementById('regUsername').value.trim();
+            const password = document.getElementById('regPassword').value.trim();
+            const confirmPassword = document.getElementById('confirmPassword').value.trim();
+            const realName = document.getElementById('regRealName').value.trim();
+            const email = document.getElementById('regEmail').value.trim();
+            
+            // 验证用户名长度
+            if (username.length < 3) {
+                showRegisterError('用户名至少需要3个字符！');
+                return;
+            }
+            
+            // 验证密码长度
+            if (password.length < 6) {
+                showRegisterError('密码至少需要6个字符！');
+                return;
+            }
+            
+            // 验证密码是否一致
+            if (password !== confirmPassword) {
+                showRegisterError('两次输入的密码不一致！');
+                return;
+            }
+            
+            // 验证用户名是否已存在
+            if (users.some(u => u.username === username)) {
+                showRegisterError('用户名已存在，请使用其他用户名！');
+                return;
+            }
+            
+            // 验证邮箱格式
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                showRegisterError('请输入有效的电子邮箱地址！');
+                return;
+            }
+            
+            // 创建新用户
+            const newUser = {
+                id: users.length > 0 ? Math.max(...users.map(u => u.id)) + 1 : 1,
+                username: username,
+                password: password,
+                realName: realName,
+                email: email,
+                role: 'user', // 默认用户角色
+                createTime: new Date().toISOString(),
+                lastLogin: null
+            };
+            
+            users.push(newUser);
+            saveUsers();
+            
+            alert('注册成功！请使用新账号登录。');
+            showLogin();
+        }
+        
+        // 显示注册错误
+        function showRegisterError(message) {
+            const errorDiv = document.getElementById('registerError');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+        }
+        
+        // 退出登录
+        function logout() {
+            if (confirm('确定要退出登录吗？')) {
+                localStorage.removeItem('loggedInUser');
+                currentUser = null;
+                showLogin();
+            }
+        }
+        
+        // 更新统计数据
+        function updateStatistics() {
+            const total = students.length;
+            const active = students.filter(s => s.status === '在读').length;
+            const graduate = students.filter(s => s.status === '毕业').length;
+            const male = students.filter(s => s.gender === '男').length;
+            const female = students.filter(s => s.gender === '女').length;
+            
+            document.getElementById('totalStudents').textContent = total;
+            document.getElementById('activeStudents').textContent = active;
+            document.getElementById('graduateStudents').textContent = graduate;
+            document.getElementById('maleStudents').textContent = male;
+            document.getElementById('femaleStudents').textContent = female;
+        }
+        
+        // 显示页面
+        function showPage(pageId) {
+            document.querySelectorAll('.content-area > div').forEach(div => {
+                div.style.display = 'none';
+            });
+            document.getElementById(pageId).style.display = 'block';
+        }
+        
+        // 显示数据看板
+        function showDashboard() {
+            currentView = 'dashboard';
+            showPage('dashboardContent');
+            updateNav('dashboard');
+            updateStatistics();
+        }
+        
+        // 显示所有学生
+        function showAllStudents() {
+            currentView = 'students';
+            showPage('studentsContent');
+            updateNav('students');
+            updateStudentsTable();
+        }
+        
+        // 显示导入区域
+        function showImportSection() {
+            currentView = 'import';
+            showPage('importContent');
+            updateNav('import');
+        }
+        
+        // 显示添加学生
+        function showAddStudent() {
+            currentView = 'addStudent';
+            showPage('addStudentContent');
+            updateNav('addStudent');
+        }
+        
+        // 显示个人资料
+        function showUserProfile() {
+            currentView = 'profile';
+            showPage('profileContent');
+            updateNav('profile');
+            
+            const profileInfo = document.getElementById('profileInfo');
+            profileInfo.innerHTML = `
+                <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 20px; margin-bottom: 20px;">
+                    <div style="text-align: center;">
+                        <div style="font-size: 80px; margin-bottom: 20px;">${getAvatarEmoji(currentUser.realName)}</div>
+                        <button class="btn btn-secondary" style="width: 100%;">更换头像</button>
+                    </div>
+                    
+                    <div>
+                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+                            <div class="form-group">
+                                <label>用户名</label>
+                                <div style="padding: 10px; background: #f8f9fa; border-radius: 6px; font-weight: 500;">
+                                    ${currentUser.username}
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>角色</label>
+                                <div style="padding: 10px; background: #f8f9fa; border-radius: 6px; font-weight: 500;">
+                                    ${currentUser.role === 'admin' ? '系统管理员' : '普通用户'}
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>真实姓名</label>
+                                <div style="padding: 10px; background: #f8f9fa; border-radius: 6px;">
+                                    ${currentUser.realName}
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>电子邮箱</label>
+                                <div style="padding: 10px; background: #f8f9fa; border-radius: 6px;">
+                                    ${currentUser.email}
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>账号创建时间</label>
+                                <div style="padding: 10px; background: #f8f9fa; border-radius: 6px;">
+                                    ${new Date(currentUser.createTime).toLocaleString()}
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>最后登录时间</label>
+                                <div style="padding: 10px; background: #f8f9fa; border-radius: 6px;">
+                                    ${currentUser.lastLogin ? new Date(currentUser.lastLogin).toLocaleString() : '从未登录'}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-top: 30px; display: flex; gap: 15px;">
+                            <button class="btn btn-primary" onclick="showChangePassword()">
+                                🔒 修改密码
+                            </button>
+                            <button class="btn btn-secondary" onclick="editProfile()">
+                                ✏️ 编辑资料
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // 显示修改密码
+        function showChangePassword() {
+            currentView = 'changePassword';
+            showPage('changePasswordContent');
+            updateNav('changePassword');
+        }
+        
+        // 更新导航高亮
+        function updateNav(activeItem) {
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // 根据当前视图高亮对应的导航项
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                if (item.textContent.includes(activeItem) || 
+                    (activeItem === 'dashboard' && item.textContent.includes('数据看板'))) {
+                    item.classList.add('active');
+                }
+            });
+        }
+        
+        // 修改密码功能
+        function changePassword(event) {
+            event.preventDefault();
+            
+            const currentPassword = document.getElementById('currentPassword').value;
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmNewPassword = document.getElementById('confirmNewPassword').value;
+            
+            // 验证当前密码
+            if (currentPassword !== currentUser.password) {
+                alert('当前密码错误！');
+                return;
+            }
+            
+            // 验证新密码长度
+            if (newPassword.length < 6) {
+                alert('新密码至少需要6个字符！');
+                return;
+            }
+            
+            // 验证新密码是否一致
+            if (newPassword !== confirmNewPassword) {
+                alert('两次输入的新密码不一致！');
+                return;
+            }
+            
+            // 更新密码
+            const userIndex = users.findIndex(u => u.id === currentUser.id);
+            if (userIndex !== -1) {
+                users[userIndex].password = newPassword;
+                currentUser.password = newPassword;
+                saveUsers();
+                localStorage.setItem('loggedInUser', JSON.stringify(currentUser));
+                
+                // 清空表单
+                document.getElementById('changePasswordForm').reset();
+                
+                alert('密码修改成功！');
+                showUserProfile();
+            }
+        }
+        
+        // 编辑个人资料
+        function editProfile() {
+            const modalHtml = `
+                <div class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <div class="modal-title">✏️ 编辑个人资料</div>
+                            <button class="modal-close" onclick="closeModal()">×</button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="editProfileForm" onsubmit="updateProfile(event)">
+                                <div class="form-group">
+                                    <label for="editRealName">真实姓名</label>
+                                    <input type="text" id="editRealName" class="form-control" value="${currentUser.realName}" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="editEmail">电子邮箱</label>
+                                    <input type="email" id="editEmail" class="form-control" value="${currentUser.email}" required>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" onclick="closeModal()">取消</button>
+                            <button class="btn btn-primary" onclick="updateProfile()">保存修改</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('modalContainer').innerHTML = modalHtml;
+            document.querySelector('.modal').style.display = 'flex';
+        }
+        
+        // 更新个人资料
+        function updateProfile(event) {
+            if (event) event.preventDefault();
+            
+            const realName = document.getElementById('editRealName').value.trim();
+            const email = document.getElementById('editEmail').value.trim();
+            
+            // 验证邮箱格式
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                alert('请输入有效的电子邮箱地址！');
+                return;
+            }
+            
+            // 更新用户信息
+            const userIndex = users.findIndex(u => u.id === currentUser.id);
+            if (userIndex !== -1) {
+                users[userIndex].realName = realName;
+                users[userIndex].email = email;
+                currentUser.realName = realName;
+                currentUser.email = email;
+                saveUsers();
+                localStorage.setItem('loggedInUser', JSON.stringify(currentUser));
+                
+                // 更新页面显示
+                document.getElementById('currentUserName').textContent = realName;
+                document.getElementById('userAvatar').textContent = getAvatarEmoji(realName);
+                
+                closeModal();
+                showUserProfile();
+                alert('个人资料更新成功！');
+            }
+        }
+        
+        // 处理Excel上传
         function handleExcelUpload(event) {
             const file = event.target.files[0];
             if (!file) return;
             
-            // 检查文件类型
             if (!file.name.match(/\.(xlsx|xls|csv)$/i)) {
                 alert('请上传Excel文件 (.xlsx, .xls, .csv)!');
                 return;
@@ -678,7 +1757,6 @@
                         return;
                     }
                     
-                    // 显示预览
                     showImportPreview(jsonData);
                 } catch (error) {
                     alert('读取Excel文件失败：' + error.message);
@@ -689,11 +1767,10 @@
         
         // 显示导入预览
         function showImportPreview(data) {
-            const previewTable = document.getElementById('importPreview');
-            previewTable.innerHTML = '';
+            const previewContainer = document.getElementById('importPreview');
             
             if (data.length === 0) {
-                previewTable.innerHTML = `
+                previewContainer.innerHTML = `
                     <div class="empty-state">
                         <div class="empty-icon">📊</div>
                         <div class="empty-text">Excel文件中没有数据</div>
@@ -702,196 +1779,79 @@
                 return;
             }
             
-            // 创建表格
-            const table = document.createElement('table');
-            table.className = 'preview-table';
+            let html = `
+                <h3 style="color: #2c3e50; margin-bottom: 20px;">📋 数据预览 (共 ${data.length} 条)</h3>
+                <div style="overflow-x: auto;">
+                    <table class="students-table">
+                        <thead>
+                            <tr>
+            `;
             
-            // 创建表头
-            const thead = document.createElement('thead');
-            const headerRow = document.createElement('tr');
-            
-            // 添加选择列
-            const selectHeader = document.createElement('th');
-            selectHeader.innerHTML = '<input type="checkbox" class="select-all-checkbox" onchange="togglePreviewSelectAll(this)">';
-            selectHeader.style.width = '50px';
-            headerRow.appendChild(selectHeader);
-            
-            // 获取所有可能的字段名（合并所有行的字段）
-            const allFields = new Set();
-            data.forEach(row => {
-                Object.keys(row).forEach(key => allFields.add(key));
+            // 表头
+            const headers = Object.keys(data[0] || {});
+            headers.forEach(header => {
+                html += `<th>${header}</th>`;
             });
             
-            // 常用字段排序
-            const fieldPriority = ['学号', '姓名', '性别', '班级', '专业', '学院', '邮箱', '入学日期', '出生日期', '籍贯', '民族', '政治面貌'];
-            const sortedFields = [...allFields].sort((a, b) => {
-                const indexA = fieldPriority.indexOf(a);
-                const indexB = fieldPriority.indexOf(b);
-                if (indexA !== -1 && indexB !== -1) return indexA - indexB;
-                if (indexA !== -1) return -1;
-                if (indexB !== -1) return 1;
-                return a.localeCompare(b);
-            });
+            html += `
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
             
-            // 添加表头单元格
-            sortedFields.forEach(key => {
-                const th = document.createElement('th');
-                th.textContent = key;
-                headerRow.appendChild(th);
-            });
-            
-            thead.appendChild(headerRow);
-            table.appendChild(thead);
-            
-            // 创建数据行（最多显示10行预览）
-            const tbody = document.createElement('tbody');
+            // 数据行（最多显示10行）
             const previewRows = Math.min(data.length, 10);
-            
-            // 为导入数据添加临时ID
-            window.importData = data.map((item, index) => ({
-                ...item,
-                _tempId: index + 1 // 添加临时ID用于选择
-            }));
-            
             for (let i = 0; i < previewRows; i++) {
-                const row = document.createElement('tr');
-                const rowData = window.importData[i];
-                
-                // 添加选择框
-                const selectCell = document.createElement('td');
-                selectCell.innerHTML = `<input type="checkbox" class="row-checkbox" data-index="${i}" onchange="togglePreviewRowSelection(this)">`;
-                selectCell.style.textAlign = 'center';
-                row.appendChild(selectCell);
-                
-                sortedFields.forEach(key => {
-                    const td = document.createElement('td');
-                    let value = rowData[key];
-                    
-                    if (value === undefined || value === null) {
-                        value = '';
-                    } else if (typeof value === 'object') {
-                        value = JSON.stringify(value);
-                    } else {
-                        value = value.toString();
-                    }
-                    
-                    // 截断过长的文本
-                    if (value.length > 50) {
-                        value = value.substring(0, 47) + '...';
-                    }
-                    
-                    td.textContent = value;
-                    td.title = value; // 添加提示
-                    row.appendChild(td);
+                html += '<tr>';
+                headers.forEach(header => {
+                    let value = data[i][header];
+                    value = value !== undefined && value !== null ? value.toString() : '';
+                    if (value.length > 50) value = value.substring(0, 47) + '...';
+                    html += `<td title="${value}">${value}</td>`;
                 });
-                
-                tbody.appendChild(row);
+                html += '</tr>';
             }
             
-            table.appendChild(tbody);
-            previewTable.appendChild(table);
+            html += `
+                        </tbody>
+                    </table>
+                </div>
+            `;
             
-            // 显示数据统计
-            document.getElementById('studentCount').style.display = 'block';
-            document.getElementById('totalStudents').textContent = data.length;
+            if (data.length > 10) {
+                html += `<div style="text-align: center; margin-top: 10px; color: #7f8c8d;">
+                    只显示前10条记录，共有${data.length}条记录
+                </div>`;
+            }
             
-            // 显示统计卡片
-            document.getElementById('statsSection').style.display = 'grid';
-            document.getElementById('statTotal').textContent = data.length;
-            document.getElementById('statSuccess').textContent = '0';
-            document.getElementById('statSkip').textContent = '0';
-            document.getElementById('statError').textContent = '0';
+            previewContainer.innerHTML = html;
+            
+            // 存储导入数据
+            window.importData = data;
             
             // 显示确认按钮
             document.getElementById('importConfirmBtn').style.display = 'inline-block';
-            
-            // 隐藏成功/错误消息
-            document.getElementById('importSuccess').style.display = 'none';
-            document.getElementById('importError').style.display = 'none';
-            
-            // 显示预览信息
-            alert(`成功读取 ${data.length} 条数据，显示前 ${previewRows} 条预览。`);
         }
         
-        // 切换预览行选择
-        function togglePreviewRowSelection(checkbox) {
-            const index = parseInt(checkbox.dataset.index);
-            const row = checkbox.closest('tr');
-            
-            if (checkbox.checked) {
-                row.style.backgroundColor = '#e8f4fc';
-                window.selectedPreviewRows = window.selectedPreviewRows || new Set();
-                window.selectedPreviewRows.add(index);
-            } else {
-                row.style.backgroundColor = '';
-                if (window.selectedPreviewRows) {
-                    window.selectedPreviewRows.delete(index);
-                }
-            }
-            
-            updatePreviewSelectionCount();
-        }
-        
-        // 全选预览行
-        function togglePreviewSelectAll(checkbox) {
-            const checkboxes = document.querySelectorAll('#importPreview .row-checkbox');
-            const rows = document.querySelectorAll('#importPreview tbody tr');
-            window.selectedPreviewRows = window.selectedPreviewRows || new Set();
-            
-            if (checkbox.checked) {
-                checkboxes.forEach(cb => cb.checked = true);
-                rows.forEach(row => row.style.backgroundColor = '#e8f4fc');
-                for (let i = 0; i < checkboxes.length; i++) {
-                    window.selectedPreviewRows.add(i);
-                }
-            } else {
-                checkboxes.forEach(cb => cb.checked = false);
-                rows.forEach(row => row.style.backgroundColor = '');
-                window.selectedPreviewRows.clear();
-            }
-            
-            updatePreviewSelectionCount();
-        }
-        
-        // 更新预览选择计数
-        function updatePreviewSelectionCount() {
-            const count = window.selectedPreviewRows ? window.selectedPreviewRows.size : 0;
-            if (count > 0) {
-                document.getElementById('batchToolbar').style.display = 'flex';
-                document.getElementById('selectedCount').textContent = count;
-            } else {
-                document.getElementById('batchToolbar').style.display = 'none';
-            }
-        }
-        
-        // 确认导入数据
+        // 确认导入
         function confirmImport() {
             if (!window.importData || window.importData.length === 0) {
                 alert('没有可导入的数据！');
                 return;
             }
             
-            const students = JSON.parse(localStorage.getItem('students') || '[]');
-            const existingStudentIds = new Set(students.map(student => student.studentId));
-            
+            const existingIds = new Set(students.map(s => s.studentId));
             let successCount = 0;
             let skipCount = 0;
             let errorCount = 0;
             
-            // 获取现有最大ID
+            // 获取最大ID
             let maxId = students.length > 0 ? Math.max(...students.map(s => s.id)) : 0;
             
-            // 如果选择了部分数据，只导入选中的
-            let dataToImport = window.importData;
-            if (window.selectedPreviewRows && window.selectedPreviewRows.size > 0) {
-                dataToImport = window.importData.filter((item, index) => window.selectedPreviewRows.has(index));
-            }
-            
-            dataToImport.forEach((item, index) => {
+            window.importData.forEach((item, index) => {
                 try {
-                    // 检查必要字段
-                    const studentId = item.学号 || item.studentId || item.学号 || item['Student ID'] || '';
-                    const name = item.姓名 || item.name || item.姓名 || item.Name || '';
+                    const studentId = item.学号 || item.studentId || item['学号'] || item['Student ID'] || '';
+                    const name = item.姓名 || item.name || item['姓名'] || item['Name'] || '';
                     
                     if (!studentId || !name) {
                         console.warn(`第${index + 1}行：缺少学号或姓名，跳过`);
@@ -899,34 +1859,32 @@
                         return;
                     }
                     
-                    // 检查学号是否已存在
-                    if (existingStudentIds.has(studentId)) {
+                    if (existingIds.has(studentId)) {
                         console.warn(`第${index + 1}行：学号 ${studentId} 已存在，跳过`);
                         skipCount++;
                         return;
                     }
                     
-                    // 创建新学生对象
                     const newStudent = {
                         id: ++maxId,
                         studentId: studentId,
                         name: name,
-                        gender: item.性别 || item.gender || item.Gender || '未知',
-                        className: item.班级 || item.class || item.班级 || item.Class || '',
-                        major: item.专业 || item.major || item.专业 || item.Major || '',
-                        college: item.学院 || item.college || item.学院 || item.College || '',
-                        email: item.邮箱 || item.email || item.邮箱 || item.Email || '',
-                        enrollmentDate: item.入学日期 || item.enrollmentDate || item['Enrollment Date'] || '',
-                        birthDate: item.出生日期 || item.birthDate || item['Birth Date'] || '',
-                        hometown: item.籍贯 || item.hometown || item.籍贯 || '',
-                        ethnicity: item.民族 || item.ethnicity || item.民族 || '',
-                        politicalStatus: item.政治面貌 || item.politicalStatus || item['Political Status'] || '',
-                        status: '在读',
+                        gender: item.性别 || item.gender || '男',
+                        className: item.班级 || item.class || '',
+                        major: item.专业 || item.major || '',
+                        college: item.学院 || item.college || '',
+                        email: item.邮箱 || item.email || '',
+                        birthDate: item.出生日期 || item.birthDate || '',
+                        enrollmentDate: item.入学日期 || item.enrollmentDate || '',
+                        hometown: item.籍贯 || item.hometown || '',
+                        ethnicity: item.民族 || item.ethnicity || '汉族',
+                        politicalStatus: item.政治面貌 || item.politicalStatus || '群众',
+                        status: item.状态 || '在读',
                         createTime: new Date().toISOString()
                     };
                     
                     students.push(newStudent);
-                    existingStudentIds.add(studentId);
+                    existingIds.add(studentId);
                     successCount++;
                     
                 } catch (error) {
@@ -935,248 +1893,499 @@
                 }
             });
             
-            // 保存到本地存储
-            localStorage.setItem('students', JSON.stringify(students));
+            saveStudents();
+            alert(`导入完成！\n成功：${successCount}条\n跳过：${skipCount}条\n失败：${errorCount}条`);
             
-            // 更新统计显示
-            document.getElementById('statSuccess').textContent = successCount;
-            document.getElementById('statSkip').textContent = skipCount;
-            document.getElementById('statError').textContent = errorCount;
-            
-            // 显示成功消息
-            const successElement = document.getElementById('importSuccess');
-            successElement.innerHTML = `
-                <strong>导入完成！</strong><br>
-                成功导入: ${successCount} 名学生<br>
-                跳过: ${skipCount} 条数据（学号重复或缺少必要信息）<br>
-                失败: ${errorCount} 条数据
-            `;
-            successElement.style.display = 'block';
-            
-            // 隐藏确认按钮
-            document.getElementById('importConfirmBtn').style.display = 'none';
-            
-            // 更新学生总数显示
-            document.getElementById('totalStudents').textContent = students.length;
-            
-            // 清除上传的文件输入
-            const fileInput = document.getElementById('excelFile');
-            if (fileInput) {
-                fileInput.value = '';
-            }
-            
-            // 清除缓存的数据
-            window.importData = null;
-            window.selectedPreviewRows = null;
-            document.getElementById('batchToolbar').style.display = 'none';
+            // 清空预览
+            clearImportPreview();
+            showAllStudents();
         }
         
-        // 清空预览
-        function clearPreview() {
-            const previewTable = document.getElementById('importPreview');
-            previewTable.innerHTML = `
+        // 清空导入预览
+        function clearImportPreview() {
+            document.getElementById('importPreview').innerHTML = `
                 <div class="empty-state">
                     <div class="empty-icon">📊</div>
                     <div class="empty-text">请上传Excel文件查看数据预览</div>
                 </div>
             `;
-            
             document.getElementById('importConfirmBtn').style.display = 'none';
-            document.getElementById('importSuccess').style.display = 'none';
-            document.getElementById('importError').style.display = 'none';
-            document.getElementById('studentCount').style.display = 'none';
-            document.getElementById('statsSection').style.display = 'none';
-            document.getElementById('batchToolbar').style.display = 'none';
-            
-            const fileInput = document.getElementById('excelFile');
-            if (fileInput) {
-                fileInput.value = '';
-            }
-            
+            document.getElementById('excelFile').value = '';
             window.importData = null;
-            window.selectedPreviewRows = null;
         }
         
-        // 查看所有学生
-        function showAllStudents() {
-            const students = JSON.parse(localStorage.getItem('students') || '[]');
-            const listContainer = document.getElementById('allStudentsList');
+        // 更新学生表格
+        function updateStudentsTable() {
+            const tableBody = document.getElementById('studentsTableBody');
+            const startIndex = (currentPage - 1) * pageSize;
+            const endIndex = Math.min(startIndex + pageSize, filteredStudents.length);
+            const currentStudents = filteredStudents.slice(startIndex, endIndex);
             
-            if (students.length === 0) {
-                listContainer.innerHTML = `
-                    <div class="empty-state">
-                        <div class="empty-icon">👤</div>
-                        <div class="empty-text">暂无学生信息</div>
-                    </div>
+            if (currentStudents.length === 0) {
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="9" style="text-align: center; padding: 50px;">
+                            <div class="empty-state">
+                                <div class="empty-icon">👥</div>
+                                <div class="empty-text">暂无学生数据</div>
+                            </div>
+                        </td>
+                    </tr>
                 `;
             } else {
-                let html = `
-                    <div style="margin-bottom: 15px; color: #2c3e50; font-weight: 500;">
-                        共有 ${students.length} 名学生
-                    </div>
-                    <table class="preview-table" style="width: 100%;">
-                        <thead>
-                            <tr>
-                                <th style="width: 50px;">选择</th>
-                                <th>学号</th>
-                                <th>姓名</th>
-                                <th>性别</th>
-                                <th>班级</th>
-                                <th>专业</th>
-                                <th>状态</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                `;
-                
-                students.slice(0, 50).forEach((student, index) => {
+                let html = '';
+                currentStudents.forEach(student => {
                     const isSelected = selectedStudentIds.has(student.id);
                     html += `
-                        <tr id="student-row-${student.id}" ${isSelected ? 'style="background-color: #e8f4fc;"' : ''}>
-                            <td style="text-align: center;">
-                                <input type="checkbox" class="row-checkbox" 
+                        <tr class="${isSelected ? 'selected' : ''}" id="student-row-${student.id}">
+                            <td>
+                                <input type="checkbox" class="select-all-checkbox" 
                                        ${isSelected ? 'checked' : ''}
                                        onchange="toggleStudentSelection(${student.id}, this)">
                             </td>
-                            <td>${student.studentId || ''}</td>
-                            <td>${student.name || ''}</td>
-                            <td>${student.gender || ''}</td>
-                            <td>${student.className || ''}</td>
-                            <td>${student.major || ''}</td>
-                            <td><span style="color: #2ecc71;">${student.status || '在读'}</span></td>
+                            <td>${student.studentId}</td>
+                            <td><strong>${student.name}</strong></td>
+                            <td>${student.gender}</td>
+                            <td>${student.className}</td>
+                            <td>${student.major}</td>
+                            <td>${student.college}</td>
+                            <td>
+                                <span class="status-badge ${student.status === '在读' ? 'status-active' : 'status-graduate'}">
+                                    ${student.status}
+                                </span>
+                            </td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="action-btn view" onclick="viewStudent(${student.id})">查看</button>
+                                    <button class="action-btn edit" onclick="editStudent(${student.id})">编辑</button>
+                                    <button class="action-btn delete" onclick="deleteStudent(${student.id})">删除</button>
+                                </div>
+                            </td>
                         </tr>
                     `;
                 });
-                
-                html += `
-                        </tbody>
-                    </table>
-                `;
-                
-                if (students.length > 50) {
-                    html += `
-                        <div style="text-align: center; margin-top: 15px; color: #7f8c8d;">
-                            只显示前50条记录，共有${students.length}条记录
-                        </div>
-                    `;
-                }
-                
-                listContainer.innerHTML = html;
+                tableBody.innerHTML = html;
             }
             
-            showModal('allStudentsModal');
+            // 更新分页信息
+            const totalPages = Math.ceil(filteredStudents.length / pageSize);
+            document.getElementById('pageInfo').textContent = `第 ${currentPage} 页 / 共 ${totalPages} 页`;
+            
+            // 更新选中计数
+            updateSelectedCount();
         }
         
         // 切换学生选择
         function toggleStudentSelection(studentId, checkbox) {
-            const row = document.getElementById(`student-row-${studentId}`);
-            
             if (checkbox.checked) {
                 selectedStudentIds.add(studentId);
-                if (row) row.style.backgroundColor = '#e8f4fc';
             } else {
                 selectedStudentIds.delete(studentId);
-                if (row) row.style.backgroundColor = '';
+            }
+            
+            const row = document.getElementById(`student-row-${studentId}`);
+            if (row) {
+                row.classList.toggle('selected', checkbox.checked);
             }
             
             updateSelectedCount();
         }
         
-        // 全选所有学生
-        function toggleSelectAll(checkbox) {
-            const students = JSON.parse(localStorage.getItem('students') || '[]');
-            const checkboxes = document.querySelectorAll('#deleteStudentsList .row-checkbox');
+        // 全选学生
+        function toggleSelectAllStudents(checkbox) {
+            const startIndex = (currentPage - 1) * pageSize;
+            const endIndex = Math.min(startIndex + pageSize, filteredStudents.length);
+            const currentStudents = filteredStudents.slice(startIndex, endIndex);
+            
+            const checkboxes = document.querySelectorAll('#studentsTableBody input[type="checkbox"]');
             
             if (checkbox.checked) {
-                selectedStudentIds.clear();
-                students.forEach(student => selectedStudentIds.add(student.id));
+                currentStudents.forEach(student => selectedStudentIds.add(student.id));
                 checkboxes.forEach(cb => cb.checked = true);
             } else {
-                selectedStudentIds.clear();
+                currentStudents.forEach(student => selectedStudentIds.delete(student.id));
                 checkboxes.forEach(cb => cb.checked = false);
             }
             
+            // 更新行样式
+            currentStudents.forEach(student => {
+                const row = document.getElementById(`student-row-${student.id}`);
+                if (row) {
+                    row.classList.toggle('selected', checkbox.checked);
+                }
+            });
+            
             updateSelectedCount();
         }
         
-        // 更新选择计数
+        // 更新选中计数
         function updateSelectedCount() {
-            document.getElementById('modalSelectedCount').textContent = selectedStudentIds.size;
+            document.getElementById('selectedCount').textContent = selectedStudentIds.size;
         }
         
-        // 关闭查看所有学生模态框
-        function closeAllStudentsModal() {
-            hideModal('allStudentsModal');
-        }
-        
-        // 显示删除模态框
-        function showDeleteModal() {
-            const students = JSON.parse(localStorage.getItem('students') || '[]');
-            const listContainer = document.getElementById('deleteStudentsList');
-            
-            if (students.length === 0) {
-                listContainer.innerHTML = `
-                    <div class="empty-state">
-                        <div class="empty-icon">👤</div>
-                        <div class="empty-text">暂无学生信息可删除</div>
-                    </div>
-                `;
-                // 禁用删除按钮
-                document.querySelector('#deleteModal .btn-danger').disabled = true;
+        // 搜索学生
+        function searchStudents(keyword) {
+            if (!keyword.trim()) {
+                filteredStudents = [...students];
             } else {
-                let html = `
-                    <div style="margin-bottom: 15px; color: #2c3e50; font-weight: 500;">
-                        共有 ${students.length} 名学生，请选择要删除的学生
-                    </div>
-                    <table class="preview-table" style="width: 100%;">
-                        <thead>
-                            <tr>
-                                <th style="width: 50px;">选择</th>
-                                <th>学号</th>
-                                <th>姓名</th>
-                                <th>班级</th>
-                                <th>专业</th>
-                                <th>状态</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                `;
-                
-                students.forEach(student => {
-                    const isSelected = selectedStudentIds.has(student.id);
-                    html += `
-                        <tr id="delete-row-${student.id}" ${isSelected ? 'style="background-color: #e8f4fc;"' : ''}>
-                            <td style="text-align: center;">
-                                <input type="checkbox" class="row-checkbox" 
-                                       ${isSelected ? 'checked' : ''}
-                                       onchange="toggleStudentSelection(${student.id}, this)">
-                            </td>
-                            <td>${student.studentId || ''}</td>
-                            <td>${student.name || ''}</td>
-                            <td>${student.className || ''}</td>
-                            <td>${student.major || ''}</td>
-                            <td><span style="color: #2ecc71;">${student.status || '在读'}</span></td>
-                        </tr>
-                    `;
+                filteredStudents = students.filter(student => {
+                    return Object.values(student).some(value => 
+                        value && value.toString().toLowerCase().includes(keyword.toLowerCase())
+                    );
                 });
-                
-                html += `
-                        </tbody>
-                    </table>
-                `;
-                
-                listContainer.innerHTML = html;
-                // 启用删除按钮
-                document.querySelector('#deleteModal .btn-danger').disabled = false;
+            }
+            currentPage = 1;
+            selectedStudentIds.clear();
+            updateStudentsTable();
+        }
+        
+        // 翻页
+        function changePage(delta) {
+            const totalPages = Math.ceil(filteredStudents.length / pageSize);
+            const newPage = currentPage + delta;
+            
+            if (newPage >= 1 && newPage <= totalPages) {
+                currentPage = newPage;
+                updateStudentsTable();
+            }
+        }
+        
+        // 添加新学生
+        function addNewStudent(event) {
+            event.preventDefault();
+            
+            const form = event.target;
+            const studentId = document.getElementById('studentId').value;
+            const name = document.getElementById('name').value;
+            
+            // 检查学号是否重复
+            if (students.some(s => s.studentId === studentId)) {
+                alert('学号已存在，请使用不同的学号！');
+                return;
             }
             
-            // 更新选择计数
-            updateSelectedCount();
-            showModal('deleteModal');
+            // 获取最大ID
+            const maxId = students.length > 0 ? Math.max(...students.map(s => s.id)) : 0;
+            
+            const newStudent = {
+                id: maxId + 1,
+                studentId: studentId,
+                name: name,
+                gender: document.getElementById('gender').value,
+                className: document.getElementById('className').value,
+                major: document.getElementById('major').value,
+                college: document.getElementById('college').value,
+                email: document.getElementById('email').value,
+                birthDate: document.getElementById('birthDate').value,
+                enrollmentDate: document.getElementById('enrollmentDate').value,
+                hometown: document.getElementById('hometown').value,
+                ethnicity: document.getElementById('ethnicity').value,
+                politicalStatus: document.getElementById('politicalStatus').value,
+                status: document.getElementById('status').value,
+                createTime: new Date().toISOString()
+            };
+            
+            students.push(newStudent);
+            saveStudents();
+            form.reset();
+            
+            alert(`学生 ${name} (${studentId}) 添加成功！`);
+            showAllStudents();
         }
         
-        // 执行批量删除
-        function performBatchDelete() {
+        // 查看学生详情
+        function viewStudent(id) {
+            const student = students.find(s => s.id === id);
+            if (!student) return;
+            
+            const modalHtml = `
+                <div class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <div class="modal-title">👤 学生详细信息</div>
+                            <button class="modal-close" onclick="closeModal()">×</button>
+                        </div>
+                        <div class="modal-body">
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+                                <div class="form-group">
+                                    <label>学号</label>
+                                    <div style="padding: 10px; background: #f8f9fa; border-radius: 6px; font-weight: 500;">
+                                        ${student.studentId}
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>姓名</label>
+                                    <div style="padding: 10px; background: #f8f9fa; border-radius: 6px; font-weight: 500;">
+                                        ${student.name}
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>性别</label>
+                                    <div style="padding: 10px; background: #f8f9fa; border-radius: 6px;">
+                                        ${student.gender}
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>班级</label>
+                                    <div style="padding: 10px; background: #f8f9fa; border-radius: 6px;">
+                                        ${student.className || '未填写'}
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>专业</label>
+                                    <div style="padding: 10px; background: #f8f9fa; border-radius: 6px;">
+                                        ${student.major || '未填写'}
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>学院</label>
+                                    <div style="padding: 10px; background: #f8f9fa; border-radius: 6px;">
+                                        ${student.college || '未填写'}
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>邮箱</label>
+                                    <div style="padding: 10px; background: #f8f9fa; border-radius: 6px;">
+                                        ${student.email || '未填写'}
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>出生日期</label>
+                                    <div style="padding: 10px; background: #f8f9fa; border-radius: 6px;">
+                                        ${student.birthDate || '未填写'}
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>入学日期</label>
+                                    <div style="padding: 10px; background: #f8f9fa; border-radius: 6px;">
+                                        ${student.enrollmentDate || '未填写'}
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>籍贯</label>
+                                    <div style="padding: 10px; background: #f8f9fa; border-radius: 6px;">
+                                        ${student.hometown || '未填写'}
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>民族</label>
+                                    <div style="padding: 10px; background: #f8f9fa; border-radius: 6px;">
+                                        ${student.ethnicity || '未填写'}
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>政治面貌</label>
+                                    <div style="padding: 10px; background: #f8f9fa; border-radius: 6px;">
+                                        ${student.politicalStatus || '未填写'}
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>状态</label>
+                                    <div style="padding: 10px; background: #f8f9fa; border-radius: 6px;">
+                                        <span class="status-badge ${student.status === '在读' ? 'status-active' : 'status-graduate'}">
+                                            ${student.status}
+                                        </span>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group" style="grid-column: span 2;">
+                                    <label>创建时间</label>
+                                    <div style="padding: 10px; background: #f8f9fa; border-radius: 6px;">
+                                        ${new Date(student.createTime).toLocaleString()}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" onclick="closeModal()">关闭</button>
+                            <button class="btn btn-primary" onclick="editStudent(${student.id}); closeModal()">
+                                编辑信息
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('modalContainer').innerHTML = modalHtml;
+            document.querySelector('.modal').style.display = 'flex';
+        }
+        
+        // 编辑学生
+        function editStudent(id) {
+            const student = students.find(s => s.id === id);
+            if (!student) return;
+            
+            const modalHtml = `
+                <div class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <div class="modal-title">✏️ 编辑学生信息</div>
+                            <button class="modal-close" onclick="closeModal()">×</button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="editStudentForm" onsubmit="updateStudent(event, ${student.id})">
+                                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+                                    <div class="form-group">
+                                        <label for="editStudentId">学号</label>
+                                        <input type="text" id="editStudentId" class="form-control" value="${student.studentId}" required>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="editName">姓名</label>
+                                        <input type="text" id="editName" class="form-control" value="${student.name}" required>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="editGender">性别</label>
+                                        <select id="editGender" class="form-control">
+                                            <option value="男" ${student.gender === '男' ? 'selected' : ''}>男</option>
+                                            <option value="女" ${student.gender === '女' ? 'selected' : ''}>女</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="editClassName">班级</label>
+                                        <input type="text" id="editClassName" class="form-control" value="${student.className || ''}">
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="editMajor">专业</label>
+                                        <input type="text" id="editMajor" class="form-control" value="${student.major || ''}">
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="editCollege">学院</label>
+                                        <input type="text" id="editCollege" class="form-control" value="${student.college || ''}">
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="editEmail">邮箱</label>
+                                        <input type="email" id="editEmail" class="form-control" value="${student.email || ''}">
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="editBirthDate">出生日期</label>
+                                        <input type="date" id="editBirthDate" class="form-control" value="${student.birthDate || ''}">
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="editEnrollmentDate">入学日期</label>
+                                        <input type="date" id="editEnrollmentDate" class="form-control" value="${student.enrollmentDate || ''}">
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="editHometown">籍贯</label>
+                                        <input type="text" id="editHometown" class="form-control" value="${student.hometown || ''}">
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="editEthnicity">民族</label>
+                                        <input type="text" id="editEthnicity" class="form-control" value="${student.ethnicity || ''}">
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="editPoliticalStatus">政治面貌</label>
+                                        <select id="editPoliticalStatus" class="form-control">
+                                            <option value="">请选择</option>
+                                            <option value="群众" ${student.politicalStatus === '群众' ? 'selected' : ''}>群众</option>
+                                            <option value="共青团员" ${student.politicalStatus === '共青团员' ? 'selected' : ''}>共青团员</option>
+                                            <option value="中共党员" ${student.politicalStatus === '中共党员' ? 'selected' : ''}>中共党员</option>
+                                            <option value="其他" ${student.politicalStatus === '其他' ? 'selected' : ''}>其他</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="editStatus">状态</label>
+                                        <select id="editStatus" class="form-control">
+                                            <option value="在读" ${student.status === '在读' ? 'selected' : ''}>在读</option>
+                                            <option value="休学" ${student.status === '休学' ? 'selected' : ''}>休学</option>
+                                            <option value="毕业" ${student.status === '毕业' ? 'selected' : ''}>毕业</option>
+                                            <option value="退学" ${student.status === '退学' ? 'selected' : ''}>退学</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="modal-footer" style="margin-top: 30px; padding: 0;">
+                                    <button type="button" class="btn btn-secondary" onclick="closeModal()">
+                                        取消
+                                    </button>
+                                    <button type="submit" class="btn btn-primary">
+                                        ✅ 保存修改
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('modalContainer').innerHTML = modalHtml;
+            document.querySelector('.modal').style.display = 'flex';
+        }
+        
+        // 更新学生信息
+        function updateStudent(event, id) {
+            event.preventDefault();
+            
+            const studentIndex = students.findIndex(s => s.id === id);
+            if (studentIndex === -1) return;
+            
+            const newStudentId = document.getElementById('editStudentId').value;
+            
+            // 检查学号是否重复（排除自己）
+            if (students.some((s, index) => index !== studentIndex && s.studentId === newStudentId)) {
+                alert('学号已存在，请使用不同的学号！');
+                return;
+            }
+            
+            students[studentIndex] = {
+                ...students[studentIndex],
+                studentId: newStudentId,
+                name: document.getElementById('editName').value,
+                gender: document.getElementById('editGender').value,
+                className: document.getElementById('editClassName').value,
+                major: document.getElementById('editMajor').value,
+                college: document.getElementById('editCollege').value,
+                email: document.getElementById('editEmail').value,
+                birthDate: document.getElementById('editBirthDate').value,
+                enrollmentDate: document.getElementById('editEnrollmentDate').value,
+                hometown: document.getElementById('editHometown').value,
+                ethnicity: document.getElementById('editEthnicity').value,
+                politicalStatus: document.getElementById('editPoliticalStatus').value,
+                status: document.getElementById('editStatus').value
+            };
+            
+            saveStudents();
+            updateStudentsTable();
+            closeModal();
+            alert('学生信息更新成功！');
+        }
+        
+        // 删除单个学生
+        function deleteStudent(id) {
+            if (!confirm('确定要删除这个学生吗？此操作不可恢复！')) return;
+            
+            students = students.filter(s => s.id !== id);
+            selectedStudentIds.delete(id);
+            saveStudents();
+            updateStudentsTable();
+            alert('学生删除成功！');
+        }
+        
+        // 删除选中的学生
+        function deleteSelectedStudents() {
             if (selectedStudentIds.size === 0) {
                 alert('请先选择要删除的学生！');
                 return;
@@ -1186,95 +2395,450 @@
                 return;
             }
             
-            const students = JSON.parse(localStorage.getItem('students') || '[]');
-            // 过滤掉选中的学生
-            const remainingStudents = students.filter(student => !selectedStudentIds.has(student.id));
-            
-            // 保存剩余的学生
-            localStorage.setItem('students', JSON.stringify(remainingStudents));
-            
-            // 显示成功消息
-            alert(`成功删除 ${selectedStudentIds.size} 名学生！`);
-            
-            // 清空选择
+            students = students.filter(s => !selectedStudentIds.has(s.id));
             selectedStudentIds.clear();
-            
-            // 关闭模态框
-            hideModal('deleteModal');
-            
-            // 更新页面显示
-            document.getElementById('totalStudents').textContent = remainingStudents.length;
-            
-            if (remainingStudents.length === 0) {
-                document.getElementById('studentCount').style.display = 'none';
-            }
+            saveStudents();
+            updateStudentsTable();
+            alert(`成功删除 ${selectedStudentIds.size} 名学生！`);
         }
         
-        // 删除选中的预览行
-        function deleteSelected() {
-            if (!window.selectedPreviewRows || window.selectedPreviewRows.size === 0) {
-                alert('请先选择要删除的数据行！');
+        // 显示批量删除
+        function showBatchDelete() {
+            selectedStudentIds.clear();
+            showAllStudents();
+            
+            // 滚动到表格顶部
+            document.querySelector('.content-area').scrollTop = 0;
+            
+            // 显示批量操作提示
+            alert('请在表格中选择要删除的学生，然后点击"删除选中"按钮。');
+        }
+        
+        // 导出为Excel
+        function exportToExcel() {
+            if (students.length === 0) {
+                alert('没有数据可以导出！');
                 return;
             }
             
-            if (!confirm(`确定要删除选中的 ${window.selectedPreviewRows.size} 条数据吗？`)) {
+            // 准备数据
+            const exportData = students.map(student => ({
+                '学号': student.studentId,
+                '姓名': student.name,
+                '性别': student.gender,
+                '班级': student.className,
+                '专业': student.major,
+                '学院': student.college,
+                '邮箱': student.email,
+                '出生日期': student.birthDate,
+                '入学日期': student.enrollmentDate,
+                '籍贯': student.hometown,
+                '民族': student.ethnicity,
+                '政治面貌': student.politicalStatus,
+                '状态': student.status
+            }));
+            
+            // 创建工作表
+            const worksheet = XLSX.utils.json_to_sheet(exportData);
+            const workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, '学生信息');
+            
+            // 生成文件名
+            const fileName = `学生信息_${new Date().toISOString().slice(0,10)}.xlsx`;
+            
+            // 导出文件
+            XLSX.writeFile(workbook, fileName);
+            alert(`数据已成功导出为 ${fileName}`);
+        }
+        
+        // 显示导出区域
+        function showExportSection() {
+            if (students.length === 0) {
+                alert('当前没有学生数据可以导出！');
+                showImportSection();
                 return;
             }
             
-            // 过滤掉选中的数据
-            const remainingData = window.importData.filter((item, index) => !window.selectedPreviewRows.has(index));
-            window.importData = remainingData;
-            
-            // 重新显示预览
-            showImportPreview(remainingData);
-            
-            // 清除选择
-            window.selectedPreviewRows.clear();
-            document.getElementById('batchToolbar').style.display = 'none';
-            
-            alert(`已删除 ${window.selectedPreviewRows.size} 条数据，剩余 ${remainingData.length} 条数据。`);
+            exportToExcel();
         }
         
-        // 清空选择
-        function clearSelection() {
-            if (window.selectedPreviewRows) {
-                window.selectedPreviewRows.clear();
+        // 显示统计
+        function showStatistics() {
+            alert('统计功能正在开发中...');
+        }
+        
+        // 用户管理
+        function manageUsers() {
+            if (currentUser.role !== 'admin') {
+                alert('只有管理员可以访问用户管理功能！');
+                return;
             }
             
-            const checkboxes = document.querySelectorAll('#importPreview .row-checkbox');
-            const rows = document.querySelectorAll('#importPreview tbody tr');
+            const modalHtml = `
+                <div class="modal">
+                    <div class="modal-content" style="max-width: 900px;">
+                        <div class="modal-header">
+                            <div class="modal-title">👥 用户管理</div>
+                            <button class="modal-close" onclick="closeModal()">×</button>
+                        </div>
+                        <div class="modal-body">
+                            <div style="margin-bottom: 20px;">
+                                <button class="btn btn-primary" onclick="showAddUser()">
+                                    ➕ 添加用户
+                                </button>
+                            </div>
+                            
+                            <div style="overflow-x: auto;">
+                                <table class="students-table">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>用户名</th>
+                                            <th>真实姓名</th>
+                                            <th>邮箱</th>
+                                            <th>角色</th>
+                                            <th>创建时间</th>
+                                            <th>最后登录</th>
+                                            <th>操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        ${users.map(user => `
+                                            <tr>
+                                                <td>${user.id}</td>
+                                                <td>${user.username}</td>
+                                                <td>${user.realName}</td>
+                                                <td>${user.email}</td>
+                                                <td>
+                                                    <span class="status-badge ${user.role === 'admin' ? 'status-active' : 'status-graduate'}">
+                                                        ${user.role === 'admin' ? '管理员' : '普通用户'}
+                                                    </span>
+                                                </td>
+                                                <td>${new Date(user.createTime).toLocaleDateString()}</td>
+                                                <td>${user.lastLogin ? new Date(user.lastLogin).toLocaleDateString() : '从未登录'}</td>
+                                                <td>
+                                                    <div class="action-buttons">
+                                                        ${user.id !== currentUser.id ? `
+                                                            <button class="action-btn edit" onclick="editUser(${user.id})">编辑</button>
+                                                            <button class="action-btn delete" onclick="deleteUser(${user.id})">删除</button>
+                                                        ` : '<span style="color: #7f8c8d; font-size: 12px;">当前用户</span>'}
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        `).join('')}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" onclick="closeModal()">关闭</button>
+                        </div>
+                    </div>
+                </div>
+            `;
             
-            checkboxes.forEach(cb => cb.checked = false);
-            rows.forEach(row => row.style.backgroundColor = '');
+            document.getElementById('modalContainer').innerHTML = modalHtml;
+            document.querySelector('.modal').style.display = 'flex';
+        }
+        
+        // 添加用户
+        function showAddUser() {
+            const modalHtml = `
+                <div class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <div class="modal-title">➕ 添加用户</div>
+                            <button class="modal-close" onclick="closeModal()">×</button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="addUserForm" onsubmit="addNewUser(event)">
+                                <div class="form-group">
+                                    <label for="newUsername">用户名</label>
+                                    <input type="text" id="newUsername" class="form-control" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="newPassword">密码</label>
+                                    <input type="password" id="newPassword" class="form-control" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="newRealName">真实姓名</label>
+                                    <input type="text" id="newRealName" class="form-control" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="newEmail">电子邮箱</label>
+                                    <input type="email" id="newEmail" class="form-control" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="newRole">角色</label>
+                                    <select id="newRole" class="form-control">
+                                        <option value="user">普通用户</option>
+                                        <option value="admin">管理员</option>
+                                    </select>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" onclick="closeModal()">取消</button>
+                            <button class="btn btn-primary" onclick="addNewUser()">添加用户</button>
+                        </div>
+                    </div>
+                </div>
+            `;
             
-            document.getElementById('batchToolbar').style.display = 'none';
+            document.getElementById('modalContainer').innerHTML = modalHtml;
+            document.querySelector('.modal').style.display = 'flex';
+        }
+        
+        // 添加新用户
+        function addNewUser(event) {
+            if (event) event.preventDefault();
+            
+            const username = document.getElementById('newUsername').value.trim();
+            const password = document.getElementById('newPassword').value.trim();
+            const realName = document.getElementById('newRealName').value.trim();
+            const email = document.getElementById('newEmail').value.trim();
+            const role = document.getElementById('newRole').value;
+            
+            // 验证用户名是否已存在
+            if (users.some(u => u.username === username)) {
+                alert('用户名已存在！');
+                return;
+            }
+            
+            // 验证邮箱格式
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                alert('请输入有效的电子邮箱地址！');
+                return;
+            }
+            
+            // 创建新用户
+            const newUser = {
+                id: users.length > 0 ? Math.max(...users.map(u => u.id)) + 1 : 1,
+                username: username,
+                password: password,
+                realName: realName,
+                email: email,
+                role: role,
+                createTime: new Date().toISOString(),
+                lastLogin: null
+            };
+            
+            users.push(newUser);
+            saveUsers();
+            closeModal();
+            manageUsers();
+            alert('用户添加成功！');
+        }
+        
+        // 编辑用户
+        function editUser(id) {
+            const user = users.find(u => u.id === id);
+            if (!user) return;
+            
+            const modalHtml = `
+                <div class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <div class="modal-title">✏️ 编辑用户</div>
+                            <button class="modal-close" onclick="closeModal()">×</button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="editUserForm">
+                                <div class="form-group">
+                                    <label for="editUserUsername">用户名</label>
+                                    <input type="text" id="editUserUsername" class="form-control" value="${user.username}" readonly>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="editUserRealName">真实姓名</label>
+                                    <input type="text" id="editUserRealName" class="form-control" value="${user.realName}" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="editUserEmail">电子邮箱</label>
+                                    <input type="email" id="editUserEmail" class="form-control" value="${user.email}" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="editUserRole">角色</label>
+                                    <select id="editUserRole" class="form-control">
+                                        <option value="user" ${user.role === 'user' ? 'selected' : ''}>普通用户</option>
+                                        <option value="admin" ${user.role === 'admin' ? 'selected' : ''}>管理员</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="editUserPassword">重置密码</label>
+                                    <input type="password" id="editUserPassword" class="form-control" placeholder="留空表示不修改密码">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" onclick="closeModal()">取消</button>
+                            <button class="btn btn-primary" onclick="updateUser(${user.id})">保存修改</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('modalContainer').innerHTML = modalHtml;
+            document.querySelector('.modal').style.display = 'flex';
+        }
+        
+        // 更新用户信息
+        function updateUser(id) {
+            const userIndex = users.findIndex(u => u.id === id);
+            if (userIndex === -1) return;
+            
+            const realName = document.getElementById('editUserRealName').value.trim();
+            const email = document.getElementById('editUserEmail').value.trim();
+            const role = document.getElementById('editUserRole').value;
+            const newPassword = document.getElementById('editUserPassword').value.trim();
+            
+            // 验证邮箱格式
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                alert('请输入有效的电子邮箱地址！');
+                return;
+            }
+            
+            // 更新用户信息
+            users[userIndex].realName = realName;
+            users[userIndex].email = email;
+            users[userIndex].role = role;
+            
+            // 如果设置了新密码
+            if (newPassword) {
+                users[userIndex].password = newPassword;
+            }
+            
+            saveUsers();
+            closeModal();
+            manageUsers();
+            alert('用户信息更新成功！');
+        }
+        
+        // 删除用户
+        function deleteUser(id) {
+            if (id === currentUser.id) {
+                alert('不能删除当前登录的用户！');
+                return;
+            }
+            
+            if (!confirm('确定要删除这个用户吗？此操作不可恢复！')) {
+                return;
+            }
+            
+            users = users.filter(u => u.id !== id);
+            saveUsers();
+            manageUsers();
+            alert('用户删除成功！');
+        }
+        
+        // 备份数据
+        function backupData() {
+            const backupData = {
+                students: students,
+                users: users.filter(u => u.id !== currentUser.id), // 不包含当前用户密码
+                timestamp: new Date().toISOString(),
+                backupUser: currentUser.username
+            };
+            
+            const dataStr = JSON.stringify(backupData, null, 2);
+            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+            
+            const exportFileDefaultName = `学生系统备份_${new Date().toISOString().slice(0,19).replace(/:/g,'-')}.json`;
+            
+            const linkElement = document.createElement('a');
+            linkElement.setAttribute('href', dataUri);
+            linkElement.setAttribute('download', exportFileDefaultName);
+            linkElement.click();
+            
+            alert('数据备份成功！');
+        }
+        
+        // 恢复数据
+        function restoreData() {
+            if (!confirm('⚠️ 警告：恢复数据将覆盖当前所有学生数据！是否继续？')) {
+                return;
+            }
+            
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            
+            input.onchange = function(event) {
+                const file = event.target.files[0];
+                if (!file) return;
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    try {
+                        const restoredData = JSON.parse(e.target.result);
+                        
+                        if (!restoredData.students || !Array.isArray(restoredData.students)) {
+                            throw new Error('备份文件格式不正确');
+                        }
+                        
+                        // 恢复学生数据
+                        students = restoredData.students;
+                        saveStudents();
+                        
+                        alert(`数据恢复成功！恢复了 ${students.length} 条学生记录。`);
+                        showAllStudents();
+                    } catch (error) {
+                        alert('数据恢复失败：' + error.message);
+                    }
+                };
+                reader.readAsText(file);
+            };
+            
+            input.click();
         }
         
         // 清空所有数据
         function clearAllData() {
-            const students = JSON.parse(localStorage.getItem('students') || '[]');
-            
             if (students.length === 0) {
                 alert('当前没有学生数据！');
                 return;
             }
             
-            if (confirm(`⚠️ 确定要清空所有 ${students.length} 名学生数据吗？此操作不可撤销！`)) {
-                localStorage.setItem('students', JSON.stringify([]));
-                clearPreview();
-                selectedStudentIds.clear();
-                alert('所有学生数据已清空！');
+            if (!confirm(`⚠️ 确定要清空所有 ${students.length} 名学生数据吗？此操作不可撤销！`)) {
+                return;
+            }
+            
+            students = [];
+            selectedStudentIds.clear();
+            filteredStudents = [];
+            saveStudents();
+            updateStudentsTable();
+            alert('所有学生数据已清空！');
+        }
+        
+        // 关闭模态框
+        function closeModal() {
+            const modal = document.querySelector('.modal');
+            if (modal) {
+                modal.style.display = 'none';
             }
         }
         
-        // 页面加载时显示学生总数
-        window.onload = function() {
-            const students = JSON.parse(localStorage.getItem('students') || '[]');
-            if (students.length > 0) {
-                document.getElementById('studentCount').style.display = 'block';
-                document.getElementById('totalStudents').textContent = students.length;
-            }
-        };
+        // 搜索区域
+        function showSearchSection() {
+            // 滚动到搜索框并聚焦
+            showAllStudents();
+            setTimeout(() => {
+                document.getElementById('searchInput').focus();
+            }, 100);
+        }
+        
+        // 页面加载时初始化
+        window.onload = initSystem;
     </script>
 </body>
 </html>
