@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>学生信息Excel导入</title>
+    <title>学生信息管理系统</title>
     <!-- 引入SheetJS库 -->
     <script src="https://cdn.sheetjs.com/xlsx-0.19.3/package/dist/xlsx.full.min.js"></script>
     <style>
@@ -338,6 +338,7 @@
             display: flex;
             gap: 15px;
             margin-top: 20px;
+            flex-wrap: wrap;
         }
         
         .student-count {
@@ -366,6 +367,58 @@
             font-size: 18px;
         }
         
+        /* 全选控制样式 */
+        .select-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+            padding: 12px;
+            background-color: #f8f9fa;
+            border-radius: 6px;
+            border: 1px solid #eaeaea;
+        }
+        
+        .select-all-checkbox {
+            transform: scale(1.2);
+            margin-right: 8px;
+            cursor: pointer;
+        }
+        
+        .select-label {
+            font-weight: 500;
+            color: #2c3e50;
+        }
+        
+        .selected-count {
+            color: #3498db;
+            font-weight: 600;
+        }
+        
+        .row-checkbox {
+            transform: scale(1.1);
+            cursor: pointer;
+        }
+        
+        /* 批量操作工具栏 */
+        .batch-toolbar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            padding: 12px;
+            background-color: #fff3cd;
+            border-radius: 6px;
+            border: 1px solid #ffeaa7;
+            display: none;
+        }
+        
+        .batch-info {
+            flex-grow: 1;
+            color: #856404;
+            font-weight: 500;
+        }
+        
         @media (max-width: 992px) {
             .main-content {
                 grid-template-columns: 1fr;
@@ -391,6 +444,16 @@
             
             .btn {
                 width: 100%;
+            }
+            
+            .select-controls {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .batch-toolbar {
+                flex-direction: column;
+                align-items: stretch;
             }
         }
         
@@ -436,13 +499,19 @@
                     <div class="file-hint">支持 .xlsx, .xls, .csv 格式</div>
                 </label>
                 
-                <button class="btn btn-secondary" onclick="clearAllData()" style="width: 100%; margin-bottom: 15px;">
-                    🗑️ 清空所有数据
-                </button>
-                
-                <button class="btn" onclick="showAllStudents()" style="width: 100%;">
-                    👥 查看所有学生
-                </button>
+                <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 20px;">
+                    <button class="btn btn-secondary" onclick="clearAllData()">
+                        🗑️ 清空所有数据
+                    </button>
+                    
+                    <button class="btn" onclick="showAllStudents()">
+                        👥 查看所有学生
+                    </button>
+                    
+                    <button class="btn btn-danger" onclick="showDeleteModal()">
+                        🗑️ 批量删除学生
+                    </button>
+                </div>
                 
                 <div class="help-text">
                     <h3>Excel文件格式说明</h3>
@@ -458,7 +527,7 @@
             <div class="preview-section">
                 <div class="preview-header">
                     <div class="preview-title">数据预览</div>
-                    <div style="display: flex; gap: 10px;">
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
                         <button id="importConfirmBtn" class="btn btn-primary" onclick="confirmImport()" style="display: none;">
                             ✅ 确认导入
                         </button>
@@ -472,9 +541,22 @@
                     当前共有 <span id="totalStudents">0</span> 名学生
                 </div>
                 
+                <!-- 批量操作工具栏 -->
+                <div id="batchToolbar" class="batch-toolbar">
+                    <div class="batch-info">
+                        已选择 <span id="selectedCount">0</span> 名学生
+                    </div>
+                    <button class="btn btn-danger" onclick="deleteSelected()">
+                        🗑️ 删除选中
+                    </button>
+                    <button class="btn btn-secondary" onclick="clearSelection()">
+                        ✖️ 取消选择
+                    </button>
+                </div>
+                
                 <div id="importPreview">
                     <div class="empty-state">
-                        <div class="empty-icon">📊</div>
+                        <div class="file-icon">📊</div>
                         <div class="empty-text">请上传Excel文件查看数据预览</div>
                     </div>
                 </div>
@@ -521,8 +603,42 @@
             </div>
         </div>
     </div>
+    
+    <!-- 批量删除模态框 -->
+    <div id="deleteModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #e74c3c;">
+                <div class="modal-title">批量删除学生</div>
+                <button class="modal-close" onclick="hideModal('deleteModal')">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="select-controls">
+                    <input type="checkbox" id="selectAll" class="select-all-checkbox" onchange="toggleSelectAll(this)">
+                    <label for="selectAll" class="select-label">全选所有学生</label>
+                    <div class="selected-count">已选择：<span id="modalSelectedCount">0</span> 名</div>
+                </div>
+                
+                <div id="deleteStudentsList" style="max-height: 400px; overflow-y: auto; border: 1px solid #eaeaea; border-radius: 6px; padding: 10px;">
+                    <!-- 删除列表将在这里显示 -->
+                </div>
+                
+                <div style="margin-top: 20px; padding: 15px; background-color: #f8d7da; border-radius: 6px; border: 1px solid #f5c6cb;">
+                    <strong>⚠️ 警告：</strong>删除操作不可恢复！请谨慎操作。
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="hideModal('deleteModal')">取消</button>
+                <button class="btn btn-danger" onclick="performBatchDelete()">
+                    🗑️ 确认删除选中学生
+                </button>
+            </div>
+        </div>
+    </div>
 
     <script>
+        // 存储选中的学生ID
+        let selectedStudentIds = new Set();
+        
         // 初始化存储
         if (!localStorage.getItem('students')) {
             localStorage.setItem('students', JSON.stringify([]));
@@ -594,6 +710,12 @@
             const thead = document.createElement('thead');
             const headerRow = document.createElement('tr');
             
+            // 添加选择列
+            const selectHeader = document.createElement('th');
+            selectHeader.innerHTML = '<input type="checkbox" class="select-all-checkbox" onchange="togglePreviewSelectAll(this)">';
+            selectHeader.style.width = '50px';
+            headerRow.appendChild(selectHeader);
+            
             // 获取所有可能的字段名（合并所有行的字段）
             const allFields = new Set();
             data.forEach(row => {
@@ -625,13 +747,25 @@
             const tbody = document.createElement('tbody');
             const previewRows = Math.min(data.length, 10);
             
+            // 为导入数据添加临时ID
+            window.importData = data.map((item, index) => ({
+                ...item,
+                _tempId: index + 1 // 添加临时ID用于选择
+            }));
+            
             for (let i = 0; i < previewRows; i++) {
                 const row = document.createElement('tr');
-                const rowData = data[i];
+                const rowData = window.importData[i];
+                
+                // 添加选择框
+                const selectCell = document.createElement('td');
+                selectCell.innerHTML = `<input type="checkbox" class="row-checkbox" data-index="${i}" onchange="togglePreviewRowSelection(this)">`;
+                selectCell.style.textAlign = 'center';
+                row.appendChild(selectCell);
                 
                 sortedFields.forEach(key => {
                     const td = document.createElement('td');
-                    let value = row[key];
+                    let value = rowData[key];
                     
                     if (value === undefined || value === null) {
                         value = '';
@@ -668,9 +802,6 @@
             document.getElementById('statSkip').textContent = '0';
             document.getElementById('statError').textContent = '0';
             
-            // 存储数据供导入使用
-            window.importData = data;
-            
             // 显示确认按钮
             document.getElementById('importConfirmBtn').style.display = 'inline-block';
             
@@ -680,6 +811,57 @@
             
             // 显示预览信息
             alert(`成功读取 ${data.length} 条数据，显示前 ${previewRows} 条预览。`);
+        }
+        
+        // 切换预览行选择
+        function togglePreviewRowSelection(checkbox) {
+            const index = parseInt(checkbox.dataset.index);
+            const row = checkbox.closest('tr');
+            
+            if (checkbox.checked) {
+                row.style.backgroundColor = '#e8f4fc';
+                window.selectedPreviewRows = window.selectedPreviewRows || new Set();
+                window.selectedPreviewRows.add(index);
+            } else {
+                row.style.backgroundColor = '';
+                if (window.selectedPreviewRows) {
+                    window.selectedPreviewRows.delete(index);
+                }
+            }
+            
+            updatePreviewSelectionCount();
+        }
+        
+        // 全选预览行
+        function togglePreviewSelectAll(checkbox) {
+            const checkboxes = document.querySelectorAll('#importPreview .row-checkbox');
+            const rows = document.querySelectorAll('#importPreview tbody tr');
+            window.selectedPreviewRows = window.selectedPreviewRows || new Set();
+            
+            if (checkbox.checked) {
+                checkboxes.forEach(cb => cb.checked = true);
+                rows.forEach(row => row.style.backgroundColor = '#e8f4fc');
+                for (let i = 0; i < checkboxes.length; i++) {
+                    window.selectedPreviewRows.add(i);
+                }
+            } else {
+                checkboxes.forEach(cb => cb.checked = false);
+                rows.forEach(row => row.style.backgroundColor = '');
+                window.selectedPreviewRows.clear();
+            }
+            
+            updatePreviewSelectionCount();
+        }
+        
+        // 更新预览选择计数
+        function updatePreviewSelectionCount() {
+            const count = window.selectedPreviewRows ? window.selectedPreviewRows.size : 0;
+            if (count > 0) {
+                document.getElementById('batchToolbar').style.display = 'flex';
+                document.getElementById('selectedCount').textContent = count;
+            } else {
+                document.getElementById('batchToolbar').style.display = 'none';
+            }
         }
         
         // 确认导入数据
@@ -699,7 +881,13 @@
             // 获取现有最大ID
             let maxId = students.length > 0 ? Math.max(...students.map(s => s.id)) : 0;
             
-            window.importData.forEach((item, index) => {
+            // 如果选择了部分数据，只导入选中的
+            let dataToImport = window.importData;
+            if (window.selectedPreviewRows && window.selectedPreviewRows.size > 0) {
+                dataToImport = window.importData.filter((item, index) => window.selectedPreviewRows.has(index));
+            }
+            
+            dataToImport.forEach((item, index) => {
                 try {
                     // 检查必要字段
                     const studentId = item.学号 || item.studentId || item.学号 || item['Student ID'] || '';
@@ -779,6 +967,8 @@
             
             // 清除缓存的数据
             window.importData = null;
+            window.selectedPreviewRows = null;
+            document.getElementById('batchToolbar').style.display = 'none';
         }
         
         // 清空预览
@@ -796,6 +986,7 @@
             document.getElementById('importError').style.display = 'none';
             document.getElementById('studentCount').style.display = 'none';
             document.getElementById('statsSection').style.display = 'none';
+            document.getElementById('batchToolbar').style.display = 'none';
             
             const fileInput = document.getElementById('excelFile');
             if (fileInput) {
@@ -803,6 +994,7 @@
             }
             
             window.importData = null;
+            window.selectedPreviewRows = null;
         }
         
         // 查看所有学生
@@ -825,6 +1017,7 @@
                     <table class="preview-table" style="width: 100%;">
                         <thead>
                             <tr>
+                                <th style="width: 50px;">选择</th>
                                 <th>学号</th>
                                 <th>姓名</th>
                                 <th>性别</th>
@@ -836,9 +1029,15 @@
                         <tbody>
                 `;
                 
-                students.slice(0, 50).forEach(student => {
+                students.slice(0, 50).forEach((student, index) => {
+                    const isSelected = selectedStudentIds.has(student.id);
                     html += `
-                        <tr>
+                        <tr id="student-row-${student.id}" ${isSelected ? 'style="background-color: #e8f4fc;"' : ''}>
+                            <td style="text-align: center;">
+                                <input type="checkbox" class="row-checkbox" 
+                                       ${isSelected ? 'checked' : ''}
+                                       onchange="toggleStudentSelection(${student.id}, this)">
+                            </td>
                             <td>${student.studentId || ''}</td>
                             <td>${student.name || ''}</td>
                             <td>${student.gender || ''}</td>
@@ -868,16 +1067,202 @@
             showModal('allStudentsModal');
         }
         
+        // 切换学生选择
+        function toggleStudentSelection(studentId, checkbox) {
+            const row = document.getElementById(`student-row-${studentId}`);
+            
+            if (checkbox.checked) {
+                selectedStudentIds.add(studentId);
+                if (row) row.style.backgroundColor = '#e8f4fc';
+            } else {
+                selectedStudentIds.delete(studentId);
+                if (row) row.style.backgroundColor = '';
+            }
+            
+            updateSelectedCount();
+        }
+        
+        // 全选所有学生
+        function toggleSelectAll(checkbox) {
+            const students = JSON.parse(localStorage.getItem('students') || '[]');
+            const checkboxes = document.querySelectorAll('#deleteStudentsList .row-checkbox');
+            
+            if (checkbox.checked) {
+                selectedStudentIds.clear();
+                students.forEach(student => selectedStudentIds.add(student.id));
+                checkboxes.forEach(cb => cb.checked = true);
+            } else {
+                selectedStudentIds.clear();
+                checkboxes.forEach(cb => cb.checked = false);
+            }
+            
+            updateSelectedCount();
+        }
+        
+        // 更新选择计数
+        function updateSelectedCount() {
+            document.getElementById('modalSelectedCount').textContent = selectedStudentIds.size;
+        }
+        
         // 关闭查看所有学生模态框
         function closeAllStudentsModal() {
             hideModal('allStudentsModal');
         }
         
+        // 显示删除模态框
+        function showDeleteModal() {
+            const students = JSON.parse(localStorage.getItem('students') || '[]');
+            const listContainer = document.getElementById('deleteStudentsList');
+            
+            if (students.length === 0) {
+                listContainer.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">👤</div>
+                        <div class="empty-text">暂无学生信息可删除</div>
+                    </div>
+                `;
+                // 禁用删除按钮
+                document.querySelector('#deleteModal .btn-danger').disabled = true;
+            } else {
+                let html = `
+                    <div style="margin-bottom: 15px; color: #2c3e50; font-weight: 500;">
+                        共有 ${students.length} 名学生，请选择要删除的学生
+                    </div>
+                    <table class="preview-table" style="width: 100%;">
+                        <thead>
+                            <tr>
+                                <th style="width: 50px;">选择</th>
+                                <th>学号</th>
+                                <th>姓名</th>
+                                <th>班级</th>
+                                <th>专业</th>
+                                <th>状态</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+                
+                students.forEach(student => {
+                    const isSelected = selectedStudentIds.has(student.id);
+                    html += `
+                        <tr id="delete-row-${student.id}" ${isSelected ? 'style="background-color: #e8f4fc;"' : ''}>
+                            <td style="text-align: center;">
+                                <input type="checkbox" class="row-checkbox" 
+                                       ${isSelected ? 'checked' : ''}
+                                       onchange="toggleStudentSelection(${student.id}, this)">
+                            </td>
+                            <td>${student.studentId || ''}</td>
+                            <td>${student.name || ''}</td>
+                            <td>${student.className || ''}</td>
+                            <td>${student.major || ''}</td>
+                            <td><span style="color: #2ecc71;">${student.status || '在读'}</span></td>
+                        </tr>
+                    `;
+                });
+                
+                html += `
+                        </tbody>
+                    </table>
+                `;
+                
+                listContainer.innerHTML = html;
+                // 启用删除按钮
+                document.querySelector('#deleteModal .btn-danger').disabled = false;
+            }
+            
+            // 更新选择计数
+            updateSelectedCount();
+            showModal('deleteModal');
+        }
+        
+        // 执行批量删除
+        function performBatchDelete() {
+            if (selectedStudentIds.size === 0) {
+                alert('请先选择要删除的学生！');
+                return;
+            }
+            
+            if (!confirm(`确定要删除选中的 ${selectedStudentIds.size} 名学生吗？此操作不可恢复！`)) {
+                return;
+            }
+            
+            const students = JSON.parse(localStorage.getItem('students') || '[]');
+            // 过滤掉选中的学生
+            const remainingStudents = students.filter(student => !selectedStudentIds.has(student.id));
+            
+            // 保存剩余的学生
+            localStorage.setItem('students', JSON.stringify(remainingStudents));
+            
+            // 显示成功消息
+            alert(`成功删除 ${selectedStudentIds.size} 名学生！`);
+            
+            // 清空选择
+            selectedStudentIds.clear();
+            
+            // 关闭模态框
+            hideModal('deleteModal');
+            
+            // 更新页面显示
+            document.getElementById('totalStudents').textContent = remainingStudents.length;
+            
+            if (remainingStudents.length === 0) {
+                document.getElementById('studentCount').style.display = 'none';
+            }
+        }
+        
+        // 删除选中的预览行
+        function deleteSelected() {
+            if (!window.selectedPreviewRows || window.selectedPreviewRows.size === 0) {
+                alert('请先选择要删除的数据行！');
+                return;
+            }
+            
+            if (!confirm(`确定要删除选中的 ${window.selectedPreviewRows.size} 条数据吗？`)) {
+                return;
+            }
+            
+            // 过滤掉选中的数据
+            const remainingData = window.importData.filter((item, index) => !window.selectedPreviewRows.has(index));
+            window.importData = remainingData;
+            
+            // 重新显示预览
+            showImportPreview(remainingData);
+            
+            // 清除选择
+            window.selectedPreviewRows.clear();
+            document.getElementById('batchToolbar').style.display = 'none';
+            
+            alert(`已删除 ${window.selectedPreviewRows.size} 条数据，剩余 ${remainingData.length} 条数据。`);
+        }
+        
+        // 清空选择
+        function clearSelection() {
+            if (window.selectedPreviewRows) {
+                window.selectedPreviewRows.clear();
+            }
+            
+            const checkboxes = document.querySelectorAll('#importPreview .row-checkbox');
+            const rows = document.querySelectorAll('#importPreview tbody tr');
+            
+            checkboxes.forEach(cb => cb.checked = false);
+            rows.forEach(row => row.style.backgroundColor = '');
+            
+            document.getElementById('batchToolbar').style.display = 'none';
+        }
+        
         // 清空所有数据
         function clearAllData() {
-            if (confirm('⚠️ 确定要清空所有学生数据吗？此操作不可撤销！')) {
+            const students = JSON.parse(localStorage.getItem('students') || '[]');
+            
+            if (students.length === 0) {
+                alert('当前没有学生数据！');
+                return;
+            }
+            
+            if (confirm(`⚠️ 确定要清空所有 ${students.length} 名学生数据吗？此操作不可撤销！`)) {
                 localStorage.setItem('students', JSON.stringify([]));
                 clearPreview();
+                selectedStudentIds.clear();
                 alert('所有学生数据已清空！');
             }
         }
