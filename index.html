@@ -477,6 +477,227 @@
                     <button class="btn btn-success" onclick="showScanner()">
                         <i class="fas fa-camera"></i> 扫码添加
                     </button>
+                    // ==================== Excel导入功能 ====================
+function showExcelImport() {
+    showModal('excelImportModal');
+}
+
+// 处理Excel文件上传
+function handleExcelUpload(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    
+    // 检查文件类型
+    if (!file.name.match(/\.(xlsx|xls|csv)$/)) {
+        alert('请上传Excel文件（.xlsx, .xls, .csv）！');
+        return;
+    }
+    
+    const reader = new FileReader();
+    
+    reader.onload = function(e) {
+        try {
+            const data = e.target.result;
+            const workbook = XLSX.read(data, { type: 'binary' });
+            const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+            const jsonData = XLSX.utils.sheet_to_json(firstSheet);
+            
+            if (jsonData.length === 0) {
+                alert('Excel文件中没有数据！');
+                return;
+            }
+            
+            // 显示预览
+            showImportPreview(jsonData);
+        } catch (error) {
+            alert('读取Excel文件失败：' + error.message);
+        }
+    };
+    
+    reader.readAsBinaryString(file);
+}
+
+// 显示导入预览
+function showImportPreview(data) {
+    const previewTable = document.getElementById('importPreview');
+    previewTable.innerHTML = '';
+    
+    // 创建表头
+    const thead = document.createElement('thead');
+    const headerRow = document.createElement('tr');
+    
+    if (data.length > 0) {
+        Object.keys(data[0]).forEach(key => {
+            const th = document.createElement('th');
+            th.textContent = key;
+            headerRow.appendChild(th);
+        });
+    }
+    
+    thead.appendChild(headerRow);
+    previewTable.appendChild(thead);
+    
+    // 创建数据行（最多显示10行预览）
+    const tbody = document.createElement('tbody');
+    const previewRows = Math.min(data.length, 10);
+    
+    for (let i = 0; i < previewRows; i++) {
+        const row = document.createElement('tr');
+        const rowData = data[i];
+        
+        Object.values(rowData).forEach(value => {
+            const td = document.createElement('td');
+            td.textContent = value !== undefined && value !== null ? value.toString() : '';
+            td.style.padding = '8px';
+            td.style.border = '1px solid #ddd';
+            row.appendChild(td);
+        });
+        
+        tbody.appendChild(row);
+    }
+    
+    previewTable.appendChild(tbody);
+    
+    // 存储数据供导入使用
+    window.importData = data;
+    
+    // 显示确认按钮
+    document.getElementById('importConfirmBtn').style.display = 'block';
+    document.getElementById('importSuccess').style.display = 'none';
+    
+    alert(`成功读取 ${data.length} 条数据，显示前 ${previewRows} 条预览。`);
+}
+
+// 确认导入数据
+function confirmImport() {
+    if (!window.importData || window.importData.length === 0) {
+        alert('没有可导入的数据！');
+        return;
+    }
+    
+    const books = JSON.parse(localStorage.getItem('library_books') || '[]');
+    const existingIsbns = new Set(books.map(book => book.isbn));
+    
+    let successCount = 0;
+    let skipCount = 0;
+    let errorCount = 0;
+    
+    // 获取现有最大ID
+    let maxId = books.length > 0 ? Math.max(...books.map(b => b.id)) : 0;
+    
+    window.importData.forEach((item, index) => {
+        try {
+            // 检查必填字段
+            if (!item.ISBN && !item.isbn) {
+                console.warn(`第${index + 1}行：缺少ISBN，跳过`);
+                skipCount++;
+                return;
+            }
+            
+            const isbn = item.ISBN || item.isbn || '';
+            const title = item.书名 || item.title || item.名称 || '';
+            const author = item.作者 || item.author || item.著者 || '';
+            
+            if (!title || !author) {
+                console.warn(`第${index + 1}行：缺少书名或作者，跳过`);
+                skipCount++;
+                return;
+            }
+            
+            // 检查ISBN是否已存在
+            if (existingIsbns.has(isbn)) {
+                console.warn(`第${index + 1}行：ISBN ${isbn} 已存在，跳过`);
+                skipCount++;
+                return;
+            }
+            
+            // 创建新图书对象
+            const newBook = {
+                id: ++maxId,
+                isbn: isbn,
+                title: title,
+                author: author,
+                publisher: item.出版社 || item.publisher || '',
+                category: item.分类 || item.category || item.类别 || '',
+                status: 'available',
+                library: item.书房 || item.library || '主书房',
+                tags: (item.标签 || item.tags || '').split(/[,，]/).map(tag => tag.trim()).filter(tag => tag),
+                borrowHistory: []
+            };
+            
+            books.push(newBook);
+            existingIsbns.add(isbn);
+            successCount++;
+            
+        } catch (error) {
+            console.error(`第${index + 1}行导入失败：`, error);
+            errorCount++;
+        }
+    });
+    
+    // 保存到本地存储
+    localStorage.setItem('library_books', JSON.stringify(books));
+    
+    // 显示导入结果
+    const resultDiv = document.getElementById('importSuccess');
+    resultDiv.innerHTML = `
+        <div style="background: #c6f6d5; color: #22543d; padding: 15px; border-radius: 8px; margin: 15px 0;">
+            <i class="fas fa-check-circle"></i> 导入完成！
+            <div style="margin-top: 10px;">
+                成功导入：<strong>${successCount}</strong> 本<br>
+                跳过重复：<strong>${skipCount}</strong> 本<br>
+                导入失败：<strong>${errorCount}</strong> 本
+            </div>
+        </div>
+    `;
+    resultDiv.style.display = 'block';
+    
+    // 刷新图书列表
+    setTimeout(() => {
+        loadBooks();
+        updateStats();
+    }, 500);
+    
+    // 隐藏确认按钮
+    document.getElementById('importConfirmBtn').style.display = 'none';
+}
+
+// 下载导入模板
+function downloadImportTemplate() {
+    // 创建示例数据
+    const templateData = [
+        {
+            'ISBN': '9787115275790',
+            '书名': 'JavaScript高级程序设计',
+            '作者': 'Nicholas C. Zakas',
+            '出版社': '人民邮电出版社',
+            '分类': '科技',
+            '书房': '主书房',
+            '标签': '编程,JavaScript,前端'
+        },
+        {
+            'ISBN': '9787115428028',
+            '书名': 'Python编程从入门到实践',
+            '作者': 'Eric Matthes',
+            '出版社': '人民邮电出版社',
+            '分类': '科技',
+            '书房': '工作书房',
+            '标签': '编程,Python,入门'
+        }
+    ];
+    
+    // 创建工作表
+    const ws = XLSX.utils.json_to_sheet(templateData);
+    
+    // 创建工作簿
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "图书导入模板");
+    
+    // 生成Excel文件并下载
+    XLSX.writeFile(wb, "图书导入模板.xlsx");
+    
+    alert('模板文件已下载！请按照模板格式填写数据。');
+}
                     <button class="btn btn-warning" onclick="showExcelImport()">
                         <i class="fas fa-file-import"></i> Excel导入
                     </button>
